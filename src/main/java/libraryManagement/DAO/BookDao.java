@@ -12,6 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookDao {
+	
+	private BookDao() {
+		throw new IllegalCallerException("Class Utility");
+	}
     public static Book getBookByTitle(String bookName) throws DAOException {
         Book book = null;
         String query = "SELECT * FROM books WHERE title = ? AND isActive = true AND available_copies >= 1;";
