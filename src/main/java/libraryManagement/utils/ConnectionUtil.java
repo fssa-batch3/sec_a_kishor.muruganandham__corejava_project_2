@@ -7,9 +7,14 @@ import java.sql.SQLException;
 public class ConnectionUtil {
 
     // Database URL and credentials
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/project";
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/library_management";
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "root";
+
+    // Private constructor to prevent instantiation
+    private ConnectionUtil() {
+        // Do nothing (empty constructor)
+    }
 
     // Call the database connection
     public static Connection getConnection() throws SQLException {

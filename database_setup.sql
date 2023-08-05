@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS borrows (
 );
 
 -- Insert a sample borrow record
-INSERT INTO borrows (user_id, book_id, borrow_date, return_date, isReturned)
+INSERT INTO borrows (user_id, book_id, borrow_date, return_date)
 VALUES (1, 1, '2023-08-05', '2023-08-12');
 
 -- Retrieve all records from 'borrows' table

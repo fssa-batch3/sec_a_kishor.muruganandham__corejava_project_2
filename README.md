@@ -52,7 +52,7 @@ Develop a Java-based Library Management System to efficiently manage the invento
 - MySQL Database Server
 - Integrated Development Environment
 ### Database Setup
-- Table scripts: [script](src/main/resources/Database/database_setup.sql)
+- Table scripts: [script](database_setup.sql)
 
 ## Project Setup
 ### Java Project Creation
@@ -66,6 +66,49 @@ Develop a Java-based Library Management System to efficiently manage the invento
 ## Database
 ### Entity-Relationship Diagram (ERD)
 ### Database Tables
+### Table: users
+
+| Field         | Type          | Null | Key | Default           | Extra |
+|---------------|---------------|------|-----|-------------------|-------|
+| user_id       | int           | NO   | PRI | auto_increment    |       |
+| user_name     | varchar(100)  | NO   |     |                   |       |
+| email_id      | varchar(100)  | NO   |     |                   |       |
+| mobile_no     | bigint        | NO   |     |                   |       |
+| password      | varchar(100)  | NO   |     |                   |       |
+| gender        | char(1)       | NO   |     |                   |       |
+| dob           | date          | NO   |     |                   |       |
+| created_date  | timestamp     | NO   |     | CURRENT_TIMESTAMP |       |
+| isActive      | tinyint(1)    | NO   |     | 1                 |       |
+| isAdmin       | tinyint(1)    | NO   |     |                   |       |
+| profile_image | varchar(2048) | NO   |     |                   |       |
+
+### Table: books
+
+| Field            | Type         | Null | Key | Default        | Extra |
+|------------------|--------------|------|-----|----------------|-------|
+| book_id          | int          | NO   | PRI | auto_increment |       |
+| title            | varchar(255) | NO   |     |                |       |
+| author           | varchar(255) | NO   |     |                |       |
+| publisher        | varchar(255) | YES  |     |                |       |
+| genre            | varchar(100) | YES  |     |                |       |
+| language         | varchar(50)  | YES  |     |                |       |
+| description      | text         | YES  |     |                |       |
+| total_copies     | int          | YES  |     | 0              |       |
+| available_copies | int          | YES  |     | 0              |       |
+| loaned_copies    | int          | YES  |     | 0              |       |
+| cover_image      | varchar(255) | YES  |     |                |       |
+| isActive         | tinyint(1)   | NO   |     | 1              |       |
+
+### Table: borrows
+
+| Field       | Type       | Null | Key | Default        | Extra |
+|-------------|------------|------|-----|----------------|-------|
+| borrow_id   | int        | NO   | PRI | auto_increment |       |
+| user_id     | int        | NO   |     |                |       |
+| book_id     | int        | NO   |     |                |       |
+| borrow_date | date       | NO   |     |                |       |
+| return_date | date       | YES  |     |                |       |
+| isReturned  | tinyint(1) | YES  |     | 0              |       |
 
 
 ## Modules

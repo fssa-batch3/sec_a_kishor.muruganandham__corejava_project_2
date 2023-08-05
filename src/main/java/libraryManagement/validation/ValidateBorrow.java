@@ -13,9 +13,6 @@ public class ValidateBorrow {
         this.borrow = borrow;
     }
 
-//    public boolean validateAll() throws ValidationException {
-//        return validateBorrowDate(borrow.getBorrowDate()) && validateReturnDate(borrow.getReturnDate());
-//    }
 
     public boolean validateBorrowDate(LocalDate borrowDate) throws ValidationException {
         if (borrowDate == null) {

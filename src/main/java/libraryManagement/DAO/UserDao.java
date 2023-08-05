@@ -9,6 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDao {
+	
+	
+	// Private constructor to prevent instantiation
+    private UserDao() {
+    	// // Do nothing (empty constructor)
+    }
+    
     public static boolean createUser(User user) throws ServiceException {
         String query = "INSERT INTO users (user_name, email_id, mobile_no, password, gender, dob, created_date, isActive, isAdmin, profile_image) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";

@@ -6,7 +6,6 @@ import java.time.LocalDate;
 public class User {
 
 
-    private int userId;
     private String name;
     private String email;
     private long mobileNo;

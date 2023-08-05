@@ -9,11 +9,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BorrowDao {
+	
+	// Private constructor to prevent instantiation
+    private BorrowDao() {
+    	// // Do nothing (empty constructor)
+    }
+	
+	
     private static final String USER_ID = "user_id";
     private static final String RETURN_DATE = "return_date";
     private static final String BORROW_DATE = "borrow_date";
     private static final String BOOK_ID = "book_id";
-
+    
     public static boolean borrowBook(Borrow borrow) throws ServiceException {
         String query = "INSERT INTO borrows (user_id, book_id, borrow_date) " +
                 "VALUES (?, ?, ?);";
