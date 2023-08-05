@@ -25,7 +25,7 @@
    - Borrow Validations
 7. [Testing](#testing)
     - Unit Testing
-8. [Exception Handling](#Exception-handling)
+8. [Exception Handling](#exception-handling)
     - Common Error Messages
     - Exception Handling
 9. [Future Improvements](#future-improvements)
