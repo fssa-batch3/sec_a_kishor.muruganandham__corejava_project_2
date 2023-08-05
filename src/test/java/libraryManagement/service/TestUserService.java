@@ -14,31 +14,31 @@ import static org.junit.jupiter.api.Assertions.*;
 class TestUserService {
 
     private UserService userService;
-    private User testUser;
+    private User user;
 
     @BeforeEach
     public void setUp() {
         userService = new UserService();
-        testUser = new User();
-        testUser.setName("Kishor");
-        testUser.setEmail("kishor@example.com");
-        testUser.setMobileNo(1234567890);
-        testUser.setPassword("password123");
-        testUser.setGender('M');
-        testUser.setDob(LocalDate.parse("2002-06-28"));
-        testUser.setCreatedDate(new java.sql.Timestamp(System.currentTimeMillis()));
-        testUser.setActive(true);
-        testUser.setAdmin(false);
-        testUser.setProfileImage("http://www.example.com/index.html");
+        user = new User();
+        user.setName("Kishor");
+        user.setEmail("kishor@example.com");
+        user.setMobileNo(1234567890);
+        user.setPassword("password123");
+        user.setGender('M');
+        user.setDob(LocalDate.parse("2002-06-28"));
+        user.setCreatedDate(new java.sql.Timestamp(System.currentTimeMillis()));
+        user.setActive(true);
+        user.setAdmin(false);
+        user.setProfileImage("http://www.example.com/index.html");
     }
 
     @Order(1)
     @Test
     void testRegisterUser() {
         try {
-            User existingUser = UserDao.getUser(testUser.getEmail());
-            assertNull(existingUser, "User with email " + testUser.getEmail() + " should not exist");
-            String result = userService.registerUser(testUser);
+            User existingUser = UserDao.getUser(user.getEmail());
+            assertNull(existingUser, "User with email " + user.getEmail() + " should not exist");
+            String result = userService.registerUser(user);
             assertEquals("Registration Successful", result);
         } catch (ServiceException e) {
             e.printStackTrace();
@@ -59,9 +59,9 @@ class TestUserService {
     @Order(3)
     void testValidLogin() {
         try {
-            User loggedInUser = userService.login(testUser);
+            User loggedInUser = userService.login(user);
             assertNotNull(loggedInUser);
-            assertEquals(testUser.getEmail(), loggedInUser.getEmail());
+            assertEquals(user.getEmail(), loggedInUser.getEmail());
         } catch (ServiceException e) {
             e.printStackTrace();
             Assertions.fail("Should not throw ServiceException");
@@ -93,9 +93,9 @@ class TestUserService {
     @Order(6)
     void testUpdateUser() {
         try {
-            testUser.setName("Updated Name");
-            User updatedUser = userService.updateUser(testUser);
-            assertNotEquals(testUser, updatedUser);
+            user.setName("Updated Name");
+            User updatedUser = userService.updateUser(user);
+            assertNotEquals(user, updatedUser);
         } catch (ServiceException e) {
             e.printStackTrace();
             Assertions.fail("Should not throw ServiceException");
@@ -104,16 +104,34 @@ class TestUserService {
 
     @Test
     @Order(7)
+    void testInvalidUpdateUser() {
+        User nonExistentUser = new User();
+        nonExistentUser.setEmail("example@example.com");
+        nonExistentUser.setName("Invalid Update Name");
+        assertThrows(ServiceException.class, () -> userService.updateUser(nonExistentUser));
+    }
+
+    @Test
+    @Order(8)
     void testDeleteUser() {
         try {
-            boolean isDeleted = userService.deleteUser(testUser.getEmail());
+            boolean isDeleted = userService.deleteUser(user.getEmail());
             assertTrue(isDeleted);
-            User deletedUser = UserDao.getUser(testUser.getEmail());
+            User deletedUser = UserDao.getUser(user.getEmail());
             assertNull(deletedUser);
         } catch (ServiceException e) {
             e.printStackTrace();
             Assertions.fail("Should not throw ServiceException");
         }
+    }
+
+
+    @Test
+    @Order(9)
+    void testInvalidDeleteUser() {
+        User nonExistentUser = new User();
+        nonExistentUser.setEmail("example@example.com");
+        assertThrows(ServiceException.class, () -> userService.deleteUser(nonExistentUser.getEmail()));
     }
 }
 
