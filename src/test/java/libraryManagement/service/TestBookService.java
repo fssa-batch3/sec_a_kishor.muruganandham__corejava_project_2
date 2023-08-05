@@ -5,14 +5,14 @@ import libraryManagement.exceptions.DAOException;
 import libraryManagement.exceptions.ServiceException;
 import libraryManagement.exceptions.ValidationException;
 import libraryManagement.model.Book;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TestBook {
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+class TestBookService {
 
     private BookService bookService;
     private Book book;
@@ -24,7 +24,7 @@ class TestBook {
         book.setAuthor("Kishor");
         book.setGenre("Action");
         book.setDescription("Description");
-        book.setTitle("Title2");
+        book.setTitle("Title");
         book.setLanguage("Eng");
         book.setPublisher("Publisher");
         book.setTotalCopies(10);
@@ -34,7 +34,8 @@ class TestBook {
     }
 
     @Test
-    void testAddBook() {
+    @Order(1)
+    void testValidAddBook() {
         try {
             Book existingBook = BookDao.getBookByTitle(book.getTitle());
             assertNull(existingBook, "Book should not exist");
@@ -43,24 +44,42 @@ class TestBook {
             assertEquals("Book added successfully", result);
         } catch (DAOException | ValidationException e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+            fail("Should not throw ServiceException");
         }
     }
 
+    @Test
+    @Order(2)
+    void testInvalidAddBook() {
+        Book invalidBook = new Book();
+        invalidBook.setTitle("");
+        invalidBook.setTotalCopies(-1);
+        invalidBook.setCoverImage("image");
+
+        assertThrows(ValidationException.class, () -> bookService.addBook(invalidBook));
+    }
 
     @Test
-    void testGetBookByName() {
+    @Order(3)
+    void testValidGetBookByName() {
         try {
             Book bookFromDB = bookService.getBookByName(book.getTitle());
             assertNotNull(bookFromDB, "Book should exist");
             assertEquals(book.getTitle(), bookFromDB.getTitle());
         } catch (ServiceException | DAOException e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+            fail("Should not throw ServiceException");
         }
     }
 
     @Test
+    @Order(4)
+    void testInvalidGetBookByName() {
+        assertThrows(ServiceException.class, () -> bookService.getBookByName("No Title"));
+    }
+
+    @Test
+    @Order(5)
     void testGetAllBooks() {
         try {
             List<Book> allBooks = bookService.getAllBooks();
@@ -70,12 +89,13 @@ class TestBook {
             }
         } catch (DAOException e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+            fail("Should not throw ServiceException");
         }
     }
 
     @Test
-    void testUpdateBook() {
+    @Order(6)
+    void testValidUpdateBook() {
         try {
             Book existingBook = bookService.getBookByName(book.getTitle());
             assertNotNull(existingBook, "Book should exist");
@@ -87,22 +107,38 @@ class TestBook {
             assertEquals(existingBook.getDescription(), updatedBook.getDescription(), "Description should be updated");
         } catch (ServiceException | DAOException e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+            fail("Should not throw ServiceException");
         }
     }
 
     @Test
-    void testDeleteBook() {
+    @Order(7)
+    void testInvalidUpdateBook() {
+        Book book = new Book();
+        book.setTitle("No Title");
+        book.setDescription("Invalid description");
+
+        assertThrows(ServiceException.class, () -> bookService.updateBook(book));
+    }
+
+    @Test
+    @Order(8)
+    void testValidDeleteBook() {
         try {
             Book existingBook = bookService.getBookByName(book.getTitle());
             assertNotNull(existingBook, "Book should exist");
 
             boolean isDeleted = bookService.deleteBook(book.getTitle());
             assertTrue(isDeleted, "Book should be deleted successfully");
-
         } catch (ServiceException | DAOException e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+            fail("Should not throw ServiceException");
         }
+    }
+
+    @Test
+    @Order(9)
+    void testInvalidDeleteBook() {
+        assertThrows(ServiceException.class, () -> bookService.deleteBook("No Title"));
     }
 }
