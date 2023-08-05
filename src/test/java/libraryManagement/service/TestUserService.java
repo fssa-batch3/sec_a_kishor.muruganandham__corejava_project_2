@@ -49,16 +49,10 @@ class TestUserService {
     @Order(2)
     @Test
     void testInvalidRegisterUser() {
-        try {
-            User existingUser = UserDao.getUser(testUser.getEmail());
-            assertNotNull(existingUser, "User with email " + testUser.getEmail() + " should not exist");
-
-            String result = userService.registerUser(testUser);
-            assertNotEquals("Registration Successful", result);
-        } catch (ServiceException e) {
-            e.printStackTrace();
-            Assertions.fail("Should not throw ServiceException or DAOException");
-        }
+        User nonExistentUser = new User();
+        nonExistentUser.setEmail("kishor@example.com");
+        nonExistentUser.setPassword("invalid password");
+        assertThrows(ServiceException.class, () -> userService.registerUser(nonExistentUser));
     }
 
     @Test
