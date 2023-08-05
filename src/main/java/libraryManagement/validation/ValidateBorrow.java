@@ -7,13 +7,15 @@ import java.time.LocalDate;
 
 public class ValidateBorrow {
 
-    private final Borrow borrow;
+    private Borrow borrow;
 
     public ValidateBorrow(Borrow borrow) {
         this.borrow = borrow;
     }
 
+    public ValidateBorrow() {
 
+    }
     public boolean validateBorrowDate(LocalDate borrowDate) throws ValidationException {
         if (borrowDate == null) {
             throw new ValidationException("Borrow date cannot be empty");

@@ -50,4 +50,7 @@ public class Borrow {
         return isReturned;
     }
 
+    public void setReturned(boolean isReturned) {
+        this.isReturned = isReturned;
+    }
 }
