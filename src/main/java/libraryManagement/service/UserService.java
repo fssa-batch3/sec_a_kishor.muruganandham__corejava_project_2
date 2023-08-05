@@ -44,7 +44,7 @@ public class UserService {
             if (fromDb != null && user.getPassword().equals(fromDb.getPassword())) {
                 return fromDb;
             } else {
-                throw new ServiceException("Invalid User Credentials");
+                throw new ServiceException("User Not Found");
             }
         } catch (ServiceException | ValidationException e) {
             throw new ServiceException(e);
