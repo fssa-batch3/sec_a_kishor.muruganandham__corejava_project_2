@@ -56,14 +56,16 @@ CREATE TABLE IF NOT EXISTS borrows (
     book_id INT NOT NULL,
     borrow_date DATE NOT NULL,
     return_date DATE,
+    due_date DATE NOT NULL,
     isReturned BOOLEAN DEFAULT false,
+    fine DOUBLE DEFAULT 0,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (book_id) REFERENCES books(book_id)
 );
 
 -- Insert a sample borrow record
-INSERT INTO borrows (user_id, book_id, borrow_date, return_date)
-VALUES (1, 1, '2023-08-05', '2023-08-12');
+INSERT INTO borrows (user_id, book_id, borrow_date, return_date, due_date,isReturned, fine)
+VALUES (1, 1, '2023-08-05', '2023-08-12', '2023-08-10',TRUE, 20.0);
 
 -- Retrieve all records from 'borrows' table
 SELECT * FROM borrows;

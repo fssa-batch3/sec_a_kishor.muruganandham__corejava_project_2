@@ -12,10 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookDao {
-	
-	private BookDao() {
-		throw new IllegalCallerException("Class Utility");
-	}
+
+    private BookDao() {
+        throw new IllegalCallerException("Class Utility");
+    }
+
     public static Book getBookByTitle(String bookName) throws DAOException {
         Book book = null;
         String query = "SELECT * FROM books WHERE title = ? AND isActive = true AND available_copies >= 1;";
@@ -168,6 +169,21 @@ public class BookDao {
             } else {
                 return book;
             }
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        }
+    }
+
+    public static void updateBookCopies(int bookId, int loanedCopiesChange, int availableCopiesChange) throws DAOException {
+        String query = "UPDATE books SET loaned_copies = loaned_copies + ?, available_copies = available_copies + ? WHERE book_id = ?;";
+        try (Connection connection = ConnectionUtil.getConnection();
+             PreparedStatement pst = connection.prepareStatement(query)) {
+
+            pst.setInt(1, loanedCopiesChange);
+            pst.setInt(2, availableCopiesChange);
+            pst.setInt(3, bookId);
+
+            pst.executeUpdate();
         } catch (SQLException e) {
             throw new DAOException(e);
         }

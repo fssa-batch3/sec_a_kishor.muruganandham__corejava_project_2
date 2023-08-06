@@ -16,6 +16,7 @@ public class ValidateBorrow {
     public ValidateBorrow() {
 
     }
+
     public boolean validateBorrowDate(LocalDate borrowDate) throws ValidationException {
         if (borrowDate == null) {
             throw new ValidationException("Borrow date cannot be empty");
@@ -28,7 +29,7 @@ public class ValidateBorrow {
         if (returnDate == null) {
             throw new ValidationException("Return date cannot be empty");
         }
-        if (!borrow.isReturned() && returnDate.isBefore(borrowDate)) {
+        if (returnDate.isBefore(borrowDate)) {
             throw new ValidationException("Return date should be after the borrow date");
         }
         return true;

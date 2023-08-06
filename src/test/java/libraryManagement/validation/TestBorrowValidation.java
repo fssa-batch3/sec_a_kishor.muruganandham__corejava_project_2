@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 import java.time.Period;
 
-public class TestBorrowValidation {
+class TestBorrowValidation {
 
     private ValidateBorrow validateBorrow;
     private Borrow borrow;
@@ -56,7 +56,6 @@ public class TestBorrowValidation {
         LocalDate borrowDate = LocalDate.now().minus(Period.ofDays(10));
         LocalDate returnDate = LocalDate.now().minus(Period.ofDays(5));
         borrow.setBorrowDate(borrowDate);
-        borrow.setReturned(true);
 
         boolean result = validateBorrow.validateReturnDate(returnDate);
         Assertions.assertTrue(result);

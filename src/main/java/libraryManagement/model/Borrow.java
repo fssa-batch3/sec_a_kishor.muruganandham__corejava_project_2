@@ -3,16 +3,12 @@ package libraryManagement.model;
 import java.time.LocalDate;
 
 public class Borrow {
-    private int borrowId;
     private int userId;
     private int bookId;
     private LocalDate borrowDate;
     private LocalDate returnDate;
-    private boolean isReturned;
-
-    public int getBorrowId() {
-        return borrowId;
-    }
+    private LocalDate dueDate;
+    private double fine;
 
     public int getUserId() {
         return userId;
@@ -36,6 +32,7 @@ public class Borrow {
 
     public void setBorrowDate(LocalDate borrowDate) {
         this.borrowDate = borrowDate;
+        this.dueDate = borrowDate.plusDays(10);
     }
 
     public LocalDate getReturnDate() {
@@ -46,11 +43,16 @@ public class Borrow {
         this.returnDate = returnDate;
     }
 
-    public boolean isReturned() {
-        return isReturned;
+    public double getFine() {
+        return fine;
     }
 
-    public void setReturned(boolean isReturned) {
-        this.isReturned = isReturned;
+    public void setFine(double fine) {
+        this.fine = fine;
     }
+
+    public LocalDate getDueDate() {
+        return dueDate;
+    }
+
 }

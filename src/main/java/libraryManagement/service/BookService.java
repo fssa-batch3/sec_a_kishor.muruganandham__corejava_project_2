@@ -13,46 +13,68 @@ public class BookService {
 
     private static final String BOOK_NOT_FOUND = "Book not found";
 
-    public String addBook(Book book) throws ValidationException, DAOException {
-        ValidateBook validateBook = new ValidateBook(book);
-        validateBook.validateAll();
-        Book existingBook = BookDao.getBookByTitle(book.getTitle());
-        if (existingBook != null) {
-            return "Book already exists";
-        } else {
-            if (BookDao.addBook(book)) {
-                return "Book added successfully";
+    public String addBook(Book book) throws ServiceException {
+        try {
+            ValidateBook validateBook = new ValidateBook(book);
+            validateBook.validateAll();
+            Book existingBook = BookDao.getBookByTitle(book.getTitle());
+            if (existingBook != null) {
+                return "Book already exists";
             } else {
-                return "Failed to add book";
+                if (BookDao.addBook(book)) {
+                    return "Book added successfully";
+                } else {
+                    return "Failed to add book";
+                }
             }
+        } catch (ValidationException | DAOException e) {
+            throw new ServiceException(e);
         }
     }
 
-    public Book getBookByName(String bookName) throws ServiceException, DAOException {
-        Book book = BookDao.getBookByTitle(bookName);
-        if (book == null) {
-            throw new ServiceException(BOOK_NOT_FOUND);
+
+    public Book getBookByName(String bookName) throws ServiceException {
+        try {
+            Book book = BookDao.getBookByTitle(bookName);
+            if (book == null) {
+                throw new ServiceException(BOOK_NOT_FOUND);
+            }
+            return book;
+        } catch (DAOException e) {
+            throw new ServiceException(e);
         }
-        return book;
     }
 
-    public List<Book> getAllBooks() throws DAOException {
-        return BookDao.getAllBooks();
+
+    public List<Book> getAllBooks() throws ServiceException {
+        try {
+            return BookDao.getAllBooks();
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
     }
 
-    public Book updateBook(Book book) throws ServiceException, DAOException {
-        Book existingBook = BookDao.getBookByTitle(book.getTitle());
-        if (existingBook == null) {
-            throw new ServiceException(BOOK_NOT_FOUND);
+    public Book updateBook(Book book) throws ServiceException {
+        try {
+            Book existingBook = BookDao.getBookByTitle(book.getTitle());
+            if (existingBook == null) {
+                throw new ServiceException(BOOK_NOT_FOUND);
+            }
+            return BookDao.updateBook(book);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
         }
-        return BookDao.updateBook(book);
     }
 
-    public boolean deleteBook(String bookName) throws ServiceException, DAOException {
-        Book existingBook = BookDao.getBookByTitle(bookName);
-        if (existingBook == null) {
-            throw new ServiceException(BOOK_NOT_FOUND);
+    public boolean deleteBook(String bookName) throws ServiceException {
+        try {
+            Book existingBook = BookDao.getBookByTitle(bookName);
+            if (existingBook == null) {
+                throw new ServiceException(BOOK_NOT_FOUND);
+            }
+            return BookDao.deleteBook(bookName);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
         }
-        return BookDao.deleteBook(bookName);
     }
 }

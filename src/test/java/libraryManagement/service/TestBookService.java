@@ -3,7 +3,6 @@ package libraryManagement.service;
 import libraryManagement.DAO.BookDao;
 import libraryManagement.exceptions.DAOException;
 import libraryManagement.exceptions.ServiceException;
-import libraryManagement.exceptions.ValidationException;
 import libraryManagement.model.Book;
 import org.junit.jupiter.api.*;
 
@@ -42,7 +41,7 @@ class TestBookService {
 
             String result = bookService.addBook(book);
             assertEquals("Book added successfully", result);
-        } catch (DAOException | ValidationException e) {
+        } catch (ServiceException | DAOException e) {
             e.printStackTrace();
             fail("Should not throw ServiceException");
         }
@@ -56,7 +55,7 @@ class TestBookService {
         invalidBook.setTotalCopies(-1);
         invalidBook.setCoverImage("image");
 
-        assertThrows(ValidationException.class, () -> bookService.addBook(invalidBook));
+        assertThrows(ServiceException.class, () -> bookService.addBook(invalidBook));
     }
 
     @Test
@@ -66,7 +65,7 @@ class TestBookService {
             Book bookFromDB = bookService.getBookByName(book.getTitle());
             assertNotNull(bookFromDB, "Book should exist");
             assertEquals(book.getTitle(), bookFromDB.getTitle());
-        } catch (ServiceException | DAOException e) {
+        } catch (ServiceException e) {
             e.printStackTrace();
             fail("Should not throw ServiceException");
         }
@@ -87,7 +86,7 @@ class TestBookService {
             for (Book b : allBooks) {
                 System.out.println(b.getTitle());
             }
-        } catch (DAOException e) {
+        } catch (ServiceException e) {
             e.printStackTrace();
             fail("Should not throw ServiceException");
         }
@@ -105,7 +104,7 @@ class TestBookService {
 
             assertNotNull(updatedBook, "Updated book should not be null");
             assertEquals(existingBook.getDescription(), updatedBook.getDescription(), "Description should be updated");
-        } catch (ServiceException | DAOException e) {
+        } catch (ServiceException e) {
             e.printStackTrace();
             fail("Should not throw ServiceException");
         }
@@ -130,7 +129,7 @@ class TestBookService {
 
             boolean isDeleted = bookService.deleteBook(book.getTitle());
             assertTrue(isDeleted, "Book should be deleted successfully");
-        } catch (ServiceException | DAOException e) {
+        } catch (ServiceException e) {
             e.printStackTrace();
             fail("Should not throw ServiceException");
         }

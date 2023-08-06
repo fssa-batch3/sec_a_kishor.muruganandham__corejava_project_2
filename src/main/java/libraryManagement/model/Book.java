@@ -15,7 +15,7 @@ public class Book {
 
 
     public void setActive(boolean isActive) {
-      // TODO document why this method is empty
+        // TODO document why this method is empty
     }
 
     public int getBookId() {
