@@ -46,7 +46,7 @@ for a local library.
 
 - Add, Update, View, Delete,Search and List all Book.
 - Register, Login, Update, Delete User.
-- Borrow, Renew, Return and Check availability a Book.
+- Borrow, Renew, Return and Check availability of a Book.
 
 ### User Persona
 
@@ -63,7 +63,7 @@ for a local library.
 
 ### Database Setup
 
-- Table scripts: [script](database_setup.sql)
+- Table scripts: [Script](database_setup.sql)
 
 ## Project Setup
 
@@ -81,10 +81,11 @@ for a local library.
 ## Database
 
 ### Entity-Relationship Diagram (ERD)
+[![HtTccyG.md.png](https://iili.io/HtTccyG.md.png)](https://freeimage.host/i/HtTccyG)
 
 ### Database Tables
 
-### Table: users
+#### Table: users
 
 | Field         | Type          | Null | Key | Default           | Extra |
 |---------------|---------------|------|-----|-------------------|-------|
@@ -100,7 +101,7 @@ for a local library.
 | isAdmin       | tinyint(1)    | NO   |     |                   |       |
 | profile_image | varchar(2048) | NO   |     |                   |       |
 
-### Table: books
+#### Table: books
 
 | Field            | Type         | Null | Key | Default        | Extra |
 |------------------|--------------|------|-----|----------------|-------|
@@ -117,7 +118,7 @@ for a local library.
 | cover_image      | varchar(255) | YES  |     |                |       |
 | isActive         | tinyint(1)   | NO   |     | 1              |       |
 
-### Table: borrows
+#### Table: borrows
 
 | Field       | Type       | Null | Key | Default        | Extra |
 |-------------|------------|------|-----|----------------|-------|
