@@ -1,5 +1,6 @@
-C:\Users\KishorMuruganandham\eclipse-workspace\LibraryManagement\src\test\java\libraryManagement\service\TestRegisterUser.java
-C:\Users\KishorMuruganandham\eclipse-workspace\LibraryManagement\src\test\java\libraryManagement\service\TestBook.java
-C:\Users\KishorMuruganandham\eclipse-workspace\LibraryManagement\src\test\java\libraryManagement\service\TestLoginUser.java
-C:\Users\KishorMuruganandham\eclipse-workspace\LibraryManagement\src\test\java\libraryManagement\service\TestBorrow.java
-C:\Users\KishorMuruganandham\eclipse-workspace\LibraryManagement\src\test\java\libraryManagement\service\TestUserValidation.java
+C:\Users\KishorMuruganandham\eclipse-workspace\LibraryManagement\src\test\java\libraryManagement\service\TestBookService.java
+C:\Users\KishorMuruganandham\eclipse-workspace\LibraryManagement\src\test\java\libraryManagement\validation\TestBookValidation.java
+C:\Users\KishorMuruganandham\eclipse-workspace\LibraryManagement\src\test\java\libraryManagement\service\TestBorrowService.java
+C:\Users\KishorMuruganandham\eclipse-workspace\LibraryManagement\src\test\java\libraryManagement\validation\TestBorrowValidation.java
+C:\Users\KishorMuruganandham\eclipse-workspace\LibraryManagement\src\test\java\libraryManagement\service\TestUserService.java
+C:\Users\KishorMuruganandham\eclipse-workspace\LibraryManagement\src\test\java\libraryManagement\validation\TestUserValidation.java
