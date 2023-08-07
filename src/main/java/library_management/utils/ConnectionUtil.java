@@ -44,7 +44,7 @@ public class ConnectionUtil {
 			try {
 				connection.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
+				System.out.println(e.getMessage());
 			}
 		}
 	}
