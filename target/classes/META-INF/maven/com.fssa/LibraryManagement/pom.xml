@@ -5,7 +5,7 @@
 	<groupId>com.fssa</groupId>
 	<artifactId>LibraryManagement</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>libraryManagement</name>
+	<name>library_management</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>17</maven.compiler.source>

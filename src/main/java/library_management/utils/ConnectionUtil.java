@@ -38,14 +38,5 @@ public class ConnectionUtil {
 		return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 	}
 
-	// Close the database connection
-	public static void closeConnection(Connection connection) {
-		if (connection != null) {
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				System.out.println(e.getMessage());
-			}
-		}
-	}
+
 }
