@@ -14,6 +14,9 @@ public class BorrowDao {
     private static final String RETURN_DATE = "return_date";
     private static final String BORROW_DATE = "borrow_date";
     private static final String BOOK_ID = "book_id";
+    static final String SELECT_QUERY_PREFIX = "SELECT user_id, book_id, borrow_date, return_date " +
+            "FROM borrows ";
+
     // Private constructor to prevent instantiation
     private BorrowDao() {
         // // Do nothing (empty constructor)
@@ -57,9 +60,7 @@ public class BorrowDao {
 
     public static List<Borrow> getBorrowsByUser(int userId) throws ServiceException {
         List<Borrow> borrowList = null;
-        String query = "SELECT user_id, book_id, borrow_date, return_date " +
-                "FROM borrows " +
-                "WHERE user_id = ?;";
+        String query = SELECT_QUERY_PREFIX + "WHERE user_id = ?;";
 
         try (Connection connection = ConnectionUtil.getConnection();
              PreparedStatement pst = connection.prepareStatement(query)) {
@@ -88,9 +89,7 @@ public class BorrowDao {
 
     public static List<Borrow> getBorrowsByBook(int bookId) throws ServiceException {
         List<Borrow> borrowList = null;
-        String query = "SELECT user_id, book_id, borrow_date, return_date " +
-                "FROM borrows " +
-                "WHERE book_id = ?;";
+        String query = SELECT_QUERY_PREFIX + "WHERE book_id = ?;";
 
         try (Connection connection = ConnectionUtil.getConnection();
              PreparedStatement pst = connection.prepareStatement(query)) {
@@ -117,9 +116,7 @@ public class BorrowDao {
     }
 
     public static Borrow getBorrowByUserAndBook(int userId, int bookId) throws ServiceException {
-        String query = "SELECT user_id, book_id, borrow_date, return_date " +
-                "FROM borrows " +
-                "WHERE user_id = ? AND book_id = ? AND isReturned = FALSE;";
+        String query = SELECT_QUERY_PREFIX + "WHERE user_id = ? AND book_id = ? AND isReturned = FALSE;";
 
         try (Connection connection = ConnectionUtil.getConnection();
              PreparedStatement pst = connection.prepareStatement(query)) {

@@ -8,10 +8,6 @@ import io.github.cdimascio.dotenv.Dotenv;
 
 public class ConnectionUtil {
 
-	// Database URL and credentials
-//    private static final String DB_URL = "jdbc:mysql://localhost:3306/library_management";
-//    private static final String DB_USER = "root";
-//    private static final String DB_PASSWORD = "root";
 
 	// Private constructor to prevent instantiation
 	private ConnectionUtil() {
@@ -21,21 +17,22 @@ public class ConnectionUtil {
 	// Call the database connection
 	public static Connection getConnection() throws SQLException {
 
-		String DB_URL;
-		String DB_USER;
-		String DB_PASSWORD;
+	// Database URL and credentials
+		final String dbUrl;
+		final String dbUser;
+		final String dbPassword;
 
 		if (System.getenv("CI") != null) {
-			DB_URL = System.getenv("DB_URL");
-			DB_USER = System.getenv("DB_USER");
-			DB_PASSWORD = System.getenv("DB_PASSWORD");
+			dbUrl = System.getenv("DB_URL");
+			dbUser = System.getenv("DB_USER");
+			dbPassword = System.getenv("DB_PASSWORD");
 		} else {
 			Dotenv env = Dotenv.load();
-			DB_URL = env.get("DB_URL");
-			DB_USER = env.get("DB_USER");
-			DB_PASSWORD = env.get("DB_PASSWORD");
+			dbUrl = env.get("DB_URL");
+			dbUser = env.get("DB_USER");
+			dbPassword = env.get("DB_PASSWORD");
 		}
-		return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+		return DriverManager.getConnection(dbUrl, dbUser, dbPassword);
 	}
 
 
