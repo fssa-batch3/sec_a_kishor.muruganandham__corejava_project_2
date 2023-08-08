@@ -4,7 +4,7 @@ import com.fssa.library_management.dao.UserDao;
 import com.fssa.library_management.exceptions.ServiceException;
 import com.fssa.library_management.exceptions.ValidationException;
 import com.fssa.library_management.model.User;
-import com.fssa.library_management.validation.ValidateUser;
+import com.fssa.library_management.validator.UserValidator;
 
 import java.util.List;
 
@@ -13,8 +13,8 @@ public class UserService {
 
     public String registerUser(User user) throws ServiceException {
         try {
-            ValidateUser validateUser = new ValidateUser(user);
-            validateUser.validateAll();
+            UserValidator userValidator = new UserValidator(user);
+            userValidator.validateAll();
         } catch (ValidationException e) {
             throw new ServiceException("Invalid User", e);
         }
@@ -37,7 +37,7 @@ public class UserService {
             if (user.getEmail() == null || user.getPassword() == null) {
                 throw new ServiceException("Invalid User Credentials");
             }
-            if (!ValidateUser.validateEmail(user.getEmail())) {
+            if (!UserValidator.validateEmail(user.getEmail())) {
                 throw new ValidationException("Invalid Email");
             }
             User fromDb = UserDao.getUser(user.getEmail());

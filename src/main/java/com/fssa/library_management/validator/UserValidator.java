@@ -1,4 +1,4 @@
-package com.fssa.library_management.validation;
+package com.fssa.library_management.validator;
 
 import com.fssa.library_management.exceptions.ValidationException;
 import com.fssa.library_management.model.User;
@@ -9,19 +9,19 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.regex.Pattern;
 
-public class ValidateUser {
+public class UserValidator {
     private User user;
 
-    public ValidateUser(User user) {
+    public UserValidator(User user) {
         this.user = user;
     }
 
-    public ValidateUser() {
+    public UserValidator() {
 
     }
 
     public static boolean validateEmail(String email) throws ValidationException {
-        final String emailRegEx = "^(.+)@(\\S+)$";
+        final String emailRegEx = "^(.+)@\\S+$";
         if (email == null || email.isEmpty()) {
             throw new ValidationException("Email cannot be empty");
         }

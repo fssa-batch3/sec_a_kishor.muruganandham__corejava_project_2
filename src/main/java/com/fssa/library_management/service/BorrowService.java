@@ -6,7 +6,7 @@ import com.fssa.library_management.dao.BookDao;
 import com.fssa.library_management.exceptions.DAOException;
 import com.fssa.library_management.exceptions.ServiceException;
 import com.fssa.library_management.exceptions.ValidationException;
-import com.fssa.library_management.validation.ValidateBorrow;
+import com.fssa.library_management.validator.BorrowValidator;
 
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -16,13 +16,13 @@ public class BorrowService {
     public static final int BORROW_LIMIT = 5;
 
     public String borrowBook(Borrow borrow) throws ServiceException {
-        ValidateBorrow validateBorrow = new ValidateBorrow(borrow);
+        BorrowValidator borrowValidator = new BorrowValidator(borrow);
         Borrow existingBorrow = BorrowDao.getBorrowByUserAndBook(borrow.getUserId(), borrow.getBookId());
         if (existingBorrow != null) {
             throw new ServiceException("This Book has been already borrowed by you");
         }
         try {
-            validateBorrow.validateBorrowDate(borrow.getBorrowDate());
+            borrowValidator.validateBorrowDate(borrow.getBorrowDate());
         } catch (ValidationException e) {
             throw new ServiceException("Borrow Details are not Valid");
         }
@@ -52,9 +52,9 @@ public class BorrowService {
 
 
     public String returnBook(Borrow borrow) throws ServiceException {
-        ValidateBorrow validateBorrow = new ValidateBorrow(borrow);
+        BorrowValidator borrowValidator = new BorrowValidator(borrow);
         try {
-            validateBorrow.validateReturnDate(borrow.getReturnDate());
+            borrowValidator.validateReturnDate(borrow.getReturnDate());
         } catch (ValidationException e) {
             throw new ServiceException("Return date is not Valid");
         }

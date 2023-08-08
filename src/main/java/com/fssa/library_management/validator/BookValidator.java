@@ -1,18 +1,18 @@
-package com.fssa.library_management.validation;
+package com.fssa.library_management.validator;
 
 import com.fssa.library_management.exceptions.ValidationException;
 import com.fssa.library_management.model.Book;
 
-public class ValidateBook {
+public class BookValidator {
 
     private Book book;
 
-    public ValidateBook(Book book) throws ValidationException {
+    public BookValidator(Book book) throws ValidationException {
         this.book = book;
         validateAll();
     }
 
-    public ValidateBook() {
+    public BookValidator() {
 
     }
 

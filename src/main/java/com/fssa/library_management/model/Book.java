@@ -14,10 +14,6 @@ public class Book {
     private String coverImage;
 
 
-    public void setActive(boolean isActive) {
-        // TODO document why this method is empty
-    }
-
     public int getBookId() {
         return bookId;
     }

@@ -40,7 +40,6 @@ public class BookDao {
                     book.setAvailableCopies(rs.getInt("available_copies"));
                     book.setLoanedCopies(rs.getInt("loaned_copies"));
                     book.setCoverImage(rs.getString("cover_image"));
-                    book.setActive(rs.getBoolean("isActive"));
                 }
             }
 

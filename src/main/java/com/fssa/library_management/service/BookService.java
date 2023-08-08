@@ -4,7 +4,7 @@ import com.fssa.library_management.dao.BookDao;
 import com.fssa.library_management.exceptions.DAOException;
 import com.fssa.library_management.exceptions.ServiceException;
 import com.fssa.library_management.exceptions.ValidationException;
-import com.fssa.library_management.validation.ValidateBook;
+import com.fssa.library_management.validator.BookValidator;
 import com.fssa.library_management.model.Book;
 
 import java.util.List;
@@ -15,8 +15,8 @@ public class BookService {
 
     public String addBook(Book book) throws ServiceException {
         try {
-            ValidateBook validateBook = new ValidateBook(book);
-            validateBook.validateAll();
+            BookValidator bookValidator = new BookValidator(book);
+            bookValidator.validateAll();
             Book existingBook = BookDao.getBookByTitle(book.getTitle());
             if (existingBook != null) {
                 return "Book already exists";

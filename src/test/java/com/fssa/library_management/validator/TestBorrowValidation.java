@@ -1,4 +1,4 @@
-package com.fssa.library_management.validation;
+package com.fssa.library_management.validator;
 
 import com.fssa.library_management.exceptions.ValidationException;
 import com.fssa.library_management.model.Borrow;
@@ -11,25 +11,25 @@ import java.time.Period;
 
 class TestBorrowValidation {
 
-    private ValidateBorrow validateBorrow;
+    private BorrowValidator borrowValidator;
     private Borrow borrow;
 
     @BeforeEach
     void setUp() {
         borrow = new Borrow();
-        validateBorrow = new ValidateBorrow(borrow);
+        borrowValidator = new BorrowValidator(borrow);
     }
 
     @Test
     void validateValidBorrowDate() throws ValidationException {
         LocalDate validBorrowDate = LocalDate.now();
-        boolean result = validateBorrow.validateBorrowDate(validBorrowDate);
+        boolean result = borrowValidator.validateBorrowDate(validBorrowDate);
         Assertions.assertTrue(result);
     }
 
     @Test
     void validateInvalidBorrowDate() {
-        Assertions.assertThrows(ValidationException.class, () -> validateBorrow.validateBorrowDate(null));
+        Assertions.assertThrows(ValidationException.class, () -> borrowValidator.validateBorrowDate(null));
     }
 
     @Test
@@ -38,7 +38,7 @@ class TestBorrowValidation {
         LocalDate validReturnDate = LocalDate.now();
         borrow.setBorrowDate(borrowDate);
 
-        boolean result = validateBorrow.validateReturnDate(validReturnDate);
+        boolean result = borrowValidator.validateReturnDate(validReturnDate);
         Assertions.assertTrue(result);
     }
 
@@ -48,7 +48,7 @@ class TestBorrowValidation {
         LocalDate invalidReturnDate = borrowDate.minus(Period.ofDays(1));
         borrow.setBorrowDate(borrowDate);
 
-        Assertions.assertThrows(ValidationException.class, () -> validateBorrow.validateReturnDate(invalidReturnDate));
+        Assertions.assertThrows(ValidationException.class, () -> borrowValidator.validateReturnDate(invalidReturnDate));
     }
 
     @Test
@@ -57,7 +57,7 @@ class TestBorrowValidation {
         LocalDate returnDate = LocalDate.now().minus(Period.ofDays(5));
         borrow.setBorrowDate(borrowDate);
 
-        boolean result = validateBorrow.validateReturnDate(returnDate);
+        boolean result = borrowValidator.validateReturnDate(returnDate);
         Assertions.assertTrue(result);
     }
 }
