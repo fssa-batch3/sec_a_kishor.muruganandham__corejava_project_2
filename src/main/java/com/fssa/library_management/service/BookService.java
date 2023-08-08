@@ -4,8 +4,8 @@ import com.fssa.library_management.dao.BookDao;
 import com.fssa.library_management.exceptions.DAOException;
 import com.fssa.library_management.exceptions.ServiceException;
 import com.fssa.library_management.exceptions.ValidationException;
-import com.fssa.library_management.validator.BookValidator;
 import com.fssa.library_management.model.Book;
+import com.fssa.library_management.validation.BookValidator;
 
 import java.util.List;
 

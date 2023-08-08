@@ -81,6 +81,7 @@ for a local library.
 ## Database
 
 ### Entity-Relationship Diagram (ERD)
+
 [![HtTccyG.md.png](https://iili.io/HtTccyG.md.png)](https://freeimage.host/i/HtTccyG)
 
 ### Database Tables

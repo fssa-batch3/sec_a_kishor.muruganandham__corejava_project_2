@@ -1,4 +1,4 @@
-package com.fssa.library_management.validator;
+package com.fssa.library_management.validation;
 
 import com.fssa.library_management.exceptions.ValidationException;
 import com.fssa.library_management.model.User;
@@ -21,7 +21,7 @@ public class UserValidator {
     }
 
     public static boolean validateEmail(String email) throws ValidationException {
-        final String emailRegEx = "^(.+)@\\S+$";
+        final String emailRegEx = "^[A-Za-z0-9+_.-]+@(.+)$";
         if (email == null || email.isEmpty()) {
             throw new ValidationException("Email cannot be empty");
         }

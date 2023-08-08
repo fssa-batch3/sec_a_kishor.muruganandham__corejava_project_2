@@ -1,7 +1,7 @@
 package com.fssa.library_management.dao;
 
-import com.fssa.library_management.model.Borrow;
 import com.fssa.library_management.exceptions.ServiceException;
+import com.fssa.library_management.model.Borrow;
 import com.fssa.library_management.utils.ConnectionUtil;
 
 import java.sql.*;
@@ -10,12 +10,12 @@ import java.util.List;
 
 public class BorrowDao {
 
+    static final String SELECT_QUERY_PREFIX = "SELECT user_id, book_id, borrow_date, return_date " +
+            "FROM borrows ";
     private static final String USER_ID = "user_id";
     private static final String RETURN_DATE = "return_date";
     private static final String BORROW_DATE = "borrow_date";
     private static final String BOOK_ID = "book_id";
-    static final String SELECT_QUERY_PREFIX = "SELECT user_id, book_id, borrow_date, return_date " +
-            "FROM borrows ";
 
     // Private constructor to prevent instantiation
     private BorrowDao() {

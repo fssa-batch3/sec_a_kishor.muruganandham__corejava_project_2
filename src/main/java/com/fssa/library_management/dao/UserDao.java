@@ -1,7 +1,7 @@
 package com.fssa.library_management.dao;
 
-import com.fssa.library_management.model.User;
 import com.fssa.library_management.exceptions.ServiceException;
+import com.fssa.library_management.model.User;
 import com.fssa.library_management.utils.ConnectionUtil;
 
 import java.sql.*;

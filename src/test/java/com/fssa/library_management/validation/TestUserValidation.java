@@ -1,4 +1,4 @@
-package com.fssa.library_management.validator;
+package com.fssa.library_management.validation;
 
 import com.fssa.library_management.exceptions.ValidationException;
 import org.junit.jupiter.api.Assertions;

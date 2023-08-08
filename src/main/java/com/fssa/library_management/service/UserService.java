@@ -4,7 +4,7 @@ import com.fssa.library_management.dao.UserDao;
 import com.fssa.library_management.exceptions.ServiceException;
 import com.fssa.library_management.exceptions.ValidationException;
 import com.fssa.library_management.model.User;
-import com.fssa.library_management.validator.UserValidator;
+import com.fssa.library_management.validation.UserValidator;
 
 import java.util.List;
 

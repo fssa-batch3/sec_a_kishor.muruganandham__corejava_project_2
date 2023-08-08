@@ -1,12 +1,12 @@
 package com.fssa.library_management.service;
 
-import com.fssa.library_management.dao.BorrowDao;
-import com.fssa.library_management.model.Borrow;
 import com.fssa.library_management.dao.BookDao;
+import com.fssa.library_management.dao.BorrowDao;
 import com.fssa.library_management.exceptions.DAOException;
 import com.fssa.library_management.exceptions.ServiceException;
 import com.fssa.library_management.exceptions.ValidationException;
-import com.fssa.library_management.validator.BorrowValidator;
+import com.fssa.library_management.model.Borrow;
+import com.fssa.library_management.validation.BorrowValidator;
 
 import java.time.temporal.ChronoUnit;
 import java.util.List;
