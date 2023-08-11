@@ -11,9 +11,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookDao {
+public class BookDAO {
 
-    private BookDao() {
+    private BookDAO() {
         throw new IllegalCallerException("Class Utility");
     }
 

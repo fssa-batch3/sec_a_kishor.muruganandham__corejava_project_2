@@ -32,7 +32,7 @@ class TestBorrowService {
             assertEquals("Book borrowed successfully.", result);
         } catch (ServiceException e) {
             e.printStackTrace();
-            Assertions.fail("Should not throw ServiceException");
+            fail("Should not throw ServiceException");
         }
     }
 
@@ -52,7 +52,7 @@ class TestBorrowService {
             assertEquals(30, borrow.getFine());
         } catch (ServiceException e) {
             e.printStackTrace();
-            Assertions.fail("Should not throw ServiceException");
+            fail("Should not throw ServiceException");
         }
     }
 
@@ -71,7 +71,7 @@ class TestBorrowService {
             assertFalse(borrows.isEmpty());
         } catch (ServiceException e) {
             e.printStackTrace();
-            Assertions.fail("Should not throw ServiceException");
+            fail("Should not throw ServiceException");
         }
     }
 
@@ -83,7 +83,7 @@ class TestBorrowService {
             assertNull(borrows);
         } catch (ServiceException e) {
             e.printStackTrace();
-            Assertions.fail("Should not throw ServiceException");
+            fail("Should not throw ServiceException");
         }
     }
 
@@ -96,7 +96,7 @@ class TestBorrowService {
             assertFalse(borrows.isEmpty());
         } catch (ServiceException e) {
             e.printStackTrace();
-            Assertions.fail("Should not throw ServiceException");
+            fail("Should not throw ServiceException");
         }
     }
 
@@ -108,7 +108,7 @@ class TestBorrowService {
             assertNull(borrows);
         } catch (ServiceException e) {
             e.printStackTrace();
-            Assertions.fail("Should not throw ServiceException");
+            fail("Should not throw ServiceException");
         }
     }
 
@@ -121,7 +121,7 @@ class TestBorrowService {
             assertFalse(borrows.isEmpty());
         } catch (ServiceException e) {
             e.printStackTrace();
-            Assertions.fail("Should not throw ServiceException");
+            fail("Should not throw ServiceException");
         }
     }
 }

@@ -8,7 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BorrowDao {
+public class BorrowDAO {
 
     static final String SELECT_QUERY_PREFIX = "SELECT user_id, book_id, borrow_date, return_date " +
             "FROM borrows ";
@@ -18,7 +18,7 @@ public class BorrowDao {
     private static final String BOOK_ID = "book_id";
 
     // Private constructor to prevent instantiation
-    private BorrowDao() {
+    private BorrowDAO() {
         // // Do nothing (empty constructor)
     }
 

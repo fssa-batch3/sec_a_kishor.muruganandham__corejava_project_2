@@ -1,6 +1,6 @@
 package com.fssa.library_management.service;
 
-import com.fssa.library_management.dao.BookDao;
+import com.fssa.library_management.dao.BookDAO;
 import com.fssa.library_management.exceptions.DAOException;
 import com.fssa.library_management.exceptions.ServiceException;
 import com.fssa.library_management.model.Book;
@@ -36,7 +36,7 @@ class TestBookService {
     @Order(1)
     void testValidAddBook() {
         try {
-            Book existingBook = BookDao.getBookByTitle(book.getTitle());
+            Book existingBook = BookDAO.getBookByTitle(book.getTitle());
             assertNull(existingBook, "Book should not exist");
 
             String result = bookService.addBook(book);

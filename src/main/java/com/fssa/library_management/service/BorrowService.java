@@ -1,7 +1,7 @@
 package com.fssa.library_management.service;
 
-import com.fssa.library_management.dao.BookDao;
-import com.fssa.library_management.dao.BorrowDao;
+import com.fssa.library_management.dao.BookDAO;
+import com.fssa.library_management.dao.BorrowDAO;
 import com.fssa.library_management.exceptions.DAOException;
 import com.fssa.library_management.exceptions.ServiceException;
 import com.fssa.library_management.exceptions.ValidationException;
@@ -17,7 +17,7 @@ public class BorrowService {
 
     public String borrowBook(Borrow borrow) throws ServiceException {
         BorrowValidator borrowValidator = new BorrowValidator(borrow);
-        Borrow existingBorrow = BorrowDao.getBorrowByUserAndBook(borrow.getUserId(), borrow.getBookId());
+        Borrow existingBorrow = BorrowDAO.getBorrowByUserAndBook(borrow.getUserId(), borrow.getBookId());
         if (existingBorrow != null) {
             throw new ServiceException("This Book has been already borrowed by you");
         }
@@ -27,20 +27,20 @@ public class BorrowService {
             throw new ServiceException("Borrow Details are not Valid");
         }
 
-        int availableCopies = BorrowDao.getAvailableCopiesCount(borrow.getBookId());
+        int availableCopies = BorrowDAO.getAvailableCopiesCount(borrow.getBookId());
         if (availableCopies <= 0) {
             throw new ServiceException("No available copies of the book.");
         }
 
-        int borrowedBooksCount = BorrowDao.getBorrowedBooksCountByUser(borrow.getUserId());
+        int borrowedBooksCount = BorrowDAO.getBorrowedBooksCountByUser(borrow.getUserId());
         if (borrowedBooksCount >= BORROW_LIMIT) {
             throw new ServiceException("Borrow limit exceeded for the user.");
         }
 
-        boolean success = BorrowDao.borrowBook(borrow);
+        boolean success = BorrowDAO.borrowBook(borrow);
         if (success) {
             try {
-                BookDao.updateBookCopies(borrow.getBookId(), 1, -1);
+                BookDAO.updateBookCopies(borrow.getBookId(), 1, -1);
             } catch (DAOException e) {
                 throw new ServiceException("Failed to Update Number of copies in book");
             }
@@ -64,20 +64,20 @@ public class BorrowService {
             fine = daysLate * FINE_AMOUNT;
         }
         borrow.setFine(fine);
-        boolean success = BorrowDao.returnBook(borrow);
+        boolean success = BorrowDAO.returnBook(borrow);
         return success ? "Added return date successfully." : "Failed to return book.";
     }
 
 
     public List<Borrow> getBorrowsByUser(int userId) throws ServiceException {
-        return BorrowDao.getBorrowsByUser(userId);
+        return BorrowDAO.getBorrowsByUser(userId);
     }
 
     public List<Borrow> getBorrowsByBook(int bookId) throws ServiceException {
-        return BorrowDao.getBorrowsByBook(bookId);
+        return BorrowDAO.getBorrowsByBook(bookId);
     }
 
     public List<Borrow> getAllBorrows() throws ServiceException {
-        return BorrowDao.getAllBorrows();
+        return BorrowDAO.getAllBorrows();
     }
 }

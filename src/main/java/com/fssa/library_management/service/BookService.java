@@ -1,6 +1,6 @@
 package com.fssa.library_management.service;
 
-import com.fssa.library_management.dao.BookDao;
+import com.fssa.library_management.dao.BookDAO;
 import com.fssa.library_management.exceptions.DAOException;
 import com.fssa.library_management.exceptions.ServiceException;
 import com.fssa.library_management.exceptions.ValidationException;
@@ -17,11 +17,11 @@ public class BookService {
         try {
             BookValidator bookValidator = new BookValidator(book);
             bookValidator.validateAll();
-            Book existingBook = BookDao.getBookByTitle(book.getTitle());
+            Book existingBook = BookDAO.getBookByTitle(book.getTitle());
             if (existingBook != null) {
                 return "Book already exists";
             } else {
-                if (BookDao.addBook(book)) {
+                if (BookDAO.addBook(book)) {
                     return "Book added successfully";
                 } else {
                     return "Failed to add book";
@@ -35,7 +35,7 @@ public class BookService {
 
     public Book getBookByName(String bookName) throws ServiceException {
         try {
-            Book book = BookDao.getBookByTitle(bookName);
+            Book book = BookDAO.getBookByTitle(bookName);
             if (book == null) {
                 throw new ServiceException(BOOK_NOT_FOUND);
             }
@@ -48,7 +48,7 @@ public class BookService {
 
     public List<Book> getAllBooks() throws ServiceException {
         try {
-            return BookDao.getAllBooks();
+            return BookDAO.getAllBooks();
         } catch (DAOException e) {
             throw new ServiceException(e);
         }
@@ -56,11 +56,11 @@ public class BookService {
 
     public Book updateBook(Book book) throws ServiceException {
         try {
-            Book existingBook = BookDao.getBookByTitle(book.getTitle());
+            Book existingBook = BookDAO.getBookByTitle(book.getTitle());
             if (existingBook == null) {
                 throw new ServiceException(BOOK_NOT_FOUND);
             }
-            return BookDao.updateBook(book);
+            return BookDAO.updateBook(book);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }
@@ -68,11 +68,11 @@ public class BookService {
 
     public boolean deleteBook(String bookName) throws ServiceException {
         try {
-            Book existingBook = BookDao.getBookByTitle(bookName);
+            Book existingBook = BookDAO.getBookByTitle(bookName);
             if (existingBook == null) {
                 throw new ServiceException(BOOK_NOT_FOUND);
             }
-            return BookDao.deleteBook(bookName);
+            return BookDAO.deleteBook(bookName);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }
