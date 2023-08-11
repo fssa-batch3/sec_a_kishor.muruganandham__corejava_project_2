@@ -1,6 +1,11 @@
-.idea
-.settings
-target
-.classpath
+/.idea
+
+/.settings
+
+/target
+
+/.classpath
+
 .env
-.project
+
+/.project

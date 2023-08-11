@@ -1,130 +1,185 @@
 package com.fssa.library_management.validation;
 
 import com.fssa.library_management.exceptions.ValidationException;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class TestBookValidation {
     private final BookValidator bookValidator = new BookValidator();
 
     @Test
-    void testValidTitle() throws ValidationException {
+    void testValidTitle() {
         String validTitle = "Sample Title";
-        boolean result = bookValidator.validateTitle(validTitle);
-        Assertions.assertTrue(result);
+        boolean result = false;
+        try {
+            result = bookValidator.validateTitle(validTitle);
+        } catch (ValidationException e) {
+            e.printStackTrace();
+            fail("Should not throw ServiceException");
+        }
+        assertTrue(result);
     }
 
     @Test
     void testInvalidTitle() {
         String invalidTitle = "";
-        Assertions.assertThrows(ValidationException.class, () -> bookValidator.validateTitle(invalidTitle));
+        assertThrows(ValidationException.class, () -> bookValidator.validateTitle(invalidTitle));
     }
 
     @Test
-    void testValidAuthor() throws ValidationException {
+    void testValidAuthor() {
         String validAuthor = "Sample Author";
-        boolean result = bookValidator.validateAuthor(validAuthor);
-        Assertions.assertTrue(result);
+        boolean result = false;
+        try {
+            result = bookValidator.validateAuthor(validAuthor);
+        } catch (ValidationException e) {
+            e.printStackTrace();
+            fail("Should not throw ServiceException");
+        }
+        assertTrue(result);
     }
 
     @Test
     void testInvalidAuthor() {
         String invalidAuthor = "";
-        Assertions.assertThrows(ValidationException.class, () -> bookValidator.validateAuthor(invalidAuthor));
+        assertThrows(ValidationException.class, () -> bookValidator.validateAuthor(invalidAuthor));
     }
 
     @Test
-    void testValidPublisher() throws ValidationException {
+    void testValidPublisher() {
         String validPublisher = "Sample Publisher";
-        boolean result = bookValidator.validatePublisher(validPublisher);
-        Assertions.assertTrue(result);
+        boolean result = false;
+        try {
+            result = bookValidator.validatePublisher(validPublisher);
+        } catch (ValidationException e) {
+            e.printStackTrace();
+            fail("Should not throw ServiceException");
+        }
+        assertTrue(result);
     }
 
     @Test
     void testInvalidPublisher() {
         String invalidPublisher = "";
-        Assertions.assertThrows(ValidationException.class, () -> bookValidator.validatePublisher(invalidPublisher));
+        assertThrows(ValidationException.class, () -> bookValidator.validatePublisher(invalidPublisher));
     }
 
     @Test
-    void testValidGenre() throws ValidationException {
+    void testValidGenre() {
         String validGenre = "Fiction";
-        boolean result = bookValidator.validateGenre(validGenre);
-        Assertions.assertTrue(result);
+        boolean result = false;
+        try {
+            result = bookValidator.validateGenre(validGenre);
+        } catch (ValidationException e) {
+            e.printStackTrace();
+            fail("Should not throw ServiceException");
+        }
+        assertTrue(result);
     }
 
     @Test
     void testInvalidGenre() {
         String invalidGenre = "";
-        Assertions.assertThrows(ValidationException.class, () -> bookValidator.validateGenre(invalidGenre));
+        assertThrows(ValidationException.class, () -> bookValidator.validateGenre(invalidGenre));
     }
 
     @Test
-    void testValidLanguage() throws ValidationException {
+    void testValidLanguage() {
         String validLanguage = "English";
-        boolean result = bookValidator.validateLanguage(validLanguage);
-        Assertions.assertTrue(result);
+        boolean result = false;
+        try {
+            result = bookValidator.validateLanguage(validLanguage);
+        } catch (ValidationException e) {
+            e.printStackTrace();
+            fail("Should not throw ServiceException");
+        }
+        assertTrue(result);
     }
 
     @Test
     void testInvalidLanguage() {
         String invalidLanguage = "";
-        Assertions.assertThrows(ValidationException.class, () -> bookValidator.validateLanguage(invalidLanguage));
+        assertThrows(ValidationException.class, () -> bookValidator.validateLanguage(invalidLanguage));
     }
 
     @Test
-    void testValidDescription() throws ValidationException {
+    void testValidDescription() {
         String validDescription = "Sample book description.";
-        boolean result = bookValidator.validateDescription(validDescription);
-        Assertions.assertTrue(result);
+        boolean result = false;
+        try {
+            result = bookValidator.validateDescription(validDescription);
+        } catch (ValidationException e) {
+            e.printStackTrace();
+            fail("Should not throw ServiceException");
+        }
+        assertTrue(result);
     }
 
     @Test
     void testInvalidDescription() {
         String invalidDescription = "";
-        Assertions.assertThrows(ValidationException.class, () -> bookValidator.validateDescription(invalidDescription));
+        assertThrows(ValidationException.class, () -> bookValidator.validateDescription(invalidDescription));
     }
 
     @Test
-    void testValidTotalCopies() throws ValidationException {
+    void testValidTotalCopies() {
         int validTotalCopies = 5;
-        boolean result = bookValidator.validateTotalCopies(validTotalCopies);
-        Assertions.assertTrue(result);
+        boolean result = false;
+        try {
+            result = bookValidator.validateTotalCopies(validTotalCopies);
+        } catch (ValidationException e) {
+            e.printStackTrace();
+            fail("Should not throw ServiceException");
+        }
+        assertTrue(result);
     }
 
     @Test
     void testInvalidTotalCopies() {
         int invalidTotalCopies = -1;
-        Assertions.assertThrows(ValidationException.class, () -> bookValidator.validateTotalCopies(invalidTotalCopies));
+        assertThrows(ValidationException.class, () -> bookValidator.validateTotalCopies(invalidTotalCopies));
     }
 
     @Test
-    void testValidAvailableCopies() throws ValidationException {
+    void testValidAvailableCopies() {
         int validAvailableCopies = 3;
         int validTotalCopies = 5;
-        boolean result = bookValidator.validateAvailableCopies(validAvailableCopies, validTotalCopies);
-        Assertions.assertTrue(result);
+        boolean result = false;
+        try {
+            result = bookValidator.validateAvailableCopies(validAvailableCopies, validTotalCopies);
+        } catch (ValidationException e) {
+            e.printStackTrace();
+            fail("Should not throw ServiceException");
+        }
+        assertTrue(result);
     }
 
     @Test
     void testInvalidAvailableCopies() {
         int invalidAvailableCopies = 6;
         int validTotalCopies = 5;
-        Assertions.assertThrows(ValidationException.class, () -> bookValidator.validateAvailableCopies(invalidAvailableCopies, validTotalCopies));
+        assertThrows(ValidationException.class, () -> bookValidator.validateAvailableCopies(invalidAvailableCopies, validTotalCopies));
     }
 
     @Test
-    void testValidLoanedCopies() throws ValidationException {
+    void testValidLoanedCopies() {
         int validLoanedCopies = 2;
         int validTotalCopies = 5;
-        boolean result = bookValidator.validateLoanedCopies(validLoanedCopies, validTotalCopies);
-        Assertions.assertTrue(result);
+        boolean result = false;
+        try {
+            result = bookValidator.validateLoanedCopies(validLoanedCopies, validTotalCopies);
+        } catch (ValidationException e) {
+            e.printStackTrace();
+            fail("Should not throw ServiceException");
+        }
+        assertTrue(result);
     }
 
     @Test
     void testInvalidLoanedCopies() {
         int invalidLoanedCopies = -1;
         int validTotalCopies = 5;
-        Assertions.assertThrows(ValidationException.class, () -> bookValidator.validateLoanedCopies(invalidLoanedCopies, validTotalCopies));
+        assertThrows(ValidationException.class, () -> bookValidator.validateLoanedCopies(invalidLoanedCopies, validTotalCopies));
     }
 }

@@ -11,9 +11,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookDao {
+public class BookDAO {
 
-    private BookDao() {
+    private BookDAO() {
         throw new IllegalCallerException("Class Utility");
     }
 
@@ -75,7 +75,7 @@ public class BookDao {
     }
 
     public static List<Book> getAllBooks() throws DAOException {
-        List<Book> bookList = new ArrayList<>();
+        List<Book> objectList = new ArrayList<>();
         String query = "SELECT * FROM books WHERE isActive = true;;";
         try (Connection connection = ConnectionUtil.getConnection();
              PreparedStatement pst = connection.prepareStatement(query);
@@ -94,12 +94,12 @@ public class BookDao {
                 book.setAvailableCopies(rs.getInt("available_copies"));
                 book.setLoanedCopies(rs.getInt("loaned_copies"));
                 book.setCoverImage(rs.getString("cover_image"));
-                bookList.add(book);
+                objectList.add(book);
             }
         } catch (SQLException e) {
             throw new DAOException(e);
         }
-        return bookList;
+        return objectList;
     }
 
     public static Book updateBook(Book book) throws DAOException {

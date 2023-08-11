@@ -1,6 +1,6 @@
 package com.fssa.library_management.service;
 
-import com.fssa.library_management.dao.BookDao;
+import com.fssa.library_management.dao.BookDAO;
 import com.fssa.library_management.exceptions.DAOException;
 import com.fssa.library_management.exceptions.ServiceException;
 import com.fssa.library_management.model.Book;
@@ -36,8 +36,8 @@ class TestBookService {
     @Order(1)
     void testValidAddBook() {
         try {
-            Book existingBook = BookDao.getBookByTitle(book.getTitle());
-            assertNull(existingBook, "Book should not exist");
+            Book existingObject = BookDAO.getBookByTitle(book.getTitle());
+            assertNull(existingObject, "Book should not exist");
 
             String result = bookService.addBook(book);
             assertEquals("Book added successfully", result);
@@ -124,8 +124,8 @@ class TestBookService {
     @Order(8)
     void testValidDeleteBook() {
         try {
-            Book existingBook = bookService.getBookByName(book.getTitle());
-            assertNotNull(existingBook, "Book should exist");
+            Object existingObject = bookService.getBookByName(book.getTitle());
+            assertNotNull(existingObject, "Book should exist");
 
             boolean isDeleted = bookService.deleteBook(book.getTitle());
             assertTrue(isDeleted, "Book should be deleted successfully");

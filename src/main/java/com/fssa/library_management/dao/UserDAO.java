@@ -8,11 +8,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDao {
+public class UserDAO {
 
 
     // Private constructor to prevent instantiation
-    private UserDao() {
+    private UserDAO() {
         // // Do nothing (empty constructor)
     }
 
@@ -151,7 +151,7 @@ public class UserDao {
 
             int rowsAffected = pst.executeUpdate();
             if (rowsAffected > 0) {
-                return UserDao.getUser(user.getEmail());
+                return UserDAO.getUser(user.getEmail());
             } else {
                 return user;
             }

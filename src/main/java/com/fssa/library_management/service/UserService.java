@@ -1,6 +1,6 @@
 package com.fssa.library_management.service;
 
-import com.fssa.library_management.dao.UserDao;
+import com.fssa.library_management.dao.UserDAO;
 import com.fssa.library_management.exceptions.ServiceException;
 import com.fssa.library_management.exceptions.ValidationException;
 import com.fssa.library_management.model.User;
@@ -19,11 +19,11 @@ public class UserService {
             throw new ServiceException("Invalid User", e);
         }
 
-        User existingUser = UserDao.getUser(user.getEmail());
+        User existingUser = UserDAO.getUser(user.getEmail());
         if (existingUser != null && existingUser.isActive()) {
             return "Email id " + user.getEmail() + " is already registered";
         } else {
-            if (UserDao.createUser(user)) {
+            if (UserDAO.createUser(user)) {
                 return "Registration Successful";
             } else {
                 return "Registration Failed";
@@ -40,7 +40,7 @@ public class UserService {
             if (!UserValidator.validateEmail(user.getEmail())) {
                 throw new ValidationException("Invalid Email");
             }
-            User fromDb = UserDao.getUser(user.getEmail());
+            User fromDb = UserDAO.getUser(user.getEmail());
             if (fromDb != null && user.getPassword().equals(fromDb.getPassword())) {
                 return fromDb;
             } else {
@@ -53,25 +53,25 @@ public class UserService {
     }
 
     public List<User> getAllUsers() throws ServiceException {
-        return UserDao.getAllUsers();
+        return UserDAO.getAllUsers();
     }
 
     public User updateUser(User user) throws ServiceException {
-        User existingUser = UserDao.getUser(String.valueOf(user.getEmail()));
+        User existingUser = UserDAO.getUser(String.valueOf(user.getEmail()));
         if (existingUser == null) {
             throw new ServiceException(USER_WITH_EMAIL + user.getEmail() + " does not exist.");
         }
-        return UserDao.updateUser(user);
+        return UserDAO.updateUser(user);
     }
 
     public boolean deleteUser(String stringValue) throws ServiceException {
-        User existingUser = UserDao.getUser(stringValue);
+        User existingUser = UserDAO.getUser(stringValue);
         if (existingUser == null) {
             throw new ServiceException(USER_WITH_EMAIL + stringValue + " does not exist.");
         }
         if (!existingUser.isActive()) {
             throw new ServiceException(USER_WITH_EMAIL + stringValue + " is already inactive.");
         }
-        return UserDao.deleteUser(stringValue);
+        return UserDAO.deleteUser(stringValue);
     }
 }

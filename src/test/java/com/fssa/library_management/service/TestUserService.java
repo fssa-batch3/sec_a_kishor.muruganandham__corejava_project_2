@@ -1,6 +1,6 @@
 package com.fssa.library_management.service;
 
-import com.fssa.library_management.dao.UserDao;
+import com.fssa.library_management.dao.UserDAO;
 import com.fssa.library_management.exceptions.ServiceException;
 import com.fssa.library_management.model.User;
 import org.junit.jupiter.api.*;
@@ -34,15 +34,15 @@ class TestUserService {
 
     @Order(1)
     @Test
-    void testRegisterUser() {
+    void testValidRegisterUser() {
         try {
-            User existingUser = UserDao.getUser(user.getEmail());
+            User existingUser = UserDAO.getUser(user.getEmail());
             assertNull(existingUser, "User with email " + user.getEmail() + " should not exist");
             String result = userService.registerUser(user);
             assertEquals("Registration Successful", result);
         } catch (ServiceException e) {
             e.printStackTrace();
-            Assertions.fail("Should not throw ServiceException or DAOException");
+            fail("Should not throw ServiceException or DAOException");
         }
     }
 
@@ -64,7 +64,7 @@ class TestUserService {
             assertEquals(user.getEmail(), loggedInUser.getEmail());
         } catch (ServiceException e) {
             e.printStackTrace();
-            Assertions.fail("Should not throw ServiceException");
+            fail("Should not throw ServiceException");
         }
     }
 
@@ -85,20 +85,20 @@ class TestUserService {
             assertNotNull(users);
             assertFalse(users.isEmpty());
         } catch (ServiceException e) {
-            Assertions.fail("Should not throw ServiceException");
+            fail("Should not throw ServiceException");
         }
     }
 
     @Test
     @Order(6)
-    void testUpdateUser() {
+    void testValidUpdateUser() {
         try {
             user.setName("Updated Name");
             User updatedUser = userService.updateUser(user);
             assertNotEquals(user, updatedUser);
         } catch (ServiceException e) {
             e.printStackTrace();
-            Assertions.fail("Should not throw ServiceException");
+            fail("Should not throw ServiceException");
         }
     }
 
@@ -113,15 +113,15 @@ class TestUserService {
 
     @Test
     @Order(8)
-    void testDeleteUser() {
+    void testValidDeleteUser() {
         try {
             boolean isDeleted = userService.deleteUser(user.getEmail());
             assertTrue(isDeleted);
-            User deletedUser = UserDao.getUser(user.getEmail());
+            User deletedUser = UserDAO.getUser(user.getEmail());
             assertNull(deletedUser);
         } catch (ServiceException e) {
             e.printStackTrace();
-            Assertions.fail("Should not throw ServiceException");
+            fail("Should not throw ServiceException");
         }
     }
 
