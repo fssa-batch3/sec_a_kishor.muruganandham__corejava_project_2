@@ -1,7 +1,5 @@
 /.idea
 
-/.settings
-
 /target
 
 /.classpath
@@ -9,3 +7,4 @@
 .env
 
 /.project
+
