@@ -60,7 +60,10 @@ public class BookService {
             if (existingObject == null) {
                 throw new ServiceException(BOOK_NOT_FOUND);
             }
-            return BookDAO.updateBook(book);
+            if (!BookDAO.updateBook(book)) {
+                throw new ServiceException("Book Update Failed");
+            }
+            return BookDAO.getBookByTitle(book.getTitle());
         } catch (DAOException e) {
             throw new ServiceException(e);
         }

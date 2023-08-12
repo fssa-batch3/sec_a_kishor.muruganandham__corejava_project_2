@@ -17,7 +17,8 @@ public class BorrowService {
 
     public String borrowBook(Borrow borrow) throws ServiceException {
         BorrowValidator borrowValidator = new BorrowValidator(borrow);
-        Borrow existingBorrow = BorrowDAO.getBorrowByUserAndBook(borrow.getUserId(), borrow.getBookId());
+        Borrow existingBorrow = BorrowDAO.getBorrowByUserAndBook(borrow.getUser().getUserId(),
+                                                                 borrow.getBook().getBookId());
         if (existingBorrow != null) {
             throw new ServiceException("This Book has been already borrowed by you");
         }
@@ -27,12 +28,12 @@ public class BorrowService {
             throw new ServiceException("Borrow Details are not Valid");
         }
 
-        int availableCopies = BorrowDAO.getAvailableCopiesCount(borrow.getBookId());
+        int availableCopies = BorrowDAO.getAvailableCopiesCount(borrow.getBook().getBookId());
         if (availableCopies <= 0) {
             throw new ServiceException("No available copies of the book.");
         }
 
-        int borrowedBooksCount = BorrowDAO.getBorrowedBooksCountByUser(borrow.getUserId());
+        int borrowedBooksCount = BorrowDAO.getBorrowedBooksCountByUser(borrow.getUser().getUserId());
         if (borrowedBooksCount >= BORROW_LIMIT) {
             throw new ServiceException("Borrow limit exceeded for the user.");
         }
@@ -40,7 +41,7 @@ public class BorrowService {
         boolean success = BorrowDAO.borrowBook(borrow);
         if (success) {
             try {
-                BookDAO.updateBookCopies(borrow.getBookId(), 1, -1);
+                BookDAO.updateBookCopies(borrow.getBook().getBookId(), 1, -1);
             } catch (DAOException e) {
                 throw new ServiceException("Failed to Update Number of copies in book");
             }
@@ -80,4 +81,5 @@ public class BorrowService {
     public List<Borrow> getAllBorrows() throws ServiceException {
         return BorrowDAO.getAllBorrows();
     }
+
 }

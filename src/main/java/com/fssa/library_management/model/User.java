@@ -16,6 +16,7 @@ public class User {
     private boolean isActive;
     private boolean isAdmin;
     private String profileImage;
+    private int userId;
 
     public boolean isAdmin() {
         return isAdmin;
@@ -98,4 +99,28 @@ public class User {
     }
 
 
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                ", id='" + userId + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", mobileNo=" + mobileNo +
+                ", password='" + password + '\'' +
+                ", gender=" + gender +
+                ", dob=" + dob +
+                ", createdDate=" + createdDate +
+                ", isActive=" + isActive +
+                ", isAdmin=" + isAdmin +
+                ", profileImage='" + profileImage + '\'' +
+                '}';
+    }
 }

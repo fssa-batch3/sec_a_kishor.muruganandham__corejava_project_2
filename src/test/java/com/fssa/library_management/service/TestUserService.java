@@ -1,6 +1,7 @@
 package com.fssa.library_management.service;
 
 import com.fssa.library_management.dao.UserDAO;
+import com.fssa.library_management.exceptions.DAOException;
 import com.fssa.library_management.exceptions.ServiceException;
 import com.fssa.library_management.model.User;
 import org.junit.jupiter.api.*;
@@ -40,7 +41,7 @@ class TestUserService {
             assertNull(existingUser, "User with email " + user.getEmail() + " should not exist");
             String result = userService.registerUser(user);
             assertEquals("Registration Successful", result);
-        } catch (ServiceException e) {
+        } catch (ServiceException | DAOException e) {
             e.printStackTrace();
             fail("Should not throw ServiceException or DAOException");
         }
@@ -59,7 +60,7 @@ class TestUserService {
     @Order(3)
     void testValidLogin() {
         try {
-            User loggedInUser = userService.login(user);
+            User loggedInUser = userService.loginUser(user);
             assertNotNull(loggedInUser);
             assertEquals(user.getEmail(), loggedInUser.getEmail());
         } catch (ServiceException e) {
@@ -74,7 +75,7 @@ class TestUserService {
         User nonExistentUser = new User();
         nonExistentUser.setEmail("nonexistent@example.com");
         nonExistentUser.setPassword("invalid password");
-        assertThrows(ServiceException.class, () -> userService.login(nonExistentUser));
+        assertThrows(ServiceException.class, () -> userService.loginUser(nonExistentUser));
     }
 
     @Test
@@ -119,7 +120,7 @@ class TestUserService {
             assertTrue(isDeleted);
             User deletedUser = UserDAO.getUser(user.getEmail());
             assertNull(deletedUser);
-        } catch (ServiceException e) {
+        } catch (ServiceException | DAOException e) {
             e.printStackTrace();
             fail("Should not throw ServiceException");
         }

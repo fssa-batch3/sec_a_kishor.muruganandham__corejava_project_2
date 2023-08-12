@@ -11,15 +11,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.fssa.library_management.utils.ResultSetUtils.buildBookFromResultSet;
+
 public class BookDAO {
 
     private BookDAO() {
-        throw new IllegalCallerException("Class Utility");
-    }
 
+    }
     public static Book getBookByTitle(String bookName) throws DAOException {
         Book book = null;
-        String query = "SELECT * FROM books WHERE title = ? AND isActive = true AND available_copies >= 1;";
+        String query = "SELECT * FROM books WHERE title = ? AND isActive = true AND available_copies >= 1";
 
         try (Connection connection = ConnectionUtil.getConnection();
              PreparedStatement pst = connection.prepareStatement(query)) {
@@ -28,18 +29,7 @@ public class BookDAO {
 
             try (ResultSet rs = pst.executeQuery()) {
                 if (rs.next()) {
-                    book = new Book();
-                    book.setBookId(rs.getInt("book_id"));
-                    book.setTitle(rs.getString("title"));
-                    book.setAuthor(rs.getString("author"));
-                    book.setPublisher(rs.getString("publisher"));
-                    book.setGenre(rs.getString("genre"));
-                    book.setLanguage(rs.getString("language"));
-                    book.setDescription(rs.getString("description"));
-                    book.setTotalCopies(rs.getInt("total_copies"));
-                    book.setAvailableCopies(rs.getInt("available_copies"));
-                    book.setLoanedCopies(rs.getInt("loaned_copies"));
-                    book.setCoverImage(rs.getString("cover_image"));
+                    book = buildBookFromResultSet(rs);
                 }
             }
 
@@ -51,7 +41,7 @@ public class BookDAO {
 
     public static boolean addBook(Book book) throws DAOException {
         String query = "INSERT INTO books (title, author, publisher, genre, language, description, total_copies, available_copies, loaned_copies, cover_image) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = ConnectionUtil.getConnection();
              PreparedStatement pst = connection.prepareStatement(query)) {
 
@@ -75,106 +65,53 @@ public class BookDAO {
     }
 
     public static List<Book> getAllBooks() throws DAOException {
-        List<Book> objectList = new ArrayList<>();
-        String query = "SELECT * FROM books WHERE isActive = true;;";
+        List<Book> bookList = new ArrayList<>();
+        String query = "SELECT * FROM books WHERE isActive = true";
         try (Connection connection = ConnectionUtil.getConnection();
              PreparedStatement pst = connection.prepareStatement(query);
              ResultSet rs = pst.executeQuery()) {
 
             while (rs.next()) {
-                Book book = new Book();
-                book.setBookId(rs.getInt("book_id"));
-                book.setTitle(rs.getString("title"));
-                book.setAuthor(rs.getString("author"));
-                book.setPublisher(rs.getString("publisher"));
-                book.setGenre(rs.getString("genre"));
-                book.setLanguage(rs.getString("language"));
-                book.setDescription(rs.getString("description"));
-                book.setTotalCopies(rs.getInt("total_copies"));
-                book.setAvailableCopies(rs.getInt("available_copies"));
-                book.setLoanedCopies(rs.getInt("loaned_copies"));
-                book.setCoverImage(rs.getString("cover_image"));
-                objectList.add(book);
+                Book book = buildBookFromResultSet(rs);
+                bookList.add(book);
             }
         } catch (SQLException e) {
             throw new DAOException(e);
         }
-        return objectList;
+        return bookList;
     }
 
-    public static Book updateBook(Book book) throws DAOException {
-        StringBuilder queryBuilder = new StringBuilder("UPDATE books SET ");
-        List<String> setColumns = new ArrayList<>();
-        List<Object> setValues = new ArrayList<>();
+    public static boolean updateBook(Book book) throws DAOException {
+        String query = "UPDATE books SET " +
+                "title = ?, description = ?, total_copies = ?, " +
+                "cover_image = ?, genre = ?, language = ?, " +
+                "author = ?, publisher = ? " +
+                "WHERE book_id = ?";
 
-        if (book.getTitle() != null) {
-            setColumns.add("title = ?");
-            setValues.add(book.getTitle());
-        }
-        if (book.getDescription() != null) {
-            setColumns.add("description = ?");
-            setValues.add(book.getDescription());
-        }
-        if (book.getTotalCopies() >= 0) {
-            setColumns.add("total_copies = ?");
-            setValues.add(book.getTotalCopies());
-        }
-        if (book.getAvailableCopies() >= 0) {
-            setColumns.add("available_copies = ?");
-            setValues.add(book.getAvailableCopies());
-        }
-        if (book.getLoanedCopies() >= 0) {
-            setColumns.add("loaned_copies = ?");
-            setValues.add(book.getLoanedCopies());
-        }
-        if (book.getCoverImage() != null) {
-            setColumns.add("cover_image = ?");
-            setValues.add(book.getCoverImage());
-        }
-        if (book.getGenre() != null) {
-            setColumns.add("genre = ?");
-            setValues.add(book.getGenre());
-        }
-        if (book.getLanguage() != null) {
-            setColumns.add("language = ?");
-            setValues.add(book.getLanguage());
-        }
-        if (book.getAuthor() != null) {
-            setColumns.add("author = ?");
-            setValues.add(book.getAuthor());
-        }
-        if (book.getPublisher() != null) {
-            setColumns.add("publisher = ?");
-            setValues.add(book.getPublisher());
-        }
-
-        if (setColumns.isEmpty()) {
-            return book;
-        }
-        queryBuilder.append(String.join(", ", setColumns));
-        queryBuilder.append(" WHERE book_id = ?;");
         try (Connection connection = ConnectionUtil.getConnection();
-             PreparedStatement pst = connection.prepareStatement(queryBuilder.toString())) {
+             PreparedStatement pst = connection.prepareStatement(query)) {
 
-            int index = 1;
-            for (Object value : setValues) {
-                pst.setObject(index++, value);
-            }
-            pst.setInt(index, book.getBookId());
+            pst.setString(1, book.getTitle());
+            pst.setString(2, book.getDescription());
+            pst.setInt(3, book.getTotalCopies());
+            pst.setString(4, book.getCoverImage());
+            pst.setString(5, book.getGenre());
+            pst.setString(6, book.getLanguage());
+            pst.setString(7, book.getAuthor());
+            pst.setString(8, book.getPublisher());
+            pst.setInt(9, book.getBookId());
 
             int rowsAffected = pst.executeUpdate();
-            if (rowsAffected > 0) {
-                return getBookByTitle(book.getTitle());
-            } else {
-                return book;
-            }
+            return rowsAffected > 0;
+
         } catch (SQLException e) {
             throw new DAOException(e);
         }
     }
 
     public static void updateBookCopies(int bookId, int loanedCopiesChange, int availableCopiesChange) throws DAOException {
-        String query = "UPDATE books SET loaned_copies = loaned_copies + ?, available_copies = available_copies + ? WHERE book_id = ?;";
+        String query = "UPDATE books SET loaned_copies = loaned_copies + ?, available_copies = available_copies + ? " +
+                "WHERE book_id = ?";
         try (Connection connection = ConnectionUtil.getConnection();
              PreparedStatement pst = connection.prepareStatement(query)) {
 
@@ -189,7 +126,7 @@ public class BookDAO {
     }
 
     public static boolean deleteBook(String bookName) throws DAOException {
-        String query = "UPDATE books SET isActive = false WHERE title = ?;";
+        String query = "UPDATE books SET isActive = false WHERE title = ?";
         try (Connection connection = ConnectionUtil.getConnection();
              PreparedStatement pst = connection.prepareStatement(query)) {
 

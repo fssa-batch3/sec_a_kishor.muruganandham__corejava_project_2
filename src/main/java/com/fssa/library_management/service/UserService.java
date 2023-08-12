@@ -1,6 +1,7 @@
 package com.fssa.library_management.service;
 
 import com.fssa.library_management.dao.UserDAO;
+import com.fssa.library_management.exceptions.DAOException;
 import com.fssa.library_management.exceptions.ServiceException;
 import com.fssa.library_management.exceptions.ValidationException;
 import com.fssa.library_management.model.User;
@@ -15,24 +16,23 @@ public class UserService {
         try {
             UserValidator userValidator = new UserValidator(user);
             userValidator.validateAll();
-        } catch (ValidationException e) {
-            throw new ServiceException("Invalid User", e);
-        }
 
-        User existingUser = UserDAO.getUser(user.getEmail());
-        if (existingUser != null && existingUser.isActive()) {
-            return "Email id " + user.getEmail() + " is already registered";
-        } else {
+            User existingUser = UserDAO.getUser(user.getEmail());
+            if (existingUser != null && existingUser.isActive()) {
+                throw new ServiceException("Email id " + user.getEmail() + " is already registered");
+            }
             if (UserDAO.createUser(user)) {
                 return "Registration Successful";
             } else {
                 return "Registration Failed";
             }
+        } catch (ValidationException | DAOException e) {
+            throw new ServiceException("Invalid User", e);
         }
 
     }
 
-    public User login(User user) throws ServiceException {
+    public User loginUser(User user) throws ServiceException {
         try {
             if (user.getEmail() == null || user.getPassword() == null) {
                 throw new ServiceException("Invalid User Credentials");
@@ -46,32 +46,47 @@ public class UserService {
             } else {
                 throw new ServiceException("User Not Found");
             }
-        } catch (ServiceException | ValidationException e) {
+        } catch (ValidationException | DAOException e) {
             throw new ServiceException(e);
         }
 
     }
 
     public List<User> getAllUsers() throws ServiceException {
-        return UserDAO.getAllUsers();
+        try {
+            return UserDAO.getAllUsers();
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
     }
 
     public User updateUser(User user) throws ServiceException {
-        User existingUser = UserDAO.getUser(String.valueOf(user.getEmail()));
-        if (existingUser == null) {
-            throw new ServiceException(USER_WITH_EMAIL + user.getEmail() + " does not exist.");
+        try {
+            User existingUser = UserDAO.getUser(String.valueOf(user.getEmail()));
+            if (existingUser == null) {
+                throw new ServiceException(USER_WITH_EMAIL + user.getEmail() + " does not exist.");
+            }
+            if (!UserDAO.updateUser(user)) {
+                throw new ServiceException("User Update Failed");
+            }
+            return UserDAO.getUser(String.valueOf(user.getEmail()));
+        } catch (DAOException e) {
+            throw new ServiceException(e);
         }
-        return UserDAO.updateUser(user);
     }
 
-    public boolean deleteUser(String stringValue) throws ServiceException {
-        User existingUser = UserDAO.getUser(stringValue);
-        if (existingUser == null) {
-            throw new ServiceException(USER_WITH_EMAIL + stringValue + " does not exist.");
+    public boolean deleteUser(String email) throws ServiceException {
+        try {
+            User existingUser = UserDAO.getUser(email);
+            if (existingUser == null) {
+                throw new ServiceException(USER_WITH_EMAIL + email + " does not exist.");
+            }
+            if (!existingUser.isActive()) {
+                throw new ServiceException(USER_WITH_EMAIL + email + " is already inactive.");
+            }
+            return UserDAO.deleteUser(email);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
         }
-        if (!existingUser.isActive()) {
-            throw new ServiceException(USER_WITH_EMAIL + stringValue + " is already inactive.");
-        }
-        return UserDAO.deleteUser(stringValue);
     }
 }

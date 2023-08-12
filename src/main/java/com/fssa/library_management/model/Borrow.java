@@ -3,27 +3,27 @@ package com.fssa.library_management.model;
 import java.time.LocalDate;
 
 public class Borrow {
-    private int userId;
-    private int bookId;
+    private User user;
+    private Book book;
     private LocalDate borrowDate;
     private LocalDate returnDate;
     private LocalDate dueDate;
     private double fine;
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userName) {
-        this.userId = userName;
+    public void setUser(User userName) {
+        this.user = userName;
     }
 
-    public int getBookId() {
-        return bookId;
+    public Book getBook() {
+        return book;
     }
 
-    public void setBookId(int bookName) {
-        this.bookId = bookName;
+    public void setBook(Book bookName) {
+        this.book = bookName;
     }
 
     public LocalDate getBorrowDate() {
@@ -55,4 +55,15 @@ public class Borrow {
         return dueDate;
     }
 
+    @Override
+    public String toString() {
+        return "Borrow{" +
+                "user=" + user +
+                ", book=" + book +
+                ", borrowDate=" + borrowDate +
+                ", returnDate=" + returnDate +
+                ", dueDate=" + dueDate +
+                ", fine=" + fine +
+                '}';
+    }
 }

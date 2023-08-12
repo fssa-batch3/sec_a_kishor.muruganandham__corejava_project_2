@@ -1,6 +1,6 @@
 package com.fssa.library_management.dao;
 
-import com.fssa.library_management.exceptions.ServiceException;
+import com.fssa.library_management.exceptions.DAOException;
 import com.fssa.library_management.model.User;
 import com.fssa.library_management.utils.ConnectionUtil;
 
@@ -8,17 +8,17 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.fssa.library_management.utils.ResultSetUtils.buildUserFromResultSet;
+
 public class UserDAO {
 
-
-    // Private constructor to prevent instantiation
     private UserDAO() {
-        // // Do nothing (empty constructor)
+
     }
 
-    public static boolean createUser(User user) throws ServiceException {
+    public static boolean createUser(User user) throws DAOException {
         String query = "INSERT INTO users (user_name, email_id, mobile_no, password, gender, dob, created_date, isActive, isAdmin, profile_image) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = ConnectionUtil.getConnection();
              PreparedStatement pst = connection.prepareStatement(query)) {
 
@@ -37,15 +37,15 @@ public class UserDAO {
             return rowsAffected > 0;
 
         } catch (SQLException e) {
-            throw new ServiceException(e);
+            throw new DAOException(e);
         }
     }
 
 
-    public static User getUser(String searchValue) throws ServiceException {
-        User userFromDB = null;
+    public static User getUser(String searchValue) throws DAOException {
+        User user = null;
         String query = "SELECT user_id, user_name, email_id, mobile_no, password, gender, dob, created_date, isActive, isAdmin, profile_image " +
-                "FROM users WHERE email_id = ? AND isActive = true;";
+                "FROM users WHERE email_id = ? AND isActive = true";
         try (Connection connection = ConnectionUtil.getConnection();
              PreparedStatement pst = connection.prepareStatement(query)) {
 
@@ -53,116 +53,60 @@ public class UserDAO {
 
             try (ResultSet rs = pst.executeQuery()) {
                 if (rs.next()) {
-                    userFromDB = new User();
-                    userFromDB.setName(rs.getString("user_name"));
-                    userFromDB.setEmail(rs.getString("email_id"));
-                    userFromDB.setMobileNo(rs.getLong("mobile_no"));
-                    userFromDB.setPassword(rs.getString("password"));
-                    userFromDB.setGender(rs.getString("gender").charAt(0));
-                    userFromDB.setDob(rs.getDate("dob").toLocalDate());
-                    userFromDB.setCreatedDate(rs.getTimestamp("created_date"));
-                    userFromDB.setActive(rs.getBoolean("isActive"));
-                    userFromDB.setAdmin(rs.getBoolean("isAdmin"));
-                    userFromDB.setProfileImage(rs.getString("profile_image"));
+                    user = buildUserFromResultSet(rs);
                 }
             }
 
         } catch (SQLException e) {
-            throw new ServiceException(e);
+            throw new DAOException(e);
         }
-        return userFromDB;
+        return user;
     }
 
-    public static List<User> getAllUsers() throws ServiceException {
+    public static List<User> getAllUsers() throws DAOException {
         List<User> userList = new ArrayList<>();
         String query = "SELECT user_id, user_name, email_id, mobile_no, password, gender, dob, created_date, isActive, isAdmin, profile_image " +
-                "FROM users;";
+                "FROM users";
         try (Connection connection = ConnectionUtil.getConnection();
              PreparedStatement pst = connection.prepareStatement(query);
              ResultSet rs = pst.executeQuery()) {
 
             while (rs.next()) {
-                User user = new User();
-                user.setName(rs.getString("user_name"));
-                user.setEmail(rs.getString("email_id"));
-                user.setMobileNo(rs.getLong("mobile_no"));
-                user.setPassword(rs.getString("password"));
-                user.setGender(rs.getString("gender").charAt(0));
-                user.setDob(rs.getDate("dob").toLocalDate());
-                user.setCreatedDate(rs.getTimestamp("created_date"));
-                user.setActive(rs.getBoolean("isActive"));
-                user.setAdmin(rs.getBoolean("isAdmin"));
-                user.setProfileImage(rs.getString("profile_image"));
+                User user = buildUserFromResultSet(rs);
                 userList.add(user);
             }
         } catch (SQLException e) {
-            throw new ServiceException(e);
+            throw new DAOException(e);
         }
         return userList;
     }
 
-    public static User updateUser(User user) throws ServiceException {
-        StringBuilder queryBuilder = new StringBuilder("UPDATE users SET ");
-        List<String> setColumns = new ArrayList<>();
-        List<Object> setValues = new ArrayList<>();
+    public static boolean updateUser(User user) throws DAOException {
+        String query = "UPDATE users SET " +
+                "user_name = ?, profile_image = ?, mobile_no = ?, gender = ?, dob = ? " +
+                "WHERE email_id = ?";
 
-        if (user.getName() != null) {
-            setColumns.add("user_name = ?");
-            setValues.add(user.getName());
-        }
-        if (user.getProfileImage() != null) {
-            setColumns.add("profile_image = ?");
-            setValues.add(user.getEmail());
-        }
-        if (user.getMobileNo() != 0) {
-            setColumns.add("mobile_no = ?");
-            setValues.add(user.getMobileNo());
-        }
-        if (user.getPassword() != null) {
-            setColumns.add("password = ?");
-            setValues.add(user.getPassword());
-        }
-        if (user.getGender() != 0) {
-            setColumns.add("gender = ?");
-            setValues.add(String.valueOf(user.getGender()));
-        }
-        if (user.getDob() != null) {
-            setColumns.add("dob = ?");
-            setValues.add(user.getDob());
-        }
-        if (user.getCreatedDate() != null) {
-            setColumns.add("created_date = ?");
-            setValues.add(user.getCreatedDate());
-        }
-
-        if (setColumns.isEmpty()) {
-            return user;
-        }
-        queryBuilder.append(String.join(", ", setColumns));
-        queryBuilder.append(" WHERE email_id = ?;");
         try (Connection connection = ConnectionUtil.getConnection();
-             PreparedStatement pst = connection.prepareStatement(queryBuilder.toString())) {
+             PreparedStatement pst = connection.prepareStatement(query)) {
 
-            int index = 1;
-            for (Object value : setValues) {
-                pst.setObject(index++, value);
-            }
-            pst.setString(index, user.getEmail());
+            pst.setString(1, user.getName());
+            pst.setString(2, user.getProfileImage());
+            pst.setLong(3, user.getMobileNo());
+            pst.setString(4, String.valueOf(user.getGender()));
+            pst.setDate(5, Date.valueOf(user.getDob()));
+            pst.setString(6, user.getEmail());
 
             int rowsAffected = pst.executeUpdate();
-            if (rowsAffected > 0) {
-                return UserDAO.getUser(user.getEmail());
-            } else {
-                return user;
-            }
+            return rowsAffected > 0;
+
         } catch (SQLException e) {
-            throw new ServiceException(e);
+            throw new DAOException(e);
         }
     }
 
 
-    public static boolean deleteUser(String stringValue) throws ServiceException {
-        String query = "UPDATE users SET isActive = false WHERE email_id = ?;";
+    public static boolean deleteUser(String stringValue) throws DAOException {
+        String query = "UPDATE users SET isActive = false WHERE email_id = ?";
         try (Connection connection = ConnectionUtil.getConnection();
              PreparedStatement pst = connection.prepareStatement(query)) {
 
@@ -171,7 +115,7 @@ public class UserDAO {
             int rowsAffected = pst.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {
-            throw new ServiceException(e);
+            throw new DAOException(e);
         }
     }
 

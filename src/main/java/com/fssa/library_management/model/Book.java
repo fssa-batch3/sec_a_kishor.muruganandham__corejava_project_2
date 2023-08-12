@@ -101,4 +101,21 @@ public class Book {
     public void setCoverImage(String coverImage) {
         this.coverImage = coverImage;
     }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "bookId=" + bookId +
+                ", title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", publisher='" + publisher + '\'' +
+                ", genre='" + genre + '\'' +
+                ", language='" + language + '\'' +
+                ", description='" + description + '\'' +
+                ", totalCopies=" + totalCopies +
+                ", availableCopies=" + availableCopies +
+                ", loanedCopies=" + loanedCopies +
+                ", coverImage='" + coverImage + '\'' +
+                '}';
+    }
 }
