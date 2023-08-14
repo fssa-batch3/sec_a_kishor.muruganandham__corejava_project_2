@@ -35,7 +35,8 @@ public class BorrowDAO {
 	}
 
 	public static boolean returnBook(Borrow borrow) throws ServiceException {
-		String query = "UPDATE borrows SET isReturned = true, return_date = ?, fine = ? WHERE user_id = ? AND book_id" +
+		String query = "UPDATE borrows SET isReturned = true, return_date = ?, fine = ? WHERE user_id = ? AND " +
+				"book_id" +
 				" " +
 				"= ? AND isReturned = false";
 		try (Connection connection = ConnectionUtil.getConnection();

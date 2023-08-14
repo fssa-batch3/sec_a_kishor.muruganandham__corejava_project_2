@@ -17,7 +17,8 @@ public class UserDAO {
     }
 
     public static boolean createUser(User user) throws DAOException {
-        String query = "INSERT INTO users (user_name, email_id, mobile_no, password, gender, dob, created_date, isActive, isAdmin, profile_image) " +
+        String query = "INSERT INTO users (user_name, email_id, mobile_no, password, gender, dob, created_date, " +
+                "isActive, isAdmin, profile_image) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = ConnectionUtil.getConnection();
              PreparedStatement pst = connection.prepareStatement(query)) {
@@ -44,7 +45,9 @@ public class UserDAO {
 
     public static User getUser(String searchValue) throws DAOException {
         User user = null;
-        String query = "SELECT user_id, user_name, email_id, mobile_no, password, gender, dob, created_date, isActive, isAdmin, profile_image " +
+        String query = "SELECT user_id, user_name, email_id, mobile_no, password, gender, dob, created_date, " +
+                "isActive," +
+                " isAdmin, profile_image " +
                 "FROM users WHERE email_id = ? AND isActive = true";
         try (Connection connection = ConnectionUtil.getConnection();
              PreparedStatement pst = connection.prepareStatement(query)) {
@@ -65,7 +68,9 @@ public class UserDAO {
 
     public static List<User> getAllUsers() throws DAOException {
         List<User> userList = new ArrayList<>();
-        String query = "SELECT user_id, user_name, email_id, mobile_no, password, gender, dob, created_date, isActive, isAdmin, profile_image " +
+        String query = "SELECT user_id, user_name, email_id, mobile_no, password, gender, dob, created_date, " +
+                "isActive," +
+                " isAdmin, profile_image " +
                 "FROM users";
         try (Connection connection = ConnectionUtil.getConnection();
              PreparedStatement pst = connection.prepareStatement(query);

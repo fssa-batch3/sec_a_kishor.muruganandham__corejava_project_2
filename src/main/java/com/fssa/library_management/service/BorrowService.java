@@ -13,9 +13,9 @@ import java.util.List;
 
 public class BorrowService {
 
-    private BookDAO bookDAO;
     public static final double FINE_AMOUNT = 10.0;
     public static final int BORROW_LIMIT = 5;
+    private BookDAO bookDAO;
 
     public String borrowBook(Borrow borrow) throws ServiceException {
         BorrowValidator borrowValidator = new BorrowValidator(borrow);
