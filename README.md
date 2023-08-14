@@ -56,7 +56,7 @@ for a local library.
 
 ### JavaDoc
 
-- [JavaDoc Documentation](docs/index.html)
+- [JavaDoc Documentation](https://fssa-batch3.github.io/sec_a_kishor.muruganandham__corejava_project_2/)
 
 ## Prerequisites
 
