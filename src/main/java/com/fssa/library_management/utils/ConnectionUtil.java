@@ -32,7 +32,11 @@ public class ConnectionUtil {
 			dbUser = env.get("DB_USER");
 			dbPassword = env.get("DB_PASSWORD");
 		}
-		return DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+
+		if (dbUrl != null) {
+			return DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+		}
+		return null;
 	}
 
 

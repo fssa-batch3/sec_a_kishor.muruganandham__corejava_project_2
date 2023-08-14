@@ -36,7 +36,9 @@ class TestBorrowValidation {
 
 	@Test
 	void testInvalidBorrowDate() {
-		assertThrows(ValidationException.class, () -> borrowValidator.validateBorrowDate(null));
+		ValidationException result = assertThrows(ValidationException.class,
+		                                          () -> borrowValidator.validateBorrowDate(null));
+		assertEquals("Borrow date cannot be empty", result.getMessage());
 	}
 
 	@Test
@@ -61,7 +63,9 @@ class TestBorrowValidation {
 		LocalDate invalidReturnDate = borrowDate.minus(Period.ofDays(1));
 		borrow.setBorrowDate(borrowDate);
 
-		assertThrows(ValidationException.class, () -> borrowValidator.validateReturnDate(invalidReturnDate));
+		ValidationException result = assertThrows(ValidationException.class,
+		                                          () -> borrowValidator.validateReturnDate(invalidReturnDate));
+		assertEquals("Return date should be after the borrow date", result.getMessage());
 	}
 
 	@Test

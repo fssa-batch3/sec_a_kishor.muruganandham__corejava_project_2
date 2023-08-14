@@ -24,7 +24,9 @@ class TestBookValidation {
 	@Test
 	void testInvalidTitle() {
 		String invalidTitle = "";
-		assertThrows(ValidationException.class, () -> bookValidator.validateTitle(invalidTitle));
+		ValidationException result = assertThrows(ValidationException.class,
+		                                          () -> bookValidator.validateTitle(invalidTitle));
+		assertEquals("Book title cannot be empty", result.getMessage());
 	}
 
 	@Test
@@ -43,7 +45,9 @@ class TestBookValidation {
 	@Test
 	void testInvalidAuthor() {
 		String invalidAuthor = "";
-		assertThrows(ValidationException.class, () -> bookValidator.validateAuthor(invalidAuthor));
+		ValidationException result = assertThrows(ValidationException.class,
+		                                          () -> bookValidator.validateAuthor(invalidAuthor));
+		assertEquals("Book author cannot be empty", result.getMessage());
 	}
 
 	@Test
@@ -62,7 +66,9 @@ class TestBookValidation {
 	@Test
 	void testInvalidPublisher() {
 		String invalidPublisher = "";
-		assertThrows(ValidationException.class, () -> bookValidator.validatePublisher(invalidPublisher));
+		ValidationException result = assertThrows(ValidationException.class,
+		                                          () -> bookValidator.validatePublisher(invalidPublisher));
+		assertEquals("Book publisher cannot be empty", result.getMessage());
 	}
 
 	@Test
@@ -81,7 +87,9 @@ class TestBookValidation {
 	@Test
 	void testInvalidGenre() {
 		String invalidGenre = "";
-		assertThrows(ValidationException.class, () -> bookValidator.validateGenre(invalidGenre));
+		ValidationException result = assertThrows(ValidationException.class,
+		                                          () -> bookValidator.validateGenre(invalidGenre));
+		assertEquals("Book genre cannot be empty", result.getMessage());
 	}
 
 	@Test
@@ -100,7 +108,9 @@ class TestBookValidation {
 	@Test
 	void testInvalidLanguage() {
 		String invalidLanguage = "";
-		assertThrows(ValidationException.class, () -> bookValidator.validateLanguage(invalidLanguage));
+		ValidationException result = assertThrows(ValidationException.class,
+		                                          () -> bookValidator.validateLanguage(invalidLanguage));
+		assertEquals("Book language cannot be empty", result.getMessage());
 	}
 
 	@Test
@@ -119,7 +129,9 @@ class TestBookValidation {
 	@Test
 	void testInvalidDescription() {
 		String invalidDescription = "";
-		assertThrows(ValidationException.class, () -> bookValidator.validateDescription(invalidDescription));
+		ValidationException result = assertThrows(ValidationException.class,
+		                                          () -> bookValidator.validateDescription(invalidDescription));
+		assertEquals("Book description cannot be empty", result.getMessage());
 	}
 
 	@Test
@@ -138,7 +150,9 @@ class TestBookValidation {
 	@Test
 	void testInvalidTotalCopies() {
 		int invalidTotalCopies = -1;
-		assertThrows(ValidationException.class, () -> bookValidator.validateTotalCopies(invalidTotalCopies));
+		ValidationException result = assertThrows(ValidationException.class,
+		                                          () -> bookValidator.validateTotalCopies(invalidTotalCopies));
+		assertEquals("Total copies should be greater than zero", result.getMessage());
 	}
 
 	@Test
@@ -159,8 +173,10 @@ class TestBookValidation {
 	void testInvalidAvailableCopies() {
 		int invalidAvailableCopies = 6;
 		int validTotalCopies = 5;
-		assertThrows(ValidationException.class, () -> bookValidator.validateAvailableCopies(invalidAvailableCopies,
+		ValidationException result = assertThrows(ValidationException.class,
+		                                          () -> bookValidator.validateAvailableCopies(invalidAvailableCopies,
 		                                                                                    validTotalCopies));
+		assertEquals("Invalid number of available copies", result.getMessage());
 	}
 
 	@Test
@@ -181,7 +197,9 @@ class TestBookValidation {
 	void testInvalidLoanedCopies() {
 		int invalidLoanedCopies = -1;
 		int validTotalCopies = 5;
-		assertThrows(ValidationException.class, () -> bookValidator.validateLoanedCopies(invalidLoanedCopies,
+		ValidationException result = assertThrows(ValidationException.class,
+		                                          () -> bookValidator.validateLoanedCopies(invalidLoanedCopies,
 		                                                                                 validTotalCopies));
+		assertEquals("Invalid number of loaned copies", result.getMessage());
 	}
 }

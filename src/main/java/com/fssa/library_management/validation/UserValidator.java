@@ -22,20 +22,20 @@ public class UserValidator {
 
     public static boolean validateEmail(String email) throws ValidationException {
         final String emailRegEx = "^[A-Za-z0-9+_.-]+@(.+)$";
-        if (email == null || email.isEmpty()) {
+        boolean result = Pattern.compile(emailRegEx).matcher(email).matches();
+        if (email.isEmpty()) {
             throw new ValidationException("Email cannot be empty");
         }
-        return Pattern.compile(emailRegEx).matcher(email).matches();
+        if (!result) {
+            throw new ValidationException("Invalid Email Format");
+        }
+        return true;
     }
 
-    public boolean validateAll() throws ValidationException {
-        return validateMobileNo(user.getMobileNo()) &&
-                validatePassword(user.getPassword()) &&
-                validateGender(user.getGender()) &&
-                validateEmail(user.getEmail()) &&
-                validateProfileImage(user.getProfileImage()) &&
-                validateName(user.getName()) &&
-                validateDateOfBirth(user.getDob());
+    public void validateAll() throws ValidationException {
+        if (validateMobileNo(user.getMobileNo()) && validatePassword(user.getPassword()) && validateGender(user.getGender()) && validateEmail(user.getEmail()) && validateProfileImage(user.getProfileImage()) && validateName(user.getName())) {
+            validateDateOfBirth(user.getDob());
+        }
     }
 
     public boolean validateMobileNo(long mobileNo) throws ValidationException {
@@ -75,8 +75,11 @@ public class UserValidator {
 
     public boolean validateName(String name) throws ValidationException {
         boolean isMatch = Pattern.compile("^[A-Z' -]+$", Pattern.CASE_INSENSITIVE).matcher(name).find();
-        if (name.isEmpty() || !isMatch) {
-            throw new ValidationException("Invalid Name");
+        if (name.isEmpty()) {
+            throw new ValidationException("Name cannot be Empty");
+        }
+        if (!isMatch) {
+            throw new ValidationException("Invalid Name Format");
         }
         return true;
     }
@@ -88,8 +91,11 @@ public class UserValidator {
 
         LocalDate currentDate = LocalDate.now();
         LocalDate minimumValidDob = currentDate.minus(Period.ofYears(10));
-        if (dob.isAfter(currentDate) || dob.isAfter(minimumValidDob)) {
+        if (dob.isAfter(minimumValidDob)) {
             throw new ValidationException("Invalid date of birth. Must be at least 10 years old.");
+        }
+        if (dob.isAfter(currentDate)) {
+            throw new ValidationException("Date of birth cannot be in future");
         }
         return true;
     }
