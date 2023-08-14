@@ -6,6 +6,7 @@
     - Purpose
     - Features
     - User Persona
+   - JavaDoc
 2. [Prerequisites](#prerequisites)
     - Software Requirements
     - Database Setup
@@ -52,6 +53,10 @@ for a local library.
 
 - Librarian
 - Members
+
+### JavaDoc
+
+- [JavaDoc Documentation](docs/index.html)
 
 ## Prerequisites
 
