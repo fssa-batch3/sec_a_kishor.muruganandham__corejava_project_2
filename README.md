@@ -285,4 +285,3 @@ for a local library.
 - Java Platform, Standard Edition Documentation: https://docs.oracle.com/javase/8/docs/api/
 - MySQL Documentation: https://dev.mysql.com/doc/
 - JUnit 5 User Guide: https://junit.org/junit5/docs/current/user-guide/
-
