@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class TestBookService {
 
     private BookService bookService;
+    private BookDAO bookDAO;
     private Book book;
 
     @BeforeEach
@@ -36,7 +37,7 @@ class TestBookService {
     @Order(1)
     void testValidAddBook() {
         try {
-            Book existingObject = BookDAO.getBookByTitle(book.getTitle());
+            Book existingObject = bookDAO.getBookByTitle(book.getTitle());
             assertNull(existingObject, "Book should not exist");
 
             String result = bookService.addBook(book);

@@ -12,6 +12,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 public class BorrowService {
+
+    private BookDAO bookDAO;
     public static final double FINE_AMOUNT = 10.0;
     public static final int BORROW_LIMIT = 5;
 
@@ -41,7 +43,7 @@ public class BorrowService {
         boolean success = BorrowDAO.borrowBook(borrow);
         if (success) {
             try {
-                BookDAO.updateBookCopies(borrow.getBook().getBookId(), 1, -1);
+                bookDAO.updateBookCopies(borrow.getBook().getBookId(), 1, -1);
             } catch (DAOException e) {
                 throw new ServiceException("Failed to Update Number of copies in book");
             }
