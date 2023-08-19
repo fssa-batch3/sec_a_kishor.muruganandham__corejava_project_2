@@ -20,7 +20,13 @@ public class UserValidator {
 
     }
 
-    public static boolean validateEmail(String email) throws ValidationException {
+    public void validateAll() throws ValidationException {
+        if (validateMobileNo(user.getMobileNo()) && validatePassword(user.getPassword()) && validateGender(user.getGender()) && validateEmail(user.getEmail()) && validateProfileImage(user.getProfileImage()) && validateName(user.getName())) {
+            validateDateOfBirth(user.getDob());
+        }
+    }
+
+    public boolean validateEmail(String email) throws ValidationException {
         final String emailRegEx = "^[A-Za-z0-9+_.-]+@(.+)$";
         boolean result = Pattern.compile(emailRegEx).matcher(email).matches();
         if (email.isEmpty()) {
@@ -30,12 +36,6 @@ public class UserValidator {
             throw new ValidationException("Invalid Email Format");
         }
         return true;
-    }
-
-    public void validateAll() throws ValidationException {
-        if (validateMobileNo(user.getMobileNo()) && validatePassword(user.getPassword()) && validateGender(user.getGender()) && validateEmail(user.getEmail()) && validateProfileImage(user.getProfileImage()) && validateName(user.getName())) {
-            validateDateOfBirth(user.getDob());
-        }
     }
 
     public boolean validateMobileNo(long mobileNo) throws ValidationException {

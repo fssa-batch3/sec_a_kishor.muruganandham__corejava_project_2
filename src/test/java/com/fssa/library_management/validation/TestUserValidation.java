@@ -35,13 +35,13 @@ class TestUserValidation {
 	@Test
 	void testValidEmail() throws ValidationException {
 		String validEmail = "kishor@gmail.com";
-		boolean result = UserValidator.validateEmail(validEmail);
+		boolean result = userValidator.validateEmail(validEmail);
 		assertTrue(result);
 	}
 
 	@Test
 	void testInvalidEmail() {
-		ValidationException result = assertThrows(ValidationException.class, () -> UserValidator.validateEmail(null));
+		ValidationException result = assertThrows(ValidationException.class, () -> userValidator.validateEmail(null));
 		assertEquals("Email cannot be empty", result.getMessage());
 	}
 

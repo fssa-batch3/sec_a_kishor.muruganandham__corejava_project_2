@@ -10,7 +10,7 @@ import com.fssa.library_management.validation.UserValidator;
 import java.util.List;
 
 public class UserService {
-    private static final String USER_WITH_EMAIL = "User with email ";
+    private static final String USER_NOT_EXISTS = "User not exists";
 
     public String registerUser(User user) throws ServiceException {
         try {
@@ -34,55 +34,53 @@ public class UserService {
 
     public User loginUser(User user) throws ServiceException {
         try {
-            if (user.getEmail() == null || user.getPassword() == null) {
-                throw new ServiceException("Invalid User Credentials");
-            }
-            if (!UserValidator.validateEmail(user.getEmail())) {
-                throw new ValidationException("Invalid Email");
-            }
+            UserValidator userValidator = new UserValidator();
+            userValidator.validateEmail(user.getEmail());
+            userValidator.validatePassword(user.getPassword());
+
             User fromDb = UserDAO.getUser(user.getEmail());
-            if (fromDb != null && user.getPassword().equals(fromDb.getPassword())) {
-                return fromDb;
-            } else {
+            if (fromDb == null) {
                 throw new ServiceException("User Not Found");
             }
+            if (user.getPassword().equals(fromDb.getPassword())) {
+                return fromDb;
+            } else {
+                throw new ServiceException("Password Mismatch");
+            }
         } catch (ValidationException | DAOException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("Login Failed");
         }
 
     }
 
-    public List<User> getAllUsers() throws ServiceException {
+    public List<User> listAllUser() throws ServiceException {
         try {
             return UserDAO.getAllUsers();
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("Failed to Retrieve User List.");
         }
     }
 
-    public User updateUser(User user) throws ServiceException {
+    public User editUser(User user) throws ServiceException {
         try {
             User existingUser = UserDAO.getUser(String.valueOf(user.getEmail()));
             if (existingUser == null) {
-                throw new ServiceException(USER_WITH_EMAIL + user.getEmail() + " does not exist.");
+                throw new ServiceException(USER_NOT_EXISTS);
             }
             if (!UserDAO.updateUser(user)) {
                 throw new ServiceException("User Update Failed");
             }
             return UserDAO.getUser(String.valueOf(user.getEmail()));
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("Failed to Update User");
         }
     }
 
     public boolean deleteUser(String email) throws ServiceException {
         try {
             User existingUser = UserDAO.getUser(email);
-            if (existingUser == null) {
-                throw new ServiceException(USER_WITH_EMAIL + email + " does not exist.");
-            }
-            if (!existingUser.isActive()) {
-                throw new ServiceException(USER_WITH_EMAIL + email + " is already inactive.");
+            if (existingUser == null || !existingUser.isActive()) {
+                throw new ServiceException(USER_NOT_EXISTS);
             }
             return UserDAO.deleteUser(email);
         } catch (DAOException e) {

@@ -82,7 +82,7 @@ class TestUserService {
     @Order(5)
     void testGetAllUsers() {
         try {
-            List<User> users = userService.getAllUsers();
+            List<User> users = userService.listAllUser();
             assertNotNull(users);
             assertFalse(users.isEmpty());
         } catch (ServiceException e) {
@@ -95,7 +95,7 @@ class TestUserService {
     void testValidUpdateUser() {
         try {
             user.setName("Updated Name");
-            User updatedUser = userService.updateUser(user);
+            User updatedUser = userService.editUser(user);
             assertNotEquals(user, updatedUser);
         } catch (ServiceException e) {
             e.printStackTrace();
@@ -109,7 +109,7 @@ class TestUserService {
         User nonExistentUser = new User();
         nonExistentUser.setEmail("example@example.com");
         nonExistentUser.setName("Invalid Update Name");
-        assertThrows(ServiceException.class, () -> userService.updateUser(nonExistentUser));
+        assertThrows(ServiceException.class, () -> userService.editUser(nonExistentUser));
     }
 
     @Test
