@@ -37,13 +37,3 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           PROJECT_KEY: ${{ secrets.PROJECT_KEY }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=${{ env.PROJECT_KEY }}
-
-      - name: Build with Maven
-        run: mvn clean verify -DskipTests
-
-      - name: Archive production artifacts
-        if: success() # This ensures that the step runs only if previous steps were successful.
-        uses: actions/upload-artifact@v2
-        with:
-          name: my-artifact
-          path: target/*.jar
