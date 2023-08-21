@@ -100,7 +100,7 @@ class TestBorrowService {
 
 	@Test
 	@Order(7)
-	void testGetBorrowsByBook() {
+	void testValidGetBorrowsByBook() {
 		try {
 			List<Borrow> borrows = borrowService.getBorrowsByBook(borrow.getBook().getBookId());
 			for (Borrow i : borrows) {

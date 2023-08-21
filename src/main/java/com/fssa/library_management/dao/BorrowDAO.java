@@ -1,6 +1,6 @@
 package com.fssa.library_management.dao;
 
-import com.fssa.library_management.exceptions.ServiceException;
+import com.fssa.library_management.exceptions.DAOException;
 import com.fssa.library_management.model.Borrow;
 import com.fssa.library_management.utils.ConnectionUtil;
 
@@ -15,7 +15,7 @@ public class BorrowDAO {
 	static final String SELECT_QUERY_PREFIX = "SELECT user_id, book_id, borrow_date, return_date " +
 			"FROM borrows ";
 
-	public static boolean borrowBook(Borrow borrow) throws ServiceException {
+	public static boolean borrowBook(Borrow borrow) throws DAOException {
 		String query = "INSERT INTO borrows (user_id, book_id, borrow_date, due_date) " +
 				"VALUES (?, ?, ?, ?)";
 		try (Connection connection = ConnectionUtil.getConnection();
@@ -30,11 +30,11 @@ public class BorrowDAO {
 			return rowsAffected > 0;
 
 		} catch (SQLException e) {
-			throw new ServiceException("Error fetching borrow data: " + e.getMessage(), e);
+			throw new DAOException("Error fetching borrow data: " + e.getMessage(), e);
 		}
 	}
 
-	public static boolean returnBook(Borrow borrow) throws ServiceException {
+	public static boolean returnBook(Borrow borrow) throws DAOException {
 		String query = "UPDATE borrows SET isReturned = true, return_date = ?, fine = ? WHERE user_id = ? AND " +
 				"book_id" +
 				" " +
@@ -49,12 +49,13 @@ public class BorrowDAO {
 			int rowsAffected = pst.executeUpdate();
 			return rowsAffected > 0;
 		} catch (SQLException e) {
-			throw new ServiceException("Error fetching return data: " + e.getMessage(), e);
+			throw new DAOException("Error fetching return data: " + e.getMessage(), e);
 		}
 	}
 
 
-	public static List<Borrow> getBorrowsByUser(int userId) throws ServiceException {
+	public static List<Borrow> getBorrowsByUser(int userId) throws DAOException {
+		// TODO: Don't get all from Database instead precise with fields, Change all service to DAO exception
 		List<Borrow> borrowList = null;
 		String query = "SELECT b.*, u.*, bk.* " +
 				"FROM borrows b " +
@@ -75,12 +76,12 @@ public class BorrowDAO {
 				}
 			}
 		} catch (SQLException e) {
-			throw new ServiceException("Error fetching borrow data of the user: " + e.getMessage(), e);
+			throw new DAOException("Error fetching borrow data of the user: " + e.getMessage(), e);
 		}
 		return borrowList;
 	}
 
-	public static List<Borrow> getBorrowsByBook(int bookId) throws ServiceException {
+	public static List<Borrow> getBorrowsByBook(int bookId) throws DAOException {
 		List<Borrow> borrowList = null;
 		String query = "SELECT b.*, u.*, bk.* " +
 				"FROM borrows b " +
@@ -100,12 +101,12 @@ public class BorrowDAO {
 				}
 			}
 		} catch (SQLException e) {
-			throw new ServiceException("Error fetching borrow data of the book: " + e.getMessage(), e);
+			throw new DAOException("Error fetching borrow data of the book: " + e.getMessage(), e);
 		}
 		return borrowList;
 	}
 
-	public static Borrow getBorrowByUserAndBook(int userId, int bookId) throws ServiceException {
+	public static Borrow getBorrowByUserAndBook(int userId, int bookId) throws DAOException {
 		String query = SELECT_QUERY_PREFIX + "WHERE user_id = ? AND book_id = ? AND isReturned = FALSE";
 
 		try (Connection connection = ConnectionUtil.getConnection();
@@ -120,12 +121,12 @@ public class BorrowDAO {
 				}
 			}
 		} catch (SQLException e) {
-			throw new ServiceException("Error fetching borrow data of user and book: " + e.getMessage(), e);
+			throw new DAOException("Error fetching borrow data of user and book: " + e.getMessage(), e);
 		}
 		return null;
 	}
 
-	public static List<Borrow> getAllBorrows() throws ServiceException {
+	public static List<Borrow> getAllBorrows() throws DAOException {
 		List<Borrow> borrowList = new ArrayList<>();
 		String query = "SELECT b.*, u.*, bk.* " +
 				"FROM borrows b " +
@@ -140,12 +141,12 @@ public class BorrowDAO {
 				borrowList.add(borrow);
 			}
 		} catch (SQLException e) {
-			throw new ServiceException("Error fetching all borrow data's: " + e.getMessage(), e);
+			throw new DAOException("Error fetching all borrow data's: " + e.getMessage(), e);
 		}
 		return borrowList;
 	}
 
-	public static int getAvailableCopiesCount(int bookId) throws ServiceException {
+	public static int getAvailableCopiesCount(int bookId) throws DAOException {
 		String query = "SELECT available_copies FROM books WHERE book_id = ?";
 		try (Connection connection = ConnectionUtil.getConnection();
 		     PreparedStatement pst = connection.prepareStatement(query)) {
@@ -157,12 +158,12 @@ public class BorrowDAO {
 				}
 			}
 		} catch (SQLException e) {
-			throw new ServiceException("Error fetching available copies count: " + e.getMessage(), e);
+			throw new DAOException("Error fetching available copies count: " + e.getMessage(), e);
 		}
 		return 0;
 	}
 
-	public static int getBorrowedBooksCountByUser(int userId) throws ServiceException {
+	public static int getBorrowedBooksCountByUser(int userId) throws DAOException {
 		String query = "SELECT COUNT(*) FROM borrows WHERE user_id = ? AND isReturned = false";
 		try (Connection connection = ConnectionUtil.getConnection();
 		     PreparedStatement pst = connection.prepareStatement(query)) {
@@ -174,7 +175,7 @@ public class BorrowDAO {
 				}
 			}
 		} catch (SQLException e) {
-			throw new ServiceException("Error fetching borrowed books count: " + e.getMessage(), e);
+			throw new DAOException("Error fetching borrowed books count: " + e.getMessage(), e);
 		}
 		return 0;
 	}

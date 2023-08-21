@@ -175,7 +175,7 @@ class TestBookValidation {
 		int validTotalCopies = 5;
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> bookValidator.validateAvailableCopies(invalidAvailableCopies,
-		                                                                                    validTotalCopies));
+		                                                                                      validTotalCopies));
 		assertEquals("Invalid number of available copies", result.getMessage());
 	}
 
@@ -199,7 +199,7 @@ class TestBookValidation {
 		int validTotalCopies = 5;
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> bookValidator.validateLoanedCopies(invalidLoanedCopies,
-		                                                                                 validTotalCopies));
+		                                                                                   validTotalCopies));
 		assertEquals("Invalid number of loaned copies", result.getMessage());
 	}
 }

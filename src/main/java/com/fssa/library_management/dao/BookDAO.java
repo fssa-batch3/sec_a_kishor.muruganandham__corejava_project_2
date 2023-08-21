@@ -36,7 +36,7 @@ public class BookDAO {
 		return book;
 	}
 
-	public boolean addBook(Book book) throws DAOException {
+	public boolean createBook(Book book) throws DAOException {
 		String query = "INSERT INTO books (title, author, publisher, genre, language, description, total_copies, " +
 				"available_copies, loaned_copies, cover_image) " +
 				"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";

@@ -145,7 +145,7 @@ class TestUserValidation {
 
 	@Test
 	void testInValidDateOfBirth_FutureDob() {
-		LocalDate futureDob = LocalDate.now().plusYears(1);
+		LocalDate futureDob = LocalDate.now().plusYears(5);
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> userValidator.validateDateOfBirth(futureDob));
 		assertEquals("Date of birth cannot be in future", result.getMessage());
