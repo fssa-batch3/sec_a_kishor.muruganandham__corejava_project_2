@@ -16,11 +16,13 @@ class TestUserService {
 
 	private UserService userService;
 	private User user;
+	private UserDAO userDAO;
 
 	@BeforeEach
 	public void setUp() {
 		userService = new UserService();
 		user = new User();
+		userDAO = new UserDAO();
 		user.setName("Kishor");
 		user.setEmail("kishor@example.com");
 		user.setMobileNo(1234567890);
@@ -37,7 +39,7 @@ class TestUserService {
 	@Test
 	void testValidRegisterUser() {
 		try {
-			User existingUser = UserDAO.getUser(user.getEmail());
+			User existingUser = userDAO.getUser(user.getEmail());
 			assertNull(existingUser, "User with email " + user.getEmail() + " should not exist");
 			String result = userService.registerUser(user);
 			assertEquals("Registration Successful", result);
@@ -118,7 +120,7 @@ class TestUserService {
 		try {
 			boolean isDeleted = userService.deleteUser(user.getEmail());
 			assertTrue(isDeleted);
-			User deletedUser = UserDAO.getUser(user.getEmail());
+			User deletedUser = userDAO.getUser(user.getEmail());
 			assertNull(deletedUser);
 		} catch (ServiceException | DAOException e) {
 			e.printStackTrace();
