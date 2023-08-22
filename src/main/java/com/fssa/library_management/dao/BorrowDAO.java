@@ -12,8 +12,12 @@ import static com.fssa.library_management.utils.ResultSetUtils.buildBorrowFromRe
 
 public class BorrowDAO {
 
-	static final String SELECT_QUERY_PREFIX = "SELECT user_id, book_id, borrow_date, return_date " +
-			"FROM borrows ";
+	static final String SELECT_QUERY_PREFIX = "SELECT user_id, book_id, borrow_date, return_date FROM borrows ";
+	static final String JOIN_QUERY = "SELECT b.*, u.username, u.userId, u.emailId, u.profile_image, bk.book_id, bk" +
+			".title, bk.cover_image FROM borrows b " +
+			"JOIN users u ON b.user_id = u.user_id " +
+			"JOIN books bk ON b.book_id = bk.book_id " +
+			"WHERE b.book_id = ?";
 
 	public static boolean borrowBook(Borrow borrow) throws DAOException {
 		String query = "INSERT INTO borrows (user_id, book_id, borrow_date, due_date) " +
@@ -55,16 +59,10 @@ public class BorrowDAO {
 
 
 	public static List<Borrow> getBorrowsByUser(int userId) throws DAOException {
-		// TODO: Don't get all from Database instead precise with fields, Change all service to DAO exception
 		List<Borrow> borrowList = null;
-		String query = "SELECT b.*, u.*, bk.* " +
-				"FROM borrows b " +
-				"JOIN users u ON b.user_id = u.user_id " +
-				"JOIN books bk ON b.book_id = bk.book_id " +
-				"WHERE b.book_id = ?";
 
 		try (Connection connection = ConnectionUtil.getConnection();
-		     PreparedStatement pst = connection.prepareStatement(query)) {
+		     PreparedStatement pst = connection.prepareStatement(JOIN_QUERY)) {
 
 			pst.setInt(1, userId);
 
@@ -83,14 +81,10 @@ public class BorrowDAO {
 
 	public static List<Borrow> getBorrowsByBook(int bookId) throws DAOException {
 		List<Borrow> borrowList = null;
-		String query = "SELECT b.*, u.*, bk.* " +
-				"FROM borrows b " +
-				"JOIN users u ON b.user_id = u.user_id " +
-				"JOIN books bk ON b.book_id = bk.book_id " +
-				"WHERE b.book_id = ?";
+
 
 		try (Connection connection = ConnectionUtil.getConnection();
-		     PreparedStatement pst = connection.prepareStatement(query)) {
+		     PreparedStatement pst = connection.prepareStatement(JOIN_QUERY)) {
 			pst.setInt(1, bookId);
 
 			try (ResultSet rs = pst.executeQuery()) {
@@ -128,12 +122,9 @@ public class BorrowDAO {
 
 	public static List<Borrow> getAllBorrows() throws DAOException {
 		List<Borrow> borrowList = new ArrayList<>();
-		String query = "SELECT b.*, u.*, bk.* " +
-				"FROM borrows b " +
-				"JOIN users u ON b.user_id = u.user_id " +
-				"JOIN books bk ON b.book_id = bk.book_id ";
+
 		try (Connection connection = ConnectionUtil.getConnection();
-		     PreparedStatement pst = connection.prepareStatement(query);
+		     PreparedStatement pst = connection.prepareStatement(JOIN_QUERY);
 		     ResultSet rs = pst.executeQuery()) {
 
 			while (rs.next()) {

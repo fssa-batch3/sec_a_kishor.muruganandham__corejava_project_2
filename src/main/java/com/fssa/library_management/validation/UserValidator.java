@@ -27,9 +27,9 @@ public class UserValidator {
 	}
 
 	public boolean validateEmail(String email) throws ValidationException {
-		final String emailRegEx = "^[A-Za-z0-9+_.-]+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2,}$";
+		final String emailRegEx = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
 		boolean result = Pattern.compile(emailRegEx).matcher(email).matches();
-		if (email == null) {
+		if (email.isEmpty()) {
 			throw new ValidationException("Email cannot be empty");
 		}
 		if (!result) {
