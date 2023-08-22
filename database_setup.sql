@@ -1,6 +1,6 @@
 -- Create the 'library_management' database if it doesn't exist and switch to it
-CREATE DATABASE IF NOT EXISTS library_management;
-USE library_management;
+-- CREATE DATABASE IF NOT EXISTS library_management;
+USE kishor_muruganandham_corejava_project;
 
 -- Create the 'users' table to store user information
 CREATE TABLE IF NOT EXISTS users (

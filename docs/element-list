@@ -1,7 +1,8 @@
-com.fssa.library_management
-com.fssa.library_management.dao
-com.fssa.library_management.exceptions
-com.fssa.library_management.model
-com.fssa.library_management.service
-com.fssa.library_management.utils
-com.fssa.library_management.validation
+com.fssa.librarymanagement
+com.fssa.librarymanagement.constants
+com.fssa.librarymanagement.dao
+com.fssa.librarymanagement.exceptions
+com.fssa.librarymanagement.model
+com.fssa.librarymanagement.service
+com.fssa.librarymanagement.utils
+com.fssa.librarymanagement.validation
