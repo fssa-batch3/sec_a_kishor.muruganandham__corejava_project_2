@@ -14,7 +14,7 @@ public class ConnectionUtil {
 	}
 
 	// Call the database connection
-	public static Connection getConnection() throws SQLException {
+	public static Connection getConnection() {
 
 		// Database URL and credentials
 		final String dbUrl;
@@ -25,7 +25,12 @@ public class ConnectionUtil {
 		dbUser = System.getenv("DB_USER");
 		dbPassword = System.getenv("DB_PASSWORD");
  
-		return DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+		try {
+			return DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Unable to connect Database");
+		}
 
 	}
 
