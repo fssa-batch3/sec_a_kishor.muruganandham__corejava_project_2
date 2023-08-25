@@ -1,8 +1,6 @@
 package com.fssa.librarymanagement.dao;
 
-import com.fssa.librarymanagement.exceptions.DAOException;
-import com.fssa.librarymanagement.model.Book;
-import com.fssa.librarymanagement.utils.ConnectionUtil;
+import static com.fssa.librarymanagement.utils.ResultSetUtils.buildBookFromResultSet;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,8 +9,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.fssa.librarymanagement.utils.ResultSetUtils.buildBookFromResultSet;
-
+import com.fssa.librarymanagement.exceptions.DAOException;
+import com.fssa.librarymanagement.model.Book;
+import com.fssa.librarymanagement.utils.ConnectionUtil;
+	
 public class BookDAO {
 
 	public Book getBookByTitle(String bookName) throws DAOException {

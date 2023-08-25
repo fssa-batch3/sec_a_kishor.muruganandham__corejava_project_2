@@ -1,12 +1,12 @@
 package com.fssa.librarymanagement.utils;
 
-import com.fssa.librarymanagement.model.Book;
-import com.fssa.librarymanagement.model.Borrow;
-import com.fssa.librarymanagement.model.User;
-
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import com.fssa.librarymanagement.model.Book;
+import com.fssa.librarymanagement.model.Borrow;
+import com.fssa.librarymanagement.model.User;
 
 
 public class ResultSetUtils {

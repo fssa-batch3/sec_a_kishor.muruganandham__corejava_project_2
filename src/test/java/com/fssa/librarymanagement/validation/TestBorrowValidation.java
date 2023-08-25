@@ -1,14 +1,18 @@
 package com.fssa.librarymanagement.validation;
 
-import com.fssa.librarymanagement.exceptions.ValidationException;
-import com.fssa.librarymanagement.model.Borrow;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.time.LocalDate;
 import java.time.Period;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import com.fssa.librarymanagement.exceptions.ValidationException;
+import com.fssa.librarymanagement.model.Borrow;
 
 class TestBorrowValidation {
 

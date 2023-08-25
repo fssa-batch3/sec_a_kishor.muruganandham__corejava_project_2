@@ -1,14 +1,18 @@
 package com.fssa.librarymanagement.dao;
 
-import com.fssa.librarymanagement.exceptions.DAOException;
-import com.fssa.librarymanagement.model.User;
-import com.fssa.librarymanagement.utils.ConnectionUtil;
+import static com.fssa.librarymanagement.utils.ResultSetUtils.buildUserFromResultSet;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.fssa.librarymanagement.utils.ResultSetUtils.buildUserFromResultSet;
+import com.fssa.librarymanagement.exceptions.DAOException;
+import com.fssa.librarymanagement.model.User;
+import com.fssa.librarymanagement.utils.ConnectionUtil;
 
 public class UserDAO {
 
@@ -34,7 +38,7 @@ public class UserDAO {
 			int rowsAffected = pst.executeUpdate();
 			return rowsAffected > 0;
 
-		} catch (SQLException e) {
+		} catch (SQLException e) { 
 			throw new DAOException(e);
 		}
 	}

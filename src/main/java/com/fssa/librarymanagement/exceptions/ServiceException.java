@@ -7,6 +7,9 @@ package com.fssa.librarymanagement.exceptions;
  */
 public class ServiceException extends Exception {
 
+
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * Creates a new ServiceException with the specified detail message.
 	 *

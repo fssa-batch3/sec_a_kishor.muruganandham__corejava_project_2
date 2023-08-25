@@ -1,5 +1,7 @@
 package com.fssa.librarymanagement.service;
 
+import java.util.List;
+
 import com.fssa.librarymanagement.constants.ErrorMessageConstants;
 import com.fssa.librarymanagement.constants.SuccessMessageConstants;
 import com.fssa.librarymanagement.dao.UserDAO;
@@ -8,8 +10,6 @@ import com.fssa.librarymanagement.exceptions.ServiceException;
 import com.fssa.librarymanagement.exceptions.ValidationException;
 import com.fssa.librarymanagement.model.User;
 import com.fssa.librarymanagement.validation.UserValidator;
-
-import java.util.List;
 
 /**
  * This class provides services related to user management, such as register, login, list, update, and delete.

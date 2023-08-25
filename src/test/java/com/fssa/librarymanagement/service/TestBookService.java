@@ -1,12 +1,21 @@
 package com.fssa.librarymanagement.service;
 
-import com.fssa.librarymanagement.exceptions.ServiceException;
-import com.fssa.librarymanagement.model.Book;
-import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+
+import com.fssa.librarymanagement.exceptions.ServiceException;
+import com.fssa.librarymanagement.model.Book;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TestBookService {

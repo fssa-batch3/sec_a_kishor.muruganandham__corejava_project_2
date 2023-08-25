@@ -1,9 +1,9 @@
 package com.fssa.librarymanagement.validation;
 
+import java.time.LocalDate;
+
 import com.fssa.librarymanagement.exceptions.ValidationException;
 import com.fssa.librarymanagement.model.Borrow;
-
-import java.time.LocalDate;
 
 public class BorrowValidator {
 

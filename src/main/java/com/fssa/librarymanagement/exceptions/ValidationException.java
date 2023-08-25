@@ -7,6 +7,9 @@ package com.fssa.librarymanagement.exceptions;
  */
 public class ValidationException extends Exception {
 
+
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * Creates a new ValidationException with the specified detail message.
 	 *
