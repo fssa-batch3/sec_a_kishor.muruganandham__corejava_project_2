@@ -7,7 +7,7 @@ public class BookValidator {
 
 	private Book book;
 
-	public BookValidator(Book book) throws ValidationException {
+	public BookValidator(Book book){
 		this.book = book;
 	}
 

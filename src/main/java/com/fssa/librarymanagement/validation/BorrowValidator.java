@@ -17,7 +17,6 @@ public class BorrowValidator {
 
 	}
 	// TODO: Validate both User and Book, Validate Borrow Object
-	// TODO: Eg: UserConstants,etc
 
 	public boolean validateBorrowDate(LocalDate borrowDate) throws ValidationException {
 		if (borrowDate == null) {

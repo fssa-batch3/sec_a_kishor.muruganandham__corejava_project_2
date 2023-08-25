@@ -27,7 +27,7 @@ public class UserService {
 	 * @return A success message if registration is successful, or an error message if not.
 	 * @throws ServiceException If there's a problem with the service.
 	 */
-	protected String registerUser(User user) throws ServiceException {
+	public String registerUser(User user) throws ServiceException {
 		try {
 			UserValidator userValidator = new UserValidator(user);
 			userValidator.validateAll();
@@ -55,7 +55,7 @@ public class UserService {
 	 * @return The user object if login is successful.
 	 * @throws ServiceException If there's a problem with the service.
 	 */
-	protected User loginUser(User user) throws ServiceException {
+	public User loginUser(User user) throws ServiceException {
 		try {
 			UserValidator userValidator = new UserValidator();
 			userValidator.validateEmail(user.getEmail());
@@ -83,7 +83,7 @@ public class UserService {
 	 * @return A list of user objects.
 	 * @throws ServiceException If there's a problem with the service.
 	 */
-	protected List<User> listAllUser() throws ServiceException {
+	public List<User> listAllUser() throws ServiceException {
 		try {
 			// Retrieve all users from the database
 			return userDAO.getAllUsers();

@@ -120,7 +120,7 @@ public class BorrowService {
 	 * @return A list of borrow objects for the given user.
 	 * @throws ServiceException If there's a problem with the service.
 	 */
-	protected List<Borrow> getBorrowsByUser(int userId) throws ServiceException {
+	public List<Borrow> getBorrowsByUser(int userId) throws ServiceException {
 		try {
 			// Retrieve borrowed books for a specific user
 			return borrowDAO.getBorrowsByUser(userId);
