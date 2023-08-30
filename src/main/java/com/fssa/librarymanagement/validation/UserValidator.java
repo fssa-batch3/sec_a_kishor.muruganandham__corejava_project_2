@@ -1,20 +1,18 @@
 package com.fssa.librarymanagement.validation;
 
+import com.fssa.librarymanagement.exceptions.ValidationException;
+import com.fssa.librarymanagement.model.User;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.regex.Pattern;
 
-import com.fssa.librarymanagement.exceptions.ValidationException;
-import com.fssa.librarymanagement.model.User;
-
 /**
  * This class provides Validations for all User data.
  *
- *
  * @author KishorMuruganandham
- *
  */
 public class UserValidator {
 	private User user;

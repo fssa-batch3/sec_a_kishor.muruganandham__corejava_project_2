@@ -1,21 +1,12 @@
 package com.fssa.librarymanagement.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
+import com.fssa.librarymanagement.exceptions.ServiceException;
+import com.fssa.librarymanagement.model.Book;
+import org.junit.jupiter.api.*;
 
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-
-import com.fssa.librarymanagement.exceptions.ServiceException;
-import com.fssa.librarymanagement.model.Book;
+import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TestBookService {
@@ -60,7 +51,7 @@ class TestBookService {
 		invalidBook.setCoverImage("image");
 
 		ServiceException result = assertThrows(ServiceException.class, () -> bookService.addBook(invalidBook));
-		assertEquals("Failed to add book",result.getMessage());
+		assertEquals("Failed to add book", result.getMessage());
 	}
 
 	@Test
@@ -80,7 +71,7 @@ class TestBookService {
 	@Order(4)
 	void testInvalidGetBookByName() {
 		ServiceException result = assertThrows(ServiceException.class, () -> bookService.getBookByName("No Title"));
-		assertEquals("Failed to get book details",result.getMessage());
+		assertEquals("Failed to get book details", result.getMessage());
 	}
 
 	@Test
@@ -124,7 +115,7 @@ class TestBookService {
 		book.setDescription("Invalid description");
 
 		ServiceException result = assertThrows(ServiceException.class, () -> bookService.updateBook(book));
-		assertEquals("Failed to Update Book",result.getMessage());
+		assertEquals("Failed to Update Book", result.getMessage());
 	}
 
 	@Test
@@ -146,6 +137,6 @@ class TestBookService {
 	@Order(9)
 	void testInvalidDeleteBook() {
 		ServiceException result = assertThrows(ServiceException.class, () -> bookService.deleteBook("No Title"));
-		assertEquals("Failed to Delete Book",result.getMessage());
+		assertEquals("Failed to Delete Book", result.getMessage());
 	}
 }

@@ -1,6 +1,8 @@
 package com.fssa.librarymanagement.dao;
 
-import static com.fssa.librarymanagement.utils.ResultSetUtils.buildBookFromResultSet;
+import com.fssa.librarymanagement.exceptions.DAOException;
+import com.fssa.librarymanagement.model.Book;
+import com.fssa.librarymanagement.utils.ConnectionUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,12 +11,20 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fssa.librarymanagement.exceptions.DAOException;
-import com.fssa.librarymanagement.model.Book;
-import com.fssa.librarymanagement.utils.ConnectionUtil;
-	
+import static com.fssa.librarymanagement.utils.ResultSetUtils.buildBookFromResultSet;
+
+/**
+ * Data Access Object (DAO) class for handling Book-related database operations.
+ */
 public class BookDAO {
 
+	/**
+	 * Retrieves a book by its title.
+	 *
+	 * @param bookName The title of the book
+	 * @return The Book object if found, otherwise null
+	 * @throws DAOException If an error occurs during database operation
+	 */
 	public Book getBookByTitle(String bookName) throws DAOException {
 		Book book = null;
 		String query = "SELECT * FROM books WHERE title = ? AND isActive = true AND available_copies >= 1";
@@ -36,6 +46,13 @@ public class BookDAO {
 		return book;
 	}
 
+	/**
+	 * Creates a new book.
+	 *
+	 * @param book The Book object to be created
+	 * @return true if the book is successfully created, false otherwise
+	 * @throws DAOException If an error occurs during database operation
+	 */
 	public boolean createBook(Book book) throws DAOException {
 		String query = "INSERT INTO books (title, author, publisher, genre, language, description, total_copies, " +
 				"available_copies, loaned_copies, cover_image) " +
@@ -62,6 +79,13 @@ public class BookDAO {
 		}
 	}
 
+	/**
+	 * Retrieves a book by its ID.
+	 *
+	 * @param bookId The ID of the book
+	 * @return The Book object if found, otherwise null
+	 * @throws DAOException If an error occurs during database operation
+	 */
 	public Book getBookById(int bookId) throws DAOException {
 		Book book = null;
 		String query = "SELECT * FROM books WHERE book_id = ? AND isActive = true AND available_copies >= 1";
@@ -83,6 +107,12 @@ public class BookDAO {
 		return book;
 	}
 
+	/**
+	 * Retrieves a list of all active books.
+	 *
+	 * @return A list of Book objects
+	 * @throws DAOException If an error occurs during database operation
+	 */
 	public List<Book> getAllBooks() throws DAOException {
 		List<Book> bookList = new ArrayList<>();
 		String query = "SELECT * FROM books WHERE isActive = true";
@@ -100,6 +130,13 @@ public class BookDAO {
 		return bookList;
 	}
 
+	/**
+	 * Updates an existing book's information.
+	 *
+	 * @param book The Book object with updated information
+	 * @return true if the book is successfully updated, false otherwise
+	 * @throws DAOException If an error occurs during database operation
+	 */
 	public boolean updateBook(Book book) throws DAOException {
 		String query = "UPDATE books SET " +
 				"title = ?, description = ?, total_copies = ?, " +
@@ -128,6 +165,14 @@ public class BookDAO {
 		}
 	}
 
+	/**
+	 * Updates the loaned and available copies of a book.
+	 *
+	 * @param bookId                The ID of the book
+	 * @param loanedCopiesChange    The change in loaned copies count (positive for increase, negative for decrease)
+	 * @param availableCopiesChange The change in available copies count (positive for increase, negative for decrease)
+	 * @throws DAOException If an error occurs during database operation
+	 */
 	public void updateBookCopies(int bookId, int loanedCopiesChange, int availableCopiesChange) throws DAOException {
 		String query = "UPDATE books SET loaned_copies = loaned_copies + ?, available_copies = available_copies + ? " +
 				"WHERE book_id = ?";
@@ -144,6 +189,13 @@ public class BookDAO {
 		}
 	}
 
+	/**
+	 * Marks a book as inactive (soft delete) by its title.
+	 *
+	 * @param bookName The title of the book to be marked as inactive
+	 * @return true if the book is successfully marked as inactive, false otherwise
+	 * @throws DAOException If an error occurs during database operation
+	 */
 	public boolean deleteBook(String bookName) throws DAOException {
 		String query = "UPDATE books SET isActive = false WHERE title = ?";
 		try (Connection connection = ConnectionUtil.getConnection();

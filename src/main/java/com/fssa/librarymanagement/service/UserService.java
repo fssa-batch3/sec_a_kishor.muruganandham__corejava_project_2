@@ -1,7 +1,5 @@
 package com.fssa.librarymanagement.service;
 
-import java.util.List;
-
 import com.fssa.librarymanagement.constants.ErrorMessageConstants;
 import com.fssa.librarymanagement.constants.SuccessMessageConstants;
 import com.fssa.librarymanagement.dao.UserDAO;
@@ -10,6 +8,8 @@ import com.fssa.librarymanagement.exceptions.ServiceException;
 import com.fssa.librarymanagement.exceptions.ValidationException;
 import com.fssa.librarymanagement.model.User;
 import com.fssa.librarymanagement.validation.UserValidator;
+
+import java.util.List;
 
 /**
  * This class provides services related to user management, such as register,
@@ -26,7 +26,7 @@ public class UserService {
 	 *
 	 * @param user The user object to be registered.
 	 * @return A success message if registration is successful, or an error message
-	 *         if not.
+	 * if not.
 	 * @throws ServiceException If there's a problem with the service.
 	 */
 	public String registerUser(User user) throws ServiceException {

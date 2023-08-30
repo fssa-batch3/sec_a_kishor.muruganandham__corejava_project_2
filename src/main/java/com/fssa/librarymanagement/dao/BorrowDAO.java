@@ -1,23 +1,23 @@
 package com.fssa.librarymanagement.dao;
 
-import static com.fssa.librarymanagement.utils.ResultSetUtils.buildBorrowFromResultSet;
-
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.fssa.librarymanagement.exceptions.DAOException;
 import com.fssa.librarymanagement.model.Book;
 import com.fssa.librarymanagement.model.Borrow;
 import com.fssa.librarymanagement.model.User;
 import com.fssa.librarymanagement.utils.ConnectionUtil;
 
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.fssa.librarymanagement.utils.ResultSetUtils.buildBorrowFromResultSet;
+
+/**
+ * Data Access Object (DAO) class for handling Borrow-related database operations.
+ */
 public class BorrowDAO {
 
+	// SQL query prefixes
 	static final String SELECT_QUERY_PREFIX = "SELECT user_id, book_id, borrow_date, return_date FROM borrows ";
 	static final String JOIN_QUERY = "SELECT b.*, u.user_name, u.user_id, u.email_id, u.profile_image, bk.book_id, " +
 			"bk" +
@@ -25,6 +25,13 @@ public class BorrowDAO {
 			"JOIN users u ON b.user_id = u.user_id " +
 			"JOIN books bk ON b.book_id = bk.book_id ";
 
+	/**
+	 * Borrows a book for a user.
+	 *
+	 * @param borrow The Borrow object representing the book borrow
+	 * @return true if the book is successfully borrowed, false otherwise
+	 * @throws DAOException If an error occurs during database operation
+	 */
 	public boolean borrowBook(Borrow borrow) throws DAOException {
 		String query = "INSERT INTO borrows (user_id, book_id, borrow_date, due_date) " +
 				"VALUES (?, ?, ?, ?)";
@@ -44,6 +51,13 @@ public class BorrowDAO {
 		}
 	}
 
+	/**
+	 * Returns a borrowed book.
+	 *
+	 * @param borrow The Borrow object representing the book return
+	 * @return true if the book is successfully returned, false otherwise
+	 * @throws DAOException If an error occurs during database operation
+	 */
 	public boolean returnBook(Borrow borrow) throws DAOException {
 		String query = "UPDATE borrows SET isReturned = true, return_date = ?, fine = ? WHERE user_id = ? AND " +
 				"book_id" +
@@ -63,7 +77,13 @@ public class BorrowDAO {
 		}
 	}
 
-
+	/**
+	 * Retrieves a list of borrows by a user.
+	 *
+	 * @param userId The ID of the user
+	 * @return A list of Borrow objects for the user
+	 * @throws DAOException If an error occurs during database operation
+	 */
 	public List<Borrow> getBorrowsByUser(int userId) throws DAOException {
 		List<Borrow> borrowList = null;
 
@@ -85,6 +105,13 @@ public class BorrowDAO {
 		return borrowList;
 	}
 
+	/**
+	 * Retrieves a list of borrows for a book.
+	 *
+	 * @param bookId The ID of the book
+	 * @return A list of Borrow objects for the book
+	 * @throws DAOException If an error occurs during database operation
+	 */
 	public List<Borrow> getBorrowsByBook(int bookId) throws DAOException {
 		List<Borrow> borrowList = null;
 
@@ -106,6 +133,14 @@ public class BorrowDAO {
 		return borrowList;
 	}
 
+	/**
+	 * Retrieves a specific borrow by user ID and book ID.
+	 *
+	 * @param userId The ID of the user
+	 * @param bookId The ID of the book
+	 * @return The Borrow object if found, otherwise null
+	 * @throws DAOException If an error occurs during database operation
+	 */
 	public Borrow getBorrowByUserAndBook(int userId, int bookId) throws DAOException {
 		String query = SELECT_QUERY_PREFIX + "WHERE user_id = ? AND book_id = ? AND isReturned = FALSE";
 
@@ -138,6 +173,12 @@ public class BorrowDAO {
 		return null;
 	}
 
+	/**
+	 * Retrieves a list of all borrows.
+	 *
+	 * @return A list of all Borrow objects
+	 * @throws DAOException If an error occurs during database operation
+	 */
 	public List<Borrow> getAllBorrows() throws DAOException {
 		List<Borrow> borrowList = new ArrayList<>();
 
@@ -155,6 +196,13 @@ public class BorrowDAO {
 		return borrowList;
 	}
 
+	/**
+	 * Retrieves the count of available copies for a book.
+	 *
+	 * @param bookId The ID of the book
+	 * @return The count of available copies for the book
+	 * @throws DAOException If an error occurs during database operation
+	 */
 	public int getAvailableCopiesCount(int bookId) throws DAOException {
 		String query = "SELECT available_copies FROM books WHERE book_id = ?";
 		try (Connection connection = ConnectionUtil.getConnection();
@@ -172,6 +220,13 @@ public class BorrowDAO {
 		return 0;
 	}
 
+	/**
+	 * Retrieves the count of borrowed books by a user.
+	 *
+	 * @param userId The ID of the user
+	 * @return The count of borrowed books for the user
+	 * @throws DAOException If an error occurs during database operation
+	 */
 	public int getBorrowedBooksCountByUser(int userId) throws DAOException {
 		String query = "SELECT COUNT(*) FROM borrows WHERE user_id = ? AND isReturned = false";
 		try (Connection connection = ConnectionUtil.getConnection();

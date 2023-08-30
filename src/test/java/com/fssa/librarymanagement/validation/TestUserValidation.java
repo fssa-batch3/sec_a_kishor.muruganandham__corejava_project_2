@@ -1,15 +1,11 @@
 package com.fssa.librarymanagement.validation;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
+import com.fssa.librarymanagement.exceptions.ValidationException;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
-import org.junit.jupiter.api.Test;
-
-import com.fssa.librarymanagement.exceptions.ValidationException;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 class TestUserValidation {

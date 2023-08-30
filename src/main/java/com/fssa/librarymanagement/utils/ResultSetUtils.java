@@ -1,25 +1,24 @@
 package com.fssa.librarymanagement.utils;
 
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import com.fssa.librarymanagement.model.Book;
 import com.fssa.librarymanagement.model.Borrow;
 import com.fssa.librarymanagement.model.User;
+
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * Utility class for building model objects from ResultSet data.
  */
 public class ResultSetUtils {
 
+	private static final String RETURN_DATE = "return_date";
+	private static final String BORROW_DATE = "borrow_date";
 	// Private constructor to prevent instantiation
 	private ResultSetUtils() {
 		// Do nothing (empty constructor)
 	}
-
-	private static final String RETURN_DATE = "return_date";
-	private static final String BORROW_DATE = "borrow_date";
 
 	/**
 	 * Builds a User object from a ResultSet.

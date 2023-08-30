@@ -6,7 +6,6 @@ import com.fssa.librarymanagement.model.Book;
 /**
  * This class provides Validations for all Book data.
  *
- *
  * @author KishorMuruganandham
  */
 public class BookValidator {

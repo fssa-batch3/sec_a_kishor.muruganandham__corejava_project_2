@@ -1,26 +1,32 @@
 package com.fssa.librarymanagement.dao;
 
-import static com.fssa.librarymanagement.utils.ResultSetUtils.buildUserFromResultSet;
-
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.fssa.librarymanagement.exceptions.DAOException;
 import com.fssa.librarymanagement.model.User;
 import com.fssa.librarymanagement.utils.ConnectionUtil;
 
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.fssa.librarymanagement.utils.ResultSetUtils.buildUserFromResultSet;
+
+/**
+ * Data Access Object (DAO) class for handling User-related database operations.
+ */
 public class UserDAO {
 
+	/**
+	 * Creates a new user.
+	 *
+	 * @param user The User object representing the user to be created
+	 * @return true if the user is successfully created, false otherwise
+	 * @throws DAOException If an error occurs during database operation
+	 */
 	public boolean createUser(User user) throws DAOException {
 		String query = "INSERT INTO users (user_name, email_id, mobile_no, password, gender, dob, created_date, "
 				+ "isActive, isAdmin, profile_image) " + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		try (Connection connection = ConnectionUtil.getConnection();
-				PreparedStatement pst = connection.prepareStatement(query)) {
+		     PreparedStatement pst = connection.prepareStatement(query)) {
 
 			pst.setString(1, user.getName());
 			pst.setString(2, user.getEmail());
@@ -41,12 +47,19 @@ public class UserDAO {
 		}
 	}
 
+	/**
+	 * Retrieves a user by their email.
+	 *
+	 * @param searchValue The email of the user to retrieve
+	 * @return The User object if found, otherwise null
+	 * @throws DAOException If an error occurs during database operation
+	 */
 	public User getUser(String searchValue) throws DAOException {
 		User user = null;
 		String query = "SELECT user_id, user_name, email_id, mobile_no, password, gender, dob, created_date, "
 				+ "isActive," + " isAdmin, profile_image " + "FROM users WHERE email_id = ? AND isActive = true";
 		try (Connection connection = ConnectionUtil.getConnection();
-				PreparedStatement pst = connection.prepareStatement(query)) {
+		     PreparedStatement pst = connection.prepareStatement(query)) {
 
 			pst.setString(1, searchValue);
 
@@ -62,12 +75,19 @@ public class UserDAO {
 		return user;
 	}
 
+	/**
+	 * Retrieves a user by their ID.
+	 *
+	 * @param userId The ID of the user to retrieve
+	 * @return The User object if found, otherwise null
+	 * @throws DAOException If an error occurs during database operation
+	 */
 	public User getUserById(int userId) throws DAOException {
 		User user = null;
 		String query = "SELECT user_id, user_name, email_id, mobile_no, password, gender, dob, created_date, "
 				+ "isActive, isAdmin, profile_image " + "FROM users WHERE user_id = ? AND isActive = true";
 		try (Connection connection = ConnectionUtil.getConnection();
-				PreparedStatement pst = connection.prepareStatement(query)) {
+		     PreparedStatement pst = connection.prepareStatement(query)) {
 
 			pst.setInt(1, userId);
 
@@ -83,13 +103,19 @@ public class UserDAO {
 		return user;
 	}
 
+	/**
+	 * Retrieves a list of all users.
+	 *
+	 * @return A list of all User objects
+	 * @throws DAOException If an error occurs during database operation
+	 */
 	public List<User> getAllUsers() throws DAOException {
 		List<User> userList = new ArrayList<>();
 		String query = "SELECT user_id, user_name, email_id, mobile_no, password, gender, dob, created_date, "
 				+ "isActive," + " isAdmin, profile_image " + "FROM users";
 		try (Connection connection = ConnectionUtil.getConnection();
-				PreparedStatement pst = connection.prepareStatement(query);
-				ResultSet rs = pst.executeQuery()) {
+		     PreparedStatement pst = connection.prepareStatement(query);
+		     ResultSet rs = pst.executeQuery()) {
 
 			while (rs.next()) {
 				User user = buildUserFromResultSet(rs);
@@ -101,12 +127,19 @@ public class UserDAO {
 		return userList;
 	}
 
+	/**
+	 * Updates user information.
+	 *
+	 * @param user The User object representing the updated user information
+	 * @return true if the user information is successfully updated, false otherwise
+	 * @throws DAOException If an error occurs during database operation
+	 */
 	public boolean updateUser(User user) throws DAOException {
 		String query = "UPDATE users SET " + "user_name = ?, profile_image = ?, mobile_no = ?, gender = ?, dob = ? "
 				+ "WHERE email_id = ?";
 
 		try (Connection connection = ConnectionUtil.getConnection();
-				PreparedStatement pst = connection.prepareStatement(query)) {
+		     PreparedStatement pst = connection.prepareStatement(query)) {
 
 			pst.setString(1, user.getName());
 			pst.setString(2, user.getProfileImage());
@@ -124,10 +157,17 @@ public class UserDAO {
 		}
 	}
 
+	/**
+	 * Deletes a user by their email.
+	 *
+	 * @param stringValue The email of the user to be deleted
+	 * @return true if the user is successfully deleted, false otherwise
+	 * @throws DAOException If an error occurs during database operation
+	 */
 	public boolean deleteUser(String stringValue) throws DAOException {
 		String query = "UPDATE users SET isActive = false WHERE email_id = ?";
 		try (Connection connection = ConnectionUtil.getConnection();
-				PreparedStatement pst = connection.prepareStatement(query)) {
+		     PreparedStatement pst = connection.prepareStatement(query)) {
 
 			pst.setString(1, stringValue);
 
