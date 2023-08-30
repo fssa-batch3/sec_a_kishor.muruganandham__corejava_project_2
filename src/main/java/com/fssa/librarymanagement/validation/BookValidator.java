@@ -10,14 +10,23 @@ import com.fssa.librarymanagement.model.Book;
  */
 public class BookValidator {
 
-	private Book book;
+	private Book book; // The book object to be validated
 
+	/**
+	 * Constructs a BookValidator instance with a specific book to validate.
+	 *
+	 * @param book The Book object to be validated.
+	 */
 	public BookValidator(Book book) {
 		this.book = book;
 	}
 
+	/**
+	 * Constructs a BookValidator instance without a specific book.
+	 * This constructor can be used when validating books with individual validation methods.
+	 */
 	public BookValidator() {
-
+		// Default constructor
 	}
 
 	/**

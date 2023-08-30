@@ -12,14 +12,23 @@ import java.time.LocalDate;
  */
 public class BorrowValidator {
 
-	private Borrow borrow;
+	private Borrow borrow; // The Borrow object to be validated
 
+	/**
+	 * Constructs a BorrowValidator instance with a specific borrow to validate.
+	 *
+	 * @param borrow The Borrow object to be validated.
+	 */
 	public BorrowValidator(Borrow borrow) {
 		this.borrow = borrow;
 	}
 
+	/**
+	 * Constructs a BorrowValidator instance without a specific borrow.
+	 * This constructor can be used when validating borrows with individual validation methods.
+	 */
 	public BorrowValidator() {
-
+		// Default constructor
 	}
 
 	/**

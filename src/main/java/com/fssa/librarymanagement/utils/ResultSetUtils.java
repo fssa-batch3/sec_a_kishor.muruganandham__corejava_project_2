@@ -15,6 +15,7 @@ public class ResultSetUtils {
 
 	private static final String RETURN_DATE = "return_date";
 	private static final String BORROW_DATE = "borrow_date";
+
 	// Private constructor to prevent instantiation
 	private ResultSetUtils() {
 		// Do nothing (empty constructor)

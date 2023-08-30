@@ -15,14 +15,23 @@ import java.util.regex.Pattern;
  * @author KishorMuruganandham
  */
 public class UserValidator {
-	private User user;
+	private User user; // The user object to be validated
 
+	/**
+	 * Constructs a UserValidator instance with a specific user to validate.
+	 *
+	 * @param user The User object to be validated.
+	 */
 	public UserValidator(User user) {
 		this.user = user;
 	}
 
+	/**
+	 * Constructs a UserValidator instance without a specific user.
+	 * This constructor can be used when validating users with individual validation methods.
+	 */
 	public UserValidator() {
-
+		// Default constructor
 	}
 
 	/**
