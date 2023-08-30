@@ -2,6 +2,7 @@ package com.fssa.librarymanagement.model;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Represents a user in the library management system.
@@ -110,6 +111,7 @@ public class User {
 	 */
 	public void setEmail(String email) {
 		this.email = email;
+		this.createdDate = Timestamp.valueOf(LocalDateTime.now());
 	}
 
 	/**

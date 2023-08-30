@@ -12,7 +12,8 @@ import com.fssa.librarymanagement.model.User;
 import com.fssa.librarymanagement.validation.UserValidator;
 
 /**
- * This class provides services related to user management, such as register, login, list, update, and delete.
+ * This class provides services related to user management, such as register,
+ * login, list, update, and delete.
  *
  * @author KishorMuruganandham
  */
@@ -24,7 +25,8 @@ public class UserService {
 	 * Register a new user.
 	 *
 	 * @param user The user object to be registered.
-	 * @return A success message if registration is successful, or an error message if not.
+	 * @return A success message if registration is successful, or an error message
+	 *         if not.
 	 * @throws ServiceException If there's a problem with the service.
 	 */
 	public String registerUser(User user) throws ServiceException {
@@ -44,6 +46,7 @@ public class UserService {
 				return ErrorMessageConstants.REGISTRATION_FAILED;
 			}
 		} catch (ValidationException | DAOException e) {
+			e.printStackTrace();
 			throw new ServiceException(ErrorMessageConstants.INVALID_USER);
 		}
 	}
@@ -78,6 +81,21 @@ public class UserService {
 	}
 
 	/**
+	 * Retrieve a user.
+	 *
+	 * @param userId The user id of the user to be Retrieved.
+	 * @return The user object if login is successful.
+	 * @throws ServiceException If there's a problem with the service.
+	 */
+	public User getUserById(int userId) throws ServiceException {
+		try {
+			return userDAO.getUserById(userId);
+		} catch (DAOException e) {
+			throw new ServiceException("Error retrieving user by ID", e);
+		}
+	}
+
+	/**
 	 * Get a list of all users.
 	 *
 	 * @return A list of user objects.
@@ -99,13 +117,9 @@ public class UserService {
 	 * @return The updated user object.
 	 * @throws ServiceException If there's a problem with the service.
 	 */
-	protected User editUser(User user) throws ServiceException {
+	public User editUser(User user) throws ServiceException {
 		try {
-			// Check if the user exists
-			User existingUser = userDAO.getUser(user.getEmail());
-			if (existingUser == null) {
-				throw new ServiceException(ErrorMessageConstants.USER_NOT_EXISTS);
-			}
+
 			// Update the user in Database
 			if (!userDAO.updateUser(user)) {
 				throw new ServiceException(ErrorMessageConstants.FAILED_TO_UPDATE_USER);
@@ -113,6 +127,7 @@ public class UserService {
 			// Return the updated user object
 			return userDAO.getUser(user.getEmail());
 		} catch (DAOException e) {
+			e.printStackTrace();
 			throw new ServiceException(ErrorMessageConstants.FAILED_TO_UPDATE_USER);
 		}
 	}
@@ -124,7 +139,7 @@ public class UserService {
 	 * @return True if the user is deleted successfully, false otherwise.
 	 * @throws ServiceException If there's a problem with the service.
 	 */
-	protected boolean deleteUser(String email) throws ServiceException {
+	public boolean deleteUser(String email) throws ServiceException {
 		try {
 			// Check if the user exists
 			User existingUser = userDAO.getUser(email);

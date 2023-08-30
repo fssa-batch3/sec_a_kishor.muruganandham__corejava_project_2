@@ -59,7 +59,8 @@ class TestBookService {
 		invalidBook.setTotalCopies(-1);
 		invalidBook.setCoverImage("image");
 
-		assertThrows(ServiceException.class, () -> bookService.addBook(invalidBook));
+		ServiceException result = assertThrows(ServiceException.class, () -> bookService.addBook(invalidBook));
+		assertEquals("Failed to add book",result.getMessage());
 	}
 
 	@Test
@@ -78,7 +79,8 @@ class TestBookService {
 	@Test
 	@Order(4)
 	void testInvalidGetBookByName() {
-		assertThrows(ServiceException.class, () -> bookService.getBookByName("No Title"));
+		ServiceException result = assertThrows(ServiceException.class, () -> bookService.getBookByName("No Title"));
+		assertEquals("Failed to get book details",result.getMessage());
 	}
 
 	@Test
@@ -121,7 +123,8 @@ class TestBookService {
 		book.setTitle("No Title");
 		book.setDescription("Invalid description");
 
-		assertThrows(ServiceException.class, () -> bookService.updateBook(book));
+		ServiceException result = assertThrows(ServiceException.class, () -> bookService.updateBook(book));
+		assertEquals("Failed to Update Book",result.getMessage());
 	}
 
 	@Test
@@ -142,6 +145,7 @@ class TestBookService {
 	@Test
 	@Order(9)
 	void testInvalidDeleteBook() {
-		assertThrows(ServiceException.class, () -> bookService.deleteBook("No Title"));
+		ServiceException result = assertThrows(ServiceException.class, () -> bookService.deleteBook("No Title"));
+		assertEquals("Failed to Delete Book",result.getMessage());
 	}
 }

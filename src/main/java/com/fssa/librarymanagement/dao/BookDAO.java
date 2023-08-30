@@ -62,6 +62,27 @@ public class BookDAO {
 		}
 	}
 
+	public Book getBookById(int bookId) throws DAOException {
+		Book book = null;
+		String query = "SELECT * FROM books WHERE book_id = ? AND isActive = true AND available_copies >= 1";
+
+		try (Connection connection = ConnectionUtil.getConnection();
+		     PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+			preparedStatement.setInt(1, bookId);
+
+			try (ResultSet rs = preparedStatement.executeQuery()) {
+				if (rs.next()) {
+					book = buildBookFromResultSet(rs);
+				}
+			}
+
+		} catch (SQLException | NullPointerException e) {
+			throw new DAOException(e);
+		}
+		return book;
+	}
+
 	public List<Book> getAllBooks() throws DAOException {
 		List<Book> bookList = new ArrayList<>();
 		String query = "SELECT * FROM books WHERE isActive = true";

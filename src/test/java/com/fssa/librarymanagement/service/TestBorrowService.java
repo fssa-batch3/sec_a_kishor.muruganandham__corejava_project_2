@@ -76,7 +76,8 @@ class TestBorrowService {
 	@Test
 	@Order(4)
 	void testInvalidReturnBook() {
-		assertThrows(ServiceException.class, () -> borrowService.returnBook(borrow));
+		ServiceException result = assertThrows(ServiceException.class, () -> borrowService.returnBook(borrow));
+		assertEquals("Failed to return book",result.getMessage());
 	}
 
 	@Test

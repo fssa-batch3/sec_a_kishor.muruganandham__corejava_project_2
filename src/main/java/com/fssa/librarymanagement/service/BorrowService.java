@@ -31,7 +31,7 @@ public class BorrowService {
 	 * @return A success message if the book is successfully borrowed, or an error message if not.
 	 * @throws ServiceException If there's a problem with the service.
 	 */
-	protected String borrowBook(Borrow borrow) throws ServiceException {
+	public String borrowBook(Borrow borrow) throws ServiceException {
 		BorrowValidator borrowValidator = new BorrowValidator(borrow);
 
 		Borrow existingBorrow;
@@ -63,6 +63,7 @@ public class BorrowService {
 			success = borrowDAO.borrowBook(borrow);
 
 		} catch (DAOException | ValidationException e) {
+			e.printStackTrace();
 			throw new ServiceException(ErrorMessageConstants.INVALID_BORROW_DATE);
 		}
 		if (success) {
@@ -85,11 +86,11 @@ public class BorrowService {
 	 * @return A success message if the book is successfully returned, or an error message if not.
 	 * @throws ServiceException If there is a problem with the service.
 	 */
-	protected String returnBook(Borrow borrow) throws ServiceException {
+	public String returnBook(Borrow borrow) throws ServiceException {
 		BorrowValidator borrowValidator = new BorrowValidator(borrow);
 		try {
 			// Validate the return date
-			borrowValidator.validateReturnDate(borrow.getReturnDate());
+			borrowValidator.validateAll();
 		} catch (ValidationException e) {
 			throw new ServiceException(ErrorMessageConstants.RETURN_DATE_INVALID);
 		}
@@ -136,7 +137,7 @@ public class BorrowService {
 	 * @return A list of borrow objects for the given book.
 	 * @throws ServiceException If there's a problem with the service.
 	 */
-	protected List<Borrow> getBorrowsByBook(int bookId) throws ServiceException {
+	public List<Borrow> getBorrowsByBook(int bookId) throws ServiceException {
 		try {
 			// Retrieve borrowed books for a specific book
 			return borrowDAO.getBorrowsByBook(bookId);
@@ -151,7 +152,7 @@ public class BorrowService {
 	 * @return A list of all borrow objects.
 	 * @throws ServiceException If there's a problem with the service.
 	 */
-	protected List<Borrow> getAllBorrows() throws ServiceException {
+	public List<Borrow> getAllBorrows() throws ServiceException {
 		try {
 			// Retrieve all borrowed books
 			return borrowDAO.getAllBorrows();

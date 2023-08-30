@@ -28,7 +28,9 @@ public class ErrorMessageConstants {
 	public static final String FAILED_TO_RETRIEVE_USER_LIST = "Failed to Retrieve User List.";
 	public static final String FAILED_TO_UPDATE_USER = "Failed to Update User";
 	public static final String FAILED_TO_DELETE_USER = "Failed to Delete User";
-	public static final String USER_NOT_EXISTS = "User not exists";
+	public static final String FAILED_TO_DELETE_BOOK = "Failed to Delete Book";
+	public static final String USER_NOT_EXISTS = "User Not Exists with the given Email and Password";
+
 
 	private ErrorMessageConstants() {
 		// Private constructor to prevent instantiation

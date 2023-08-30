@@ -8,12 +8,26 @@ import com.fssa.librarymanagement.model.Book;
 import com.fssa.librarymanagement.model.Borrow;
 import com.fssa.librarymanagement.model.User;
 
-
+/**
+ * Utility class for building model objects from ResultSet data.
+ */
 public class ResultSetUtils {
+
+	// Private constructor to prevent instantiation
+	private ResultSetUtils() {
+		// Do nothing (empty constructor)
+	}
 
 	private static final String RETURN_DATE = "return_date";
 	private static final String BORROW_DATE = "borrow_date";
 
+	/**
+	 * Builds a User object from a ResultSet.
+	 *
+	 * @param rs The ResultSet containing user data
+	 * @return A User object with data from the ResultSet
+	 * @throws SQLException If a database error occurs
+	 */
 	public static User buildUserFromResultSet(ResultSet rs) throws SQLException {
 		User user = new User();
 		user.setUserId(rs.getInt("user_id"));
@@ -30,6 +44,13 @@ public class ResultSetUtils {
 		return user;
 	}
 
+	/**
+	 * Builds a Book object from a ResultSet.
+	 *
+	 * @param rs The ResultSet containing book data
+	 * @return A Book object with data from the ResultSet
+	 * @throws SQLException If a database error occurs
+	 */
 	public static Book buildBookFromResultSet(ResultSet rs) throws SQLException {
 		Book book = new Book();
 		book.setBookId(rs.getInt("book_id"));
@@ -46,6 +67,13 @@ public class ResultSetUtils {
 		return book;
 	}
 
+	/**
+	 * Builds a Borrow object from a ResultSet.
+	 *
+	 * @param rs The ResultSet containing borrow data
+	 * @return A Borrow object with data from the ResultSet
+	 * @throws SQLException If a database error occurs
+	 */
 	public static Borrow buildBorrowFromResultSet(ResultSet rs) throws SQLException {
 		Borrow borrow = new Borrow();
 		User user = new User();
@@ -66,5 +94,4 @@ public class ResultSetUtils {
 		}
 		return borrow;
 	}
-
 }

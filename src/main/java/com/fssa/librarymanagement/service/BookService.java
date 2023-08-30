@@ -1,7 +1,5 @@
 package com.fssa.librarymanagement.service;
 
-import java.util.List;
-
 import com.fssa.librarymanagement.constants.ErrorMessageConstants;
 import com.fssa.librarymanagement.constants.SuccessMessageConstants;
 import com.fssa.librarymanagement.dao.BookDAO;
@@ -10,6 +8,8 @@ import com.fssa.librarymanagement.exceptions.ServiceException;
 import com.fssa.librarymanagement.exceptions.ValidationException;
 import com.fssa.librarymanagement.model.Book;
 import com.fssa.librarymanagement.validation.BookValidator;
+
+import java.util.List;
 
 /**
  * This class provides services related to book management, such as adding, retrieving, updating, and deleting books.
@@ -28,7 +28,7 @@ public class BookService {
 	 * @return A success message if the book is added successfully, or an error message if not.
 	 * @throws ServiceException If there's a problem with the service.
 	 */
-	protected String addBook(Book book) throws ServiceException {
+	public String addBook(Book book) throws ServiceException {
 		try {
 			BookValidator bookValidator = new BookValidator(book);
 			bookValidator.validateAll();
@@ -57,7 +57,7 @@ public class BookService {
 	 * @return The book object if found.
 	 * @throws ServiceException If the book is not found or if there's a problem with the service.
 	 */
-	protected Book getBookByName(String bookName) throws ServiceException {
+	public Book getBookByName(String bookName) throws ServiceException {
 		try {
 			// Retrieve the book by its title
 			Book book = bookDAO.getBookByTitle(bookName);
@@ -71,12 +71,35 @@ public class BookService {
 	}
 
 	/**
+	 * Retrieve a book by its ID from the library.
+	 *
+	 * @param bookId The ID of the book to retrieve.
+	 * @return The retrieved book if found, or an error message if not.
+	 * @throws ServiceException If there's a problem with the service.
+	 */
+	public Book getBookById(int bookId) throws ServiceException {
+		try {
+			// Retrieve the book from Database
+			Book book = bookDAO.getBookById(bookId);
+
+			if (book != null) {
+				return book;
+			} else {
+				throw new ServiceException(ErrorMessageConstants.BOOK_NOT_FOUND);
+			}
+		} catch (DAOException e) {
+			throw new ServiceException(ErrorMessageConstants.FAILED_TO_GET_BOOK_DETAILS);
+		}
+	}
+
+
+	/**
 	 * Get a list of all books in the library.
 	 *
 	 * @return A list of book objects.
 	 * @throws ServiceException If there's a problem with the service.
 	 */
-	protected List<Book> listAllBooks() throws ServiceException {
+	public List<Book> listAllBooks() throws ServiceException {
 		try {
 			// Retrieve all books from the database
 			return bookDAO.getAllBooks();
@@ -92,7 +115,7 @@ public class BookService {
 	 * @return The updated book object.
 	 * @throws ServiceException If the book is not found or if there's a problem with the service.
 	 */
-	protected Book updateBook(Book book) throws ServiceException {
+	public Book updateBook(Book book) throws ServiceException {
 		try {
 			// Check if the book exists
 			Book existingBook = bookDAO.getBookByTitle(book.getTitle());
@@ -117,7 +140,7 @@ public class BookService {
 	 * @return True if the book is deleted successfully, false otherwise.
 	 * @throws ServiceException If the book is not found or if there's a problem with the service.
 	 */
-	protected boolean deleteBook(String bookName) throws ServiceException {
+	public boolean deleteBook(String bookName) throws ServiceException {
 		try {
 			// Check if the book exists
 			Book existingObject = bookDAO.getBookByTitle(bookName);
@@ -127,7 +150,7 @@ public class BookService {
 			// Delete the book and return true if successful
 			return bookDAO.deleteBook(bookName);
 		} catch (DAOException e) {
-			throw new ServiceException(e);
+			throw new ServiceException(ErrorMessageConstants.FAILED_TO_DELETE_BOOK);
 		}
 	}
 }

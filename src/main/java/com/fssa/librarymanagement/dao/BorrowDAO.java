@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fssa.librarymanagement.exceptions.DAOException;
+import com.fssa.librarymanagement.model.Book;
 import com.fssa.librarymanagement.model.Borrow;
+import com.fssa.librarymanagement.model.User;
 import com.fssa.librarymanagement.utils.ConnectionUtil;
 
 public class BorrowDAO {
@@ -115,7 +117,19 @@ public class BorrowDAO {
 
 			try (ResultSet rs = pst.executeQuery()) {
 				if (rs.next()) {
-					return buildBorrowFromResultSet(rs);
+					Borrow borrow = new Borrow();
+					User user = new User();
+					user.setUserId(rs.getInt("user_id"));
+					Book book = new Book();
+					book.setBookId(rs.getInt("book_id"));
+					borrow.setUser(user);
+					borrow.setBook(book);
+					borrow.setBorrowDate(rs.getDate("borrow_date").toLocalDate());
+					Date returnDate = rs.getDate("return_date");
+					if (returnDate != null) {
+						borrow.setReturnDate(returnDate.toLocalDate());
+					}
+					return borrow;
 				}
 			}
 		} catch (SQLException e) {
