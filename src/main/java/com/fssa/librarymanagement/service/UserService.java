@@ -46,8 +46,7 @@ public class UserService {
 				return ErrorMessageConstants.REGISTRATION_FAILED;
 			}
 		} catch (ValidationException | DAOException e) {
-			e.printStackTrace();
-			throw new ServiceException(ErrorMessageConstants.INVALID_USER);
+			throw new ServiceException(e.getMessage());
 		}
 	}
 
@@ -76,7 +75,7 @@ public class UserService {
 				throw new ServiceException(ErrorMessageConstants.PASSWORD_MISMATCH);
 			}
 		} catch (ValidationException | DAOException e) {
-			throw new ServiceException(ErrorMessageConstants.LOGIN_FAILED);
+			throw new ServiceException(e.getMessage());
 		}
 	}
 
@@ -91,7 +90,7 @@ public class UserService {
 		try {
 			return userDAO.getUserById(userId);
 		} catch (DAOException e) {
-			throw new ServiceException("Error retrieving user by ID", e);
+			throw new ServiceException(e.getMessage());
 		}
 	}
 
@@ -106,7 +105,7 @@ public class UserService {
 			// Retrieve all users from the database
 			return userDAO.getAllUsers();
 		} catch (DAOException e) {
-			throw new ServiceException(ErrorMessageConstants.FAILED_TO_RETRIEVE_USER_LIST);
+			throw new ServiceException(e.getMessage());
 		}
 	}
 
@@ -127,8 +126,7 @@ public class UserService {
 			// Return the updated user object
 			return userDAO.getUser(user.getEmail());
 		} catch (DAOException e) {
-			e.printStackTrace();
-			throw new ServiceException(ErrorMessageConstants.FAILED_TO_UPDATE_USER);
+			throw new ServiceException(e.getMessage());
 		}
 	}
 
@@ -149,7 +147,7 @@ public class UserService {
 			// Delete the user and return true if successful
 			return userDAO.deleteUser(email);
 		} catch (DAOException e) {
-			throw new ServiceException(ErrorMessageConstants.FAILED_TO_DELETE_USER);
+			throw new ServiceException(e.getMessage());
 		}
 	}
 }

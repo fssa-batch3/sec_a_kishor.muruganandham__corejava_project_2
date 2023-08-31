@@ -1,5 +1,7 @@
 package com.fssa.librarymanagement.exceptions;
 
+import java.io.Serial;
+
 /**
  * This exception class is used to handle errors related to service layer operations.
  *
@@ -8,6 +10,7 @@ package com.fssa.librarymanagement.exceptions;
 public class ServiceException extends Exception {
 
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

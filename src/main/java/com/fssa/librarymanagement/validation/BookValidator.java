@@ -50,8 +50,8 @@ public class BookValidator {
 	 * Validates the book title.
 	 *
 	 * @param title The title to validate
-	 * @return true if title is valid
-	 * @throws ValidationException If title is empty
+	 * @return true if the title is valid
+	 * @throws ValidationException If the title is empty
 	 */
 	public boolean validateTitle(String title) throws ValidationException {
 		if (title == null || title.isEmpty()) {
@@ -93,7 +93,7 @@ public class BookValidator {
 	 *
 	 * @param genre The genre to validate
 	 * @return true if genre is valid
-	 * @throws ValidationException If genre is empty
+	 * @throws ValidationException If the genre is empty
 	 */
 	public boolean validateGenre(String genre) throws ValidationException {
 		if (genre == null || genre.isEmpty()) {
@@ -120,8 +120,8 @@ public class BookValidator {
 	 * Validates the book description.
 	 *
 	 * @param description The description to validate
-	 * @return true if description is valid
-	 * @throws ValidationException If description is empty
+	 * @return true if the description is valid
+	 * @throws ValidationException If the description is empty
 	 */
 	public boolean validateDescription(String description) throws ValidationException {
 		if (description == null || description.isEmpty()) {
@@ -134,7 +134,7 @@ public class BookValidator {
 	 * Validates the total number of copies.
 	 *
 	 * @param totalCopies The total copies to validate
-	 * @return true if total copies is valid
+	 * @return true if total copies are valid
 	 * @throws ValidationException If total copies is non-positive
 	 */
 	public boolean validateTotalCopies(int totalCopies) throws ValidationException {
@@ -165,9 +165,8 @@ public class BookValidator {
 	 *
 	 * @param loanedCopies The loaned copies to validate
 	 * @param totalCopies  The total copies for comparison
-	 * @return true if loaned copies is valid
-	 * @throws ValidationException If loaned copies is negative or exceeds total
-	 *                             copies
+	 * @return true if loaned copies are valid
+	 * @throws ValidationException If loaned, copies are negative or exceed total copies
 	 */
 	public boolean validateLoanedCopies(int loanedCopies, int totalCopies) throws ValidationException {
 		if (loanedCopies < 0 || loanedCopies > totalCopies) {

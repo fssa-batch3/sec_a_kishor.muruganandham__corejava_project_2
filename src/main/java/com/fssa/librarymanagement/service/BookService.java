@@ -46,7 +46,7 @@ public class BookService {
 				}
 			}
 		} catch (ValidationException | DAOException e) {
-			throw new ServiceException(ErrorMessageConstants.FAILED_TO_ADD_BOOK);
+			throw new ServiceException(e.getMessage());
 		}
 	}
 
@@ -55,7 +55,7 @@ public class BookService {
 	 *
 	 * @param bookName The name (title) of the book.
 	 * @return The book object if found.
-	 * @throws ServiceException If the book is not found or if there's a problem with the service.
+	 * @throws ServiceException If the book is not found, or if there's a problem with the service.
 	 */
 	public Book getBookByName(String bookName) throws ServiceException {
 		try {
@@ -66,7 +66,7 @@ public class BookService {
 			}
 			return book;
 		} catch (DAOException e) {
-			throw new ServiceException(ErrorMessageConstants.FAILED_TO_GET_BOOK_DETAILS);
+			throw new ServiceException(e.getMessage());
 		}
 	}
 
@@ -88,7 +88,7 @@ public class BookService {
 				throw new ServiceException(ErrorMessageConstants.BOOK_NOT_FOUND);
 			}
 		} catch (DAOException e) {
-			throw new ServiceException(ErrorMessageConstants.FAILED_TO_GET_BOOK_DETAILS);
+			throw new ServiceException(e.getMessage());
 		}
 	}
 
@@ -104,7 +104,7 @@ public class BookService {
 			// Retrieve all books from the database
 			return bookDAO.getAllBooks();
 		} catch (DAOException e) {
-			throw new ServiceException(ErrorMessageConstants.FAILED_TO_GET_BOOK_LIST);
+			throw new ServiceException(e.getMessage());
 		}
 	}
 
@@ -113,7 +113,7 @@ public class BookService {
 	 *
 	 * @param book The book object containing updated information.
 	 * @return The updated book object.
-	 * @throws ServiceException If the book is not found or if there's a problem with the service.
+	 * @throws ServiceException If the book is not found, or if there's a problem with the service.
 	 */
 	public Book updateBook(Book book) throws ServiceException {
 		try {
@@ -129,7 +129,7 @@ public class BookService {
 			// Return the updated book object
 			return bookDAO.getBookByTitle(book.getTitle());
 		} catch (DAOException e) {
-			throw new ServiceException(ErrorMessageConstants.FAILED_TO_UPDATE_BOOK);
+			throw new ServiceException(e.getMessage());
 		}
 	}
 
@@ -138,7 +138,7 @@ public class BookService {
 	 *
 	 * @param bookName The name (title) of the book to be deleted.
 	 * @return True if the book is deleted successfully, false otherwise.
-	 * @throws ServiceException If the book is not found or if there's a problem with the service.
+	 * @throws ServiceException If the book is not found, or if there's a problem with the service.
 	 */
 	public boolean deleteBook(String bookName) throws ServiceException {
 		try {
@@ -150,7 +150,7 @@ public class BookService {
 			// Delete the book and return true if successful
 			return bookDAO.deleteBook(bookName);
 		} catch (DAOException e) {
-			throw new ServiceException(ErrorMessageConstants.FAILED_TO_DELETE_BOOK);
+			throw new ServiceException(e.getMessage());
 		}
 	}
 }

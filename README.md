@@ -47,9 +47,9 @@ for a local library.
 
 ### Features
 
-- Add, Update, View, Delete,Search and List all Book.
+- Add, Update, View, Delete, Search and List all Books.
 - Register, Login, Update, Delete User.
-- Borrow, Renew, Return and Check availability of a Book.
+- Borrow, Renew, Return and Check the availability of a Book.
 
 ### User Persona
 

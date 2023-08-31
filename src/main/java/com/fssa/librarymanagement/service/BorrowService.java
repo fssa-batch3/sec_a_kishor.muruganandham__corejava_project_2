@@ -63,15 +63,14 @@ public class BorrowService {
 			success = borrowDAO.borrowBook(borrow);
 
 		} catch (DAOException | ValidationException e) {
-			e.printStackTrace();
-			throw new ServiceException(ErrorMessageConstants.INVALID_BORROW_DATE);
+			throw new ServiceException(e.getMessage());
 		}
 		if (success) {
 			try {
-				// Update book copies after successfully borrowing
+				// Update book copies after successful borrowing
 				bookDAO.updateBookCopies(borrow.getBook().getBookId(), 1, -1);
 			} catch (DAOException e) {
-				throw new ServiceException(ErrorMessageConstants.FAILED_TO_UPDATE_COPIES);
+				throw new ServiceException(e.getMessage());
 			}
 			return SuccessMessageConstants.BOOK_BORROWED_SUCCESSFULLY;
 		} else {
@@ -92,7 +91,7 @@ public class BorrowService {
 			// Validate the return date
 			borrowValidator.validateAll();
 		} catch (ValidationException e) {
-			throw new ServiceException(ErrorMessageConstants.RETURN_DATE_INVALID);
+			throw new ServiceException(e.getMessage());
 		}
 		double fine = 0;
 		if (borrow.getReturnDate().isAfter(borrow.getDueDate())) {
@@ -109,7 +108,7 @@ public class BorrowService {
 				throw new ServiceException(ErrorMessageConstants.FAILED_TO_RETURN_BOOK);
 			}
 		} catch (DAOException e) {
-			throw new ServiceException(ErrorMessageConstants.FAILED_TO_RETURN_BOOK);
+			throw new ServiceException(e.getMessage());
 		}
 		return SuccessMessageConstants.ADDED_RETURN_DATE_SUCCESSFULLY;
 	}
@@ -126,7 +125,7 @@ public class BorrowService {
 			// Retrieve borrowed books for a specific user
 			return borrowDAO.getBorrowsByUser(userId);
 		} catch (DAOException e) {
-			throw new ServiceException(ErrorMessageConstants.FAILED_TO_GET_BORROW_DETAILS);
+			throw new ServiceException(e.getMessage());
 		}
 	}
 
@@ -142,7 +141,7 @@ public class BorrowService {
 			// Retrieve borrowed books for a specific book
 			return borrowDAO.getBorrowsByBook(bookId);
 		} catch (DAOException e) {
-			throw new ServiceException(ErrorMessageConstants.FAILED_TO_GET_BORROW_DETAILS);
+			throw new ServiceException(e.getMessage());
 		}
 	}
 
@@ -157,7 +156,7 @@ public class BorrowService {
 			// Retrieve all borrowed books
 			return borrowDAO.getAllBorrows();
 		} catch (DAOException e) {
-			throw new ServiceException(ErrorMessageConstants.FAILED_TO_GET_BORROW_LIST);
+			throw new ServiceException(e.getMessage());
 		}
 	}
 }

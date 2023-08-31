@@ -59,8 +59,8 @@ public class BorrowValidator {
 	 * Validates the return date.
 	 *
 	 * @param returnDate The return date to validate
-	 * @return true if return date is valid
-	 * @throws ValidationException If return date is empty or before borrow date
+	 * @return true if the return date is valid
+	 * @throws ValidationException If the return date is empty or before borrow date
 	 */
 	public boolean validateReturnDate(LocalDate returnDate) throws ValidationException {
 		LocalDate borrowDate = borrow.getBorrowDate();

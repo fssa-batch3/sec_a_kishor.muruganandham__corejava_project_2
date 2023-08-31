@@ -1,6 +1,6 @@
 /**
  * This package has classes that manage different parts of the library system.
- * It includes services for handling users, books, and borrow module.
+ * It includes services for handling users, books, and borrow modules.
  * <p>
  * The classes in this package contain logics for their specific jobs.
  * <p>

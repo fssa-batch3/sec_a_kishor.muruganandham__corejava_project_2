@@ -17,12 +17,6 @@
         <sonar.branch.name>main</sonar.branch.name>
     </properties>
     <dependencies>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>5.8.1</version>
-            <scope>test</scope>
-        </dependency>
 
 
         <!-- JUnit Jupiter API for writing tests -->

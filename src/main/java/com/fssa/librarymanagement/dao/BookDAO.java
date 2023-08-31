@@ -169,18 +169,18 @@ public class BookDAO {
 	 * Updates the loaned and available copies of a book.
 	 *
 	 * @param bookId                The ID of the book
-	 * @param loanedCopiesChange    The change in loaned copies count (positive for increase, negative for decrease)
-	 * @param availableCopiesChange The change in available copies count (positive for increase, negative for decrease)
+	 * @param loanedCopyChange    The change in loaned copies counts (positive for increase, negative for decrease)
+	 * @param availableCopyChange The change in available copies counts (positive for increase, negative for decrease)
 	 * @throws DAOException If an error occurs during database operation
 	 */
-	public void updateBookCopies(int bookId, int loanedCopiesChange, int availableCopiesChange) throws DAOException {
+	public void updateBookCopies(int bookId, int loanedCopyChange, int availableCopyChange) throws DAOException {
 		String query = "UPDATE books SET loaned_copies = loaned_copies + ?, available_copies = available_copies + ? " +
 				"WHERE book_id = ?";
 		try (Connection connection = ConnectionUtil.getConnection();
 		     PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-			preparedStatement.setInt(1, loanedCopiesChange);
-			preparedStatement.setInt(2, availableCopiesChange);
+			preparedStatement.setInt(1, loanedCopyChange);
+			preparedStatement.setInt(2, availableCopyChange);
 			preparedStatement.setInt(3, bookId);
 
 			preparedStatement.executeUpdate();

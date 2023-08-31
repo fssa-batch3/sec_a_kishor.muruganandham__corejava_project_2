@@ -152,7 +152,6 @@ public class UserDAO {
 			return rowsAffected > 0;
 
 		} catch (SQLException e) {
-			e.printStackTrace();
 			throw new DAOException(e);
 		}
 	}
