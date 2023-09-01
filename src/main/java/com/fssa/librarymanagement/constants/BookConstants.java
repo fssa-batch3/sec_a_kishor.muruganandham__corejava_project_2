@@ -1,11 +1,13 @@
 package com.fssa.librarymanagement.constants;
 
+/**
+ * This class holds constant values related to books in the library management system.
+ * It provides predefined values, Error Messages and Success messages.
+ */
 public class BookConstants {
 
-	// Error messages related to the service layer of a book
 	public static final String BOOK_NOT_FOUND = "Book not found.";
 	public static final String FAILED_TO_DELETE_BOOK = "Failed to Delete Book";
-	// Error messages related to the validation layer of a book
 	public static final String BOOK_TITLE_CANNOT_BE_EMPTY = "Book title cannot be empty";
 	public static final String BOOK_TITLE_CANNOT_CONTAIN_NUMBERS = "Book title cannot contain Numbers";
 	public static final String BOOK_AUTHOR_CANNOT_BE_EMPTY = "Book author cannot be empty";
@@ -26,10 +28,6 @@ public class BookConstants {
 	public static final String LOANED_COPIES_CANNOT_BE_GREATER_THAN_TOTAL_COPIES = "Loaned copies cannot be greater " +
 			"than total copies";
 	public static String DIGITS_REGEX = ".*[0-9].*";
-
-	private BookConstants() {
-		// Private constructor to prevent instantiation
-	}
 
 
 }

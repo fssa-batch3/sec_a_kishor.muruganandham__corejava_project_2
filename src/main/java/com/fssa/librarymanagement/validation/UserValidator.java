@@ -58,6 +58,7 @@ public class UserValidator {
 	 */
 	public boolean validateEmail(String email) throws ValidationException {
 		final String emailRegEx = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
+		email = email.trim();
 		if (email.isEmpty()) {
 			throw new ValidationException(UserConstants.EMAIL_CANNOT_BE_EMPTY);
 		}
@@ -76,8 +77,17 @@ public class UserValidator {
 	 * @throws ValidationException If mobile number is empty
 	 */
 	public boolean validateMobileNo(long mobileNo) throws ValidationException {
+		String mobileNoStr = String.valueOf(mobileNo);
 		if (mobileNo == 0) {
 			throw new ValidationException(UserConstants.MOBILE_NUMBER_CANNOT_BE_EMPTY);
+		}
+		// Length check
+		if (mobileNoStr.length() == 10) {
+			throw new ValidationException(UserConstants.INVALID_MOBILE_NUMBER_LENGTH);
+		}
+		// Numeric check
+		if (!mobileNoStr.matches("\\d+")) {
+			throw new ValidationException(UserConstants.INVALID_MOBILE_NUMBER_FORMAT);
 		}
 		return true;
 	}
@@ -90,7 +100,8 @@ public class UserValidator {
 	 * @throws ValidationException If the password is empty or too short
 	 */
 	public boolean validatePassword(String password) throws ValidationException {
-		if (password == null || password.isEmpty()) {
+		password = password.trim();
+		if (password.isEmpty()) {
 			throw new ValidationException(UserConstants.PASSWORD_CANNOT_BE_EMPTY);
 		} else if (password.length() < 8) {
 			throw new ValidationException(UserConstants.PASSWORD_IS_LESS_THAN_THE_EXPECTED_LENGTH_OF_8_CHARACTERS);
@@ -123,7 +134,8 @@ public class UserValidator {
 	 * @throws ValidationException If profile image URL is empty or invalid
 	 */
 	public boolean validateProfileImage(String profileImage) throws ValidationException {
-		if (profileImage == null || profileImage.isEmpty()) {
+		profileImage = profileImage.trim();
+		if (profileImage.isEmpty()) {
 			throw new ValidationException(UserConstants.PROFILE_IMAGE_URL_CANNOT_BE_EMPTY);
 		}
 		try {
@@ -142,6 +154,7 @@ public class UserValidator {
 	 * @throws ValidationException If the name is empty or has an invalid format
 	 */
 	public boolean validateName(String name) throws ValidationException {
+		name = name.trim();
 		boolean isMatch = Pattern.compile("^[A-Z' -]+$", Pattern.CASE_INSENSITIVE).matcher(name).find();
 		if (name.isEmpty()) {
 			throw new ValidationException(UserConstants.NAME_CANNOT_BE_EMPTY);
@@ -160,17 +173,18 @@ public class UserValidator {
 	 * @throws ValidationException If the date of birth is invalid
 	 */
 	public boolean validateDateOfBirth(LocalDate dob) throws ValidationException {
+
 		if (dob == null) {
 			throw new ValidationException(UserConstants.DATE_OF_BIRTH_CANNOT_BE_EMPTY);
 		}
-
 		LocalDate currentDate = LocalDate.now();
+		LocalDate maximumValidDob = currentDate.minus(Period.ofYears(100));
 		LocalDate minimumValidDob = currentDate.minus(Period.ofYears(10));
 		if (dob.isAfter(minimumValidDob)) {
 			throw new ValidationException(UserConstants.INVALID_DATE_OF_BIRTH_MUST_BE_AT_LEAST_10_YEARS_OLD);
 		}
-		if (dob.isAfter(currentDate)) {
-			throw new ValidationException(UserConstants.DATE_OF_BIRTH_CANNOT_BE_IN_THE_FUTURE);
+		if (dob.isBefore(maximumValidDob)) {
+			throw new ValidationException(UserConstants.INVALID_DATE_OF_BIRTH_CANNOT_EXCEED_100_YEARS);
 		}
 		return true;
 	}

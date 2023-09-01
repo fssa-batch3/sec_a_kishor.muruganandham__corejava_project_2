@@ -1,7 +1,7 @@
 package com.fssa.librarymanagement.service;
 
 import com.fssa.librarymanagement.constants.BookConstants;
-import com.fssa.librarymanagement.constants.ErrorMessageConstants;
+import com.fssa.librarymanagement.constants.UserConstants;
 import com.fssa.librarymanagement.dao.UserDAO;
 import com.fssa.librarymanagement.exceptions.DAOException;
 import com.fssa.librarymanagement.exceptions.ServiceException;
@@ -18,6 +18,7 @@ import java.util.List;
  * @author KishorMuruganandham
  */
 public class UserService {
+
 
 	private final UserDAO userDAO = new UserDAO();
 
@@ -36,7 +37,7 @@ public class UserService {
 			// Check if the user already exists and is Active
 			boolean existingUser = userDAO.doesUserExist(user.getEmail());
 			if (existingUser) {
-				throw new ServiceException(ErrorMessageConstants.USER_ALREADY_EXISTS);
+				throw new ServiceException(UserConstants.USER_ALREADY_EXISTS);
 			}
 
 			return userDAO.createUser(user);    // Create the user in Database
@@ -61,13 +62,13 @@ public class UserService {
 			// Retrieve the user from the database
 			User fromDb = userDAO.getUserByEmail(user.getEmail());
 			if (fromDb == null) {
-				throw new ServiceException(ErrorMessageConstants.USER_NOT_EXISTS);
+				throw new ServiceException(UserConstants.USER_DOES_NOT_EXIST_WITH_THE_GIVEN_EMAIL);
 			}
 			// Check if the password matches
 			if (user.getPassword().equals(fromDb.getPassword())) {
 				return fromDb;
 			} else {
-				throw new ServiceException(ErrorMessageConstants.PASSWORD_MISMATCH);
+				throw new ServiceException(UserConstants.PASSWORD_MISMATCH);
 			}
 		} catch (ValidationException | DAOException e) {
 			throw new ServiceException(e.getMessage());
@@ -146,7 +147,7 @@ public class UserService {
 
 			boolean userExist = userDAO.doesUserExist(user.getEmail());   // Check if the user exists
 			if (!userExist) {
-				throw new ServiceException(ErrorMessageConstants.USER_NOT_EXISTS);
+				throw new ServiceException(UserConstants.USER_DOES_NOT_EXIST_WITH_THE_GIVEN_EMAIL);
 			}
 
 			return userDAO.updateUser(user);    // Update the user and return true if successful
@@ -167,7 +168,7 @@ public class UserService {
 
 			boolean userExist = userDAO.doesUserExist(email);   // Check if the user exists
 			if (!userExist) {
-				throw new ServiceException(ErrorMessageConstants.USER_NOT_EXISTS);
+				throw new ServiceException(UserConstants.USER_DOES_NOT_EXIST_WITH_THE_GIVEN_EMAIL);
 			}
 
 			return userDAO.deleteUser(email);   // Delete the user and return true if successful

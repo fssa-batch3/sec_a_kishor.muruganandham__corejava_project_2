@@ -56,7 +56,8 @@ public class BookValidator {
 	 * @throws ValidationException If the title is empty
 	 */
 	public boolean validateTitle(String title) throws ValidationException {
-		if (title == null || title.isEmpty()) {
+		title = title.trim();
+		if (title.isEmpty()) {
 			throw new ValidationException(BookConstants.BOOK_TITLE_CANNOT_BE_EMPTY);
 		}
 		if (title.matches(BookConstants.DIGITS_REGEX)) {
@@ -73,7 +74,8 @@ public class BookValidator {
 	 * @throws ValidationException If author is empty
 	 */
 	public boolean validateAuthor(String author) throws ValidationException {
-		if (author == null || author.isEmpty()) {
+		author = author.trim();
+		if (author.isEmpty()) {
 			throw new ValidationException(BookConstants.BOOK_AUTHOR_CANNOT_BE_EMPTY);
 		}
 		if (author.matches(BookConstants.DIGITS_REGEX)) {
@@ -90,7 +92,8 @@ public class BookValidator {
 	 * @throws ValidationException If publisher is empty
 	 */
 	public boolean validatePublisher(String publisher) throws ValidationException {
-		if (publisher == null || publisher.isEmpty()) {
+		publisher = publisher.trim();
+		if (publisher.isEmpty()) {
 			throw new ValidationException(BookConstants.BOOK_PUBLISHER_CANNOT_BE_EMPTY);
 		}
 		if (publisher.matches(BookConstants.DIGITS_REGEX)) {
@@ -107,7 +110,8 @@ public class BookValidator {
 	 * @throws ValidationException If the genre is empty
 	 */
 	public boolean validateGenre(String genre) throws ValidationException {
-		if (genre == null || genre.isEmpty()) {
+		genre = genre.trim();
+		if (genre.isEmpty()) {
 			throw new ValidationException(BookConstants.BOOK_GENRE_CANNOT_BE_EMPTY);
 		}
 		if (genre.matches(BookConstants.DIGITS_REGEX)) {
@@ -124,7 +128,8 @@ public class BookValidator {
 	 * @throws ValidationException If language is empty
 	 */
 	public boolean validateLanguage(String language) throws ValidationException {
-		if (language == null || language.isEmpty()) {
+		language = language.trim();
+		if (language.isEmpty()) {
 			throw new ValidationException(BookConstants.BOOK_LANGUAGE_CANNOT_BE_EMPTY);
 		}
 		if (language.matches(BookConstants.DIGITS_REGEX)) {
@@ -141,7 +146,8 @@ public class BookValidator {
 	 * @throws ValidationException If the description is empty
 	 */
 	public boolean validateDescription(String description) throws ValidationException {
-		if (description == null || description.isEmpty()) {
+		description = description.trim();
+		if (description.isEmpty()) {
 			throw new ValidationException(BookConstants.BOOK_DESCRIPTION_CANNOT_BE_EMPTY);
 		}
 		if (description.matches(BookConstants.DIGITS_REGEX)) {

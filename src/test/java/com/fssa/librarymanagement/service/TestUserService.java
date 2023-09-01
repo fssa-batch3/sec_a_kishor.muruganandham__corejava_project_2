@@ -118,7 +118,7 @@ class TestUserService {
 		try {
 			boolean isDeleted = userService.deleteUser(user.getEmail());
 			assertTrue(isDeleted);
-			User deletedUser = userDAO.getUser(user.getEmail());
+			User deletedUser = userDAO.getUserByEmail(user.getEmail());
 			assertNull(deletedUser);
 		} catch (ServiceException | DAOException e) {
 			e.printStackTrace();

@@ -1,6 +1,11 @@
 package com.fssa.librarymanagement.constants;
 
+/**
+ * This class holds constant values related to users in the library management system.
+ * It provides predefined values, Error Messages and Success messages.
+ */
 public class UserConstants {
+
 	public static final String EMAIL_CANNOT_BE_EMPTY = "Email cannot be empty";
 	public static final String INVALID_EMAIL_FORMAT = "Invalid email format. Email should be in the format " +
 			"'user@example.com'";
@@ -24,9 +29,17 @@ public class UserConstants {
 	public static final String INVALID_DATE_OF_BIRTH_MUST_BE_AT_LEAST_10_YEARS_OLD = "Invalid date of birth. Must be" +
 			" " +
 			"at least 10 years old.";
-	public static final String DATE_OF_BIRTH_CANNOT_BE_IN_THE_FUTURE = "Date of birth cannot be in the future";
+	public static final String INVALID_DATE_OF_BIRTH_CANNOT_EXCEED_100_YEARS = "Invalid date of birth. Cannot exceed " +
+			"100 years";
+	public static final String USER_ALREADY_EXISTS = "User already exists.";
+	public static final String USER_DOES_NOT_EXIST_WITH_THE_GIVEN_EMAIL = "User does not exist with the given email";
+	public static final String PASSWORD_MISMATCH = "Password mismatch.";
+	public static final String INVALID_MOBILE_NUMBER_FORMAT = "Invalid mobile number format. Mobile Number should be " +
+			"like '8925000089'";
+	public static final String INVALID_MOBILE_NUMBER_LENGTH = "Mobile number should be be 10 digits";
 	private UserConstants() {
 		// Private constructor to prevent instantiation
 	}
+
 
 }

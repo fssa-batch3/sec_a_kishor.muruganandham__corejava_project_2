@@ -73,7 +73,7 @@ public class BorrowDAO {
 			int rowsAffected = pst.executeUpdate();
 			return rowsAffected > 0;
 		} catch (SQLException e) {
-			throw new DAOException("Error fetching return data: " + e.getMessage(), e);
+			throw new DAOException(e);
 		}
 	}
 
@@ -100,7 +100,7 @@ public class BorrowDAO {
 				}
 			}
 		} catch (SQLException e) {
-			throw new DAOException("Error fetching borrow data of the user: " + e.getMessage(), e);
+			throw new DAOException(e);
 		}
 		return borrowList;
 	}
@@ -128,7 +128,7 @@ public class BorrowDAO {
 				}
 			}
 		} catch (SQLException e) {
-			throw new DAOException("Error fetching borrow data of the book: " + e.getMessage(), e);
+			throw new DAOException(e);
 		}
 		return borrowList;
 	}

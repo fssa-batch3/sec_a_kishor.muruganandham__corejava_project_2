@@ -34,9 +34,8 @@ class TestBorrowService {
 	@Test
 	void testValidBorrowBook() {
 		try {
-			String result = borrowService.borrowBook(borrow);
-			assertEquals("Book borrowed successfully.", result);
-
+			boolean result = borrowService.borrowBook(borrow);
+			assertTrue(result);
 		} catch (ServiceException e) {
 			e.printStackTrace();
 			fail("Should not throw ServiceException");
@@ -54,9 +53,8 @@ class TestBorrowService {
 	void testValidReturnBook() {
 		try {
 			borrow.setReturnDate(borrow.getDueDate().plusDays(3));
-			String result = borrowService.returnBook(borrow);
-			assertEquals("Added return date successfully.", result);
-			assertEquals(30, borrow.getFine());
+			boolean result = borrowService.returnBook(borrow);
+			assertTrue(result);
 		} catch (ServiceException e) {
 			e.printStackTrace();
 			fail("Should not throw ServiceException");

@@ -204,9 +204,10 @@ public class BookDAO {
 	 * @param bookId              The ID of the book
 	 * @param loanedCopyChange    The change in loaned copies counts (positive for increase, negative for decrease)
 	 * @param availableCopyChange The change in available copies counts (positive for increase, negative for decrease)
+	 * @return true if the update was successful, false otherwise
 	 * @throws DAOException If an error occurs during database operation
 	 */
-	public void updateBookCopies(int bookId, int loanedCopyChange, int availableCopyChange) throws DAOException {
+	public boolean updateBookCopies(int bookId, int loanedCopyChange, int availableCopyChange) throws DAOException {
 		String query = "UPDATE books SET loaned_copies = loaned_copies + ?, available_copies = available_copies + ? " +
 				"WHERE book_id = ?";
 		try (Connection connection = ConnectionUtil.getConnection();
@@ -216,11 +217,13 @@ public class BookDAO {
 			preparedStatement.setInt(2, availableCopyChange);
 			preparedStatement.setInt(3, bookId);
 
-			preparedStatement.executeUpdate();
+			int rowsUpdated = preparedStatement.executeUpdate();
+			return rowsUpdated > 0;
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		}
 	}
+
 
 	/**
 	 * Marks a book as inactive (soft delete) by its title.
