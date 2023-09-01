@@ -25,6 +25,7 @@ public class BookDAO {
 	 * @return The Book object if found, otherwise null
 	 * @throws DAOException If an error occurs during database operation
 	 */
+
 	public Book getBookByTitle(String bookName) throws DAOException {
 		Book book = null;
 		String query = "SELECT * FROM books WHERE title = ? AND isActive = true AND available_copies >= 1";
@@ -45,6 +46,38 @@ public class BookDAO {
 		}
 		return book;
 	}
+
+	/**
+	 * Checks if a book with the given title exists in the database.
+	 *
+	 * @param bookId The title of the book to check.
+	 * @return {@code true} if a book with the specified title exists and meets certain criteria,
+	 * {@code false} otherwise.
+	 * @throws DAOException If an error occurs during the database operation.
+	 */
+
+	public boolean doesBookExist(int bookId) throws DAOException {
+		boolean bookExists = false;
+		String query = "SELECT COUNT(*) FROM books WHERE book_id = ? AND isActive = true AND available_copies >= 1";
+
+		try (Connection connection = ConnectionUtil.getConnection();
+		     PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+			preparedStatement.setInt(1, bookId);
+
+			try (ResultSet rs = preparedStatement.executeQuery()) {
+				if (rs.next()) {
+					int count = rs.getInt(1);
+					bookExists = (count > 0);
+				}
+			}
+
+		} catch (SQLException | NullPointerException e) {
+			throw new DAOException(e);
+		}
+		return bookExists;
+	}
+
 
 	/**
 	 * Creates a new book.
@@ -168,7 +201,7 @@ public class BookDAO {
 	/**
 	 * Updates the loaned and available copies of a book.
 	 *
-	 * @param bookId                The ID of the book
+	 * @param bookId              The ID of the book
 	 * @param loanedCopyChange    The change in loaned copies counts (positive for increase, negative for decrease)
 	 * @param availableCopyChange The change in available copies counts (positive for increase, negative for decrease)
 	 * @throws DAOException If an error occurs during database operation
@@ -192,16 +225,16 @@ public class BookDAO {
 	/**
 	 * Marks a book as inactive (soft delete) by its title.
 	 *
-	 * @param bookName The title of the book to be marked as inactive
+	 * @param bookId The title of the book to be marked as inactive
 	 * @return true if the book is successfully marked as inactive, false otherwise
 	 * @throws DAOException If an error occurs during database operation
 	 */
-	public boolean deleteBook(String bookName) throws DAOException {
-		String query = "UPDATE books SET isActive = false WHERE title = ?";
+	public boolean deleteBook(int bookId) throws DAOException {
+		String query = "UPDATE books SET isActive = false WHERE book_id = ?";
 		try (Connection connection = ConnectionUtil.getConnection();
 		     PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-			preparedStatement.setString(1, bookName);
+			preparedStatement.setInt(1, bookId);
 
 			int rowsAffected = preparedStatement.executeUpdate();
 			return rowsAffected > 0;

@@ -13,11 +13,6 @@ public class ErrorMessageConstants {
 	public static final String FAILED_TO_RETURN_BOOK = "Failed to return the book.";
 	public static final String FAILED_TO_BORROW_BOOK = "Failed to borrow the book.";
 
-	// Error messages related to book operations
-	public static final String BOOK_UPDATE_FAILED = "Failed to update the book details.";
-	public static final String BOOK_ALREADY_EXISTS = "Book already exists.";
-	public static final String FAILED_TO_CREATE_BOOK = "Failed to create a new book.";
-	public static final String BOOK_NOT_FOUND = "Book not found.";
 
 	// Error messages related to user operations
 	public static final String USER_ALREADY_EXISTS = "User already exists.";

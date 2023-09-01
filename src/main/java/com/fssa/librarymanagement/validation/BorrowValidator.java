@@ -38,6 +38,7 @@ public class BorrowValidator {
 	 * @throws ValidationException If any validation fails
 	 */
 	public boolean validateAll() throws ValidationException {
+		// TO Do validations for user and book specific fields
 		return validateBorrowDate(borrow.getBorrowDate()) && validateReturnDate(borrow.getReturnDate());
 	}
 

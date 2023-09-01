@@ -47,32 +47,28 @@ public class UserDAO {
 		}
 	}
 
+
 	/**
-	 * Retrieves a user by their email.
+	 * Checks if a user with the given email exists.
 	 *
-	 * @param searchValue The email of the user to retrieve
-	 * @return The User object if found, otherwise null
-	 * @throws DAOException If an error occurs during database operation
+	 * @param email The email of the user to check for existence.
+	 * @return True if the user with the given email exists and is active, otherwise false.
+	 * @throws DAOException If an error occurs during the database operation.
 	 */
-	public User getUser(String searchValue) throws DAOException {
-		User user = null;
-		String query = "SELECT user_id, user_name, email_id, mobile_no, password, gender, dob, created_date, "
-				+ "isActive," + " isAdmin, profile_image " + "FROM users WHERE email_id = ? AND isActive = true";
+	public boolean doesUserExist(String email) throws DAOException {
+		String query = "SELECT 1 FROM users WHERE email_id = ? AND isActive = true";
 		try (Connection connection = ConnectionUtil.getConnection();
 		     PreparedStatement pst = connection.prepareStatement(query)) {
 
-			pst.setString(1, searchValue);
+			pst.setString(1, email);
 
 			try (ResultSet rs = pst.executeQuery()) {
-				if (rs.next()) {
-					user = buildUserFromResultSet(rs);
-				}
+				return rs.next(); // If a row is found, the user exists
 			}
 
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		}
-		return user;
 	}
 
 	/**
@@ -102,6 +98,35 @@ public class UserDAO {
 		}
 		return user;
 	}
+
+	/**
+	 * Retrieves a user by their email.
+	 *
+	 * @param email The email of the user to retrieve
+	 * @return The User object if found, otherwise null
+	 * @throws DAOException If an error occurs during database operation
+	 */
+	public User getUserByEmail(String email) throws DAOException {
+		User user = null;
+		String query = "SELECT user_id, user_name, email_id, mobile_no, password, gender, dob, created_date, "
+				+ "isActive, isAdmin, profile_image " + "FROM users WHERE email_id = ? AND isActive = true";
+		try (Connection connection = ConnectionUtil.getConnection();
+		     PreparedStatement pst = connection.prepareStatement(query)) {
+
+			pst.setString(1, email);
+
+			try (ResultSet rs = pst.executeQuery()) {
+				if (rs.next()) {
+					user = buildUserFromResultSet(rs);
+				}
+			}
+
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		}
+		return user;
+	}
+
 
 	/**
 	 * Retrieves a list of all users.

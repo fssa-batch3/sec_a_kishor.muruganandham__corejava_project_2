@@ -1,7 +1,7 @@
 package com.fssa.librarymanagement.service;
 
+import com.fssa.librarymanagement.constants.BookConstants;
 import com.fssa.librarymanagement.constants.ErrorMessageConstants;
-import com.fssa.librarymanagement.constants.SuccessMessageConstants;
 import com.fssa.librarymanagement.dao.UserDAO;
 import com.fssa.librarymanagement.exceptions.DAOException;
 import com.fssa.librarymanagement.exceptions.ServiceException;
@@ -25,26 +25,21 @@ public class UserService {
 	 * Register a new user.
 	 *
 	 * @param user The user object to be registered.
-	 * @return A success message if registration is successful, or an error message
-	 * if not.
+	 * @return True if the user is registered successfully, false otherwise.
 	 * @throws ServiceException If there's a problem with the service.
 	 */
-	public String registerUser(User user) throws ServiceException {
+	public boolean registerUser(User user) throws ServiceException {
 		try {
 			UserValidator userValidator = new UserValidator(user);
 			userValidator.validateAll();
 
 			// Check if the user already exists and is Active
-			User existingUser = userDAO.getUser(user.getEmail());
-			if (existingUser != null && existingUser.isActive()) {
+			boolean existingUser = userDAO.doesUserExist(user.getEmail());
+			if (existingUser) {
 				throw new ServiceException(ErrorMessageConstants.USER_ALREADY_EXISTS);
 			}
-			// Create the user in Database
-			if (userDAO.createUser(user)) {
-				return SuccessMessageConstants.REGISTRATION_SUCCESSFUL;
-			} else {
-				return ErrorMessageConstants.REGISTRATION_FAILED;
-			}
+
+			return userDAO.createUser(user);    // Create the user in Database
 		} catch (ValidationException | DAOException e) {
 			throw new ServiceException(e.getMessage());
 		}
@@ -64,7 +59,7 @@ public class UserService {
 			userValidator.validatePassword(user.getPassword());
 
 			// Retrieve the user from the database
-			User fromDb = userDAO.getUser(user.getEmail());
+			User fromDb = userDAO.getUserByEmail(user.getEmail());
 			if (fromDb == null) {
 				throw new ServiceException(ErrorMessageConstants.USER_NOT_EXISTS);
 			}
@@ -95,6 +90,24 @@ public class UserService {
 	}
 
 	/**
+	 * Retrieve a user by their email.
+	 *
+	 * @param email The email of the user to be retrieved.
+	 * @return The user object if found, or null if not found.
+	 * @throws ServiceException If there's a problem with the service.
+	 */
+	public User getUserByEmail(String email) throws ServiceException {
+		try {
+			UserValidator userValidator = new UserValidator();
+			userValidator.validateEmail(email);
+			return userDAO.getUserByEmail(email);
+		} catch (ValidationException | DAOException e) {
+			throw new ServiceException(e.getMessage());
+		}
+	}
+
+
+	/**
 	 * Get a list of all users.
 	 *
 	 * @return A list of user objects.
@@ -102,8 +115,14 @@ public class UserService {
 	 */
 	public List<User> listAllUser() throws ServiceException {
 		try {
-			// Retrieve all users from the database
-			return userDAO.getAllUsers();
+			List<User> users = userDAO.getAllUsers();   // Retrieve all users from the database
+
+			// Check if the list is not null and has elements
+			if (users != null && !users.isEmpty()) {
+				return users;
+			} else {
+				throw new ServiceException(BookConstants.BOOK_NOT_FOUND);
+			}
 		} catch (DAOException e) {
 			throw new ServiceException(e.getMessage());
 		}
@@ -113,19 +132,25 @@ public class UserService {
 	 * Edit a user's information.
 	 *
 	 * @param user The user object containing updated information.
-	 * @return The updated user object.
+	 * @return True if the user is updated successfully, false otherwise.
 	 * @throws ServiceException If there's a problem with the service.
 	 */
-	public User editUser(User user) throws ServiceException {
+	public boolean editUser(User user) throws ServiceException {
 		try {
+			UserValidator userValidator = new UserValidator(user);
+			userValidator.validateName(user.getName());
+			userValidator.validateProfileImage(user.getProfileImage());
+			userValidator.validateDateOfBirth(user.getDob());
+			userValidator.validateGender(user.getGender());
+			userValidator.validateMobileNo(user.getMobileNo());
 
-			// Update the user in Database
-			if (!userDAO.updateUser(user)) {
-				throw new ServiceException(ErrorMessageConstants.FAILED_TO_UPDATE_USER);
+			boolean userExist = userDAO.doesUserExist(user.getEmail());   // Check if the user exists
+			if (!userExist) {
+				throw new ServiceException(ErrorMessageConstants.USER_NOT_EXISTS);
 			}
-			// Return the updated user object
-			return userDAO.getUser(user.getEmail());
-		} catch (DAOException e) {
+
+			return userDAO.updateUser(user);    // Update the user and return true if successful
+		} catch (ValidationException | DAOException e) {
 			throw new ServiceException(e.getMessage());
 		}
 	}
@@ -139,13 +164,13 @@ public class UserService {
 	 */
 	public boolean deleteUser(String email) throws ServiceException {
 		try {
-			// Check if the user exists
-			User existingUser = userDAO.getUser(email);
-			if (existingUser == null) {
+
+			boolean userExist = userDAO.doesUserExist(email);   // Check if the user exists
+			if (!userExist) {
 				throw new ServiceException(ErrorMessageConstants.USER_NOT_EXISTS);
 			}
-			// Delete the user and return true if successful
-			return userDAO.deleteUser(email);
+
+			return userDAO.deleteUser(email);   // Delete the user and return true if successful
 		} catch (DAOException e) {
 			throw new ServiceException(e.getMessage());
 		}

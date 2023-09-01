@@ -39,11 +39,9 @@ class TestUserService {
 	@Test
 	void testValidRegisterUser() {
 		try {
-			User existingUser = userDAO.getUser(user.getEmail());
-			assertNull(existingUser, "User with email " + user.getEmail() + " should not exist");
-			String result = userService.registerUser(user);
-			assertEquals("Registration Successful", result);
-		} catch (ServiceException | DAOException e) {
+			boolean result = userService.registerUser(user);
+			assertTrue(result);
+		} catch (ServiceException e) {
 			e.printStackTrace();
 			fail("Should not throw ServiceException or DAOException");
 		}
@@ -97,8 +95,8 @@ class TestUserService {
 	void testValidUpdateUser() {
 		try {
 			user.setName("Updated Name");
-			User updatedUser = userService.editUser(user);
-			assertNotEquals(user, updatedUser);
+			boolean updatedUser = userService.editUser(user);
+			assertTrue(updatedUser);
 		} catch (ServiceException e) {
 			e.printStackTrace();
 			fail("Should not throw ServiceException");

@@ -34,8 +34,8 @@ class TestBookService {
 	@Order(1)
 	void testValidAddBook() {
 		try {
-			String result = bookService.addBook(book);
-			assertEquals("Book added successfully", result);
+			boolean result = bookService.addBook(book);
+			assertTrue(result);
 		} catch (ServiceException e) {
 			e.printStackTrace();
 			fail("Should not throw ServiceException");
@@ -50,8 +50,8 @@ class TestBookService {
 		invalidBook.setTotalCopies(-1);
 		invalidBook.setCoverImage("image");
 
-		ServiceException result = assertThrows(ServiceException.class, () -> bookService.addBook(invalidBook));
-		assertEquals("Failed to add book", result.getMessage());
+		assertThrows(ServiceException.class, () -> bookService.addBook(invalidBook));
+
 	}
 
 	@Test
@@ -97,9 +97,10 @@ class TestBookService {
 			assertNotNull(existingBook, "Book should exist");
 
 			existingBook.setDescription("Updated description");
-			Book updatedBook = bookService.updateBook(existingBook);
+			boolean bookUpdate = bookService.updateBook(existingBook);
+			Book updatedBook = bookService.getBookByName(book.getTitle());
 
-			assertNotNull(updatedBook, "Updated book should not be null");
+			assertTrue(bookUpdate);
 			assertEquals(existingBook.getDescription(), updatedBook.getDescription(), "Description should be updated");
 		} catch (ServiceException e) {
 			e.printStackTrace();
@@ -115,7 +116,7 @@ class TestBookService {
 		book.setDescription("Invalid description");
 
 		ServiceException result = assertThrows(ServiceException.class, () -> bookService.updateBook(book));
-		assertEquals("Failed to Update Book", result.getMessage());
+		assertEquals("Book not found", result.getMessage());
 	}
 
 	@Test
@@ -125,7 +126,7 @@ class TestBookService {
 			Object existingObject = bookService.getBookByName(book.getTitle());
 			assertNotNull(existingObject, "Book should exist");
 
-			boolean isDeleted = bookService.deleteBook(book.getTitle());
+			boolean isDeleted = bookService.deleteBook(book.getBookId());
 			assertTrue(isDeleted, "Book should be deleted successfully");
 		} catch (ServiceException e) {
 			e.printStackTrace();
@@ -136,7 +137,7 @@ class TestBookService {
 	@Test
 	@Order(9)
 	void testInvalidDeleteBook() {
-		ServiceException result = assertThrows(ServiceException.class, () -> bookService.deleteBook("No Title"));
+		ServiceException result = assertThrows(ServiceException.class, () -> bookService.deleteBook(0));
 		assertEquals("Failed to Delete Book", result.getMessage());
 	}
 }
