@@ -28,7 +28,7 @@ public class BookConstants {
 	public static final String COVER_IMAGE_URL_CANNOT_BE_EMPTY = "Cover image URL cannot be empty";
 	public static final String INVALID_COVER_IMAGE_URL = "Invalid Cover image URL. URL should be in the format " +
 			"'http://www.example.com/index.html'";
-	public static String DIGITS_REGEX = ".*[0-9].*";
+	public static final String DIGITS_REGEX = ".*[0-9].*";
 
 	private BookConstants() {
 		// Private constructor to prevent instantiation
