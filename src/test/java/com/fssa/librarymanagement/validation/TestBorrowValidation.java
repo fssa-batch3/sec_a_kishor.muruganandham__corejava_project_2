@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TestBorrowValidation {
 
-	private BorrowValidator borrowValidator;
+	private BorrowValidator borrowValidator = new BorrowValidator();
 	private Borrow borrow;
 
 	@BeforeEach

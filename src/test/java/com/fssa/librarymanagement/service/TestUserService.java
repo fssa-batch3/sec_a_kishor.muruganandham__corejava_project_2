@@ -24,14 +24,11 @@ class TestUserService {
 		user = new User();
 		userDAO = new UserDAO();
 		user.setName("Kishor");
-		user.setEmail("kishor@example.com");
-		user.setMobileNo(1234567890);
-		user.setPassword("password123");
+		user.setEmail("kishor.muruganandham@gmail.com");
+		user.setMobileNo(8925603157L);
+		user.setPassword("12345Kishor");
 		user.setGender('M');
 		user.setDob(LocalDate.parse("2002-06-28"));
-		user.setCreatedDate(new java.sql.Timestamp(System.currentTimeMillis()));
-		user.setActive(true);
-		user.setAdmin(false);
 		user.setProfileImage("http://www.example.com/index.html");
 	}
 

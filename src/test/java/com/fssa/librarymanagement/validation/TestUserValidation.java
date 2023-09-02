@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class TestUserValidation {
 	private final UserValidator userValidator = new UserValidator();
 
+
 	@Test
 	void testValidMobileNo() {
 		long validMobileNo = 8925603157L;
@@ -33,6 +34,15 @@ class TestUserValidation {
 	}
 
 	@Test
+	void testInValidMobileNo_ShortNumber() {
+
+		ValidationException result = assertThrows(ValidationException.class,
+		                                          () -> userValidator.validateMobileNo(892560315));
+		assertEquals("Mobile number should be be 10 digits", result.getMessage());
+	}
+
+
+	@Test
 	void testValidEmail() throws ValidationException {
 		String validEmail = "kishor@gmail.com";
 		boolean result = userValidator.validateEmail(validEmail);
@@ -40,9 +50,23 @@ class TestUserValidation {
 	}
 
 	@Test
-	void testInvalidEmail() {
+	void testInvalidEmail_Empty() {
 		ValidationException result = assertThrows(ValidationException.class, () -> userValidator.validateEmail(""));
 		assertEquals("Email cannot be empty", result.getMessage());
+	}
+
+	@Test
+	void testInvalidEmail_Null() {
+		ValidationException result = assertThrows(ValidationException.class, () -> userValidator.validateEmail(null));
+		assertEquals("Email cannot be empty", result.getMessage());
+	}
+
+	@Test
+	void testInvalidEmail_InvalidFormat() {
+		ValidationException result = assertThrows(ValidationException.class, () -> userValidator.validateEmail(
+				"kishor" +
+						"%gmail.com"));
+		assertEquals("Invalid email format. Email should be in the format 'user@example.com'", result.getMessage());
 	}
 
 	@Test
@@ -62,15 +86,38 @@ class TestUserValidation {
 
 	@Test
 	void testInValidPasswordShortPassword() {
-		String shortPassword = "invalid";
+		String shortPassword = "123Kis";
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> userValidator.validatePassword(shortPassword));
 		assertEquals("Password is less than the expected length of 8 characters", result.getMessage());
 	}
 
 	@Test
-	void testValidGender() throws ValidationException {
+	void testInValidPasswordFormat() {
+		String shortPassword = "12345kishor";
+		ValidationException result = assertThrows(ValidationException.class,
+		                                          () -> userValidator.validatePassword(shortPassword));
+		assertEquals("Password must contain at least one uppercase letter, one lowercase letter, and one digit",
+		             result.getMessage());
+	}
+
+	@Test
+	void testInValidPasswordNullPassword() {
+		ValidationException result = assertThrows(ValidationException.class,
+		                                          () -> userValidator.validatePassword(null));
+		assertEquals("Password cannot be empty", result.getMessage());
+	}
+
+	@Test
+	void testValidGenderMale() throws ValidationException {
 		char validGender = 'M';
+		boolean result = userValidator.validateGender(validGender);
+		assertTrue(result);
+	}
+
+	@Test
+	void testValidGenderFemale() throws ValidationException {
+		char validGender = 'F';
 		boolean result = userValidator.validateGender(validGender);
 		assertTrue(result);
 	}
@@ -91,11 +138,18 @@ class TestUserValidation {
 	}
 
 	@Test
-	void testInValidUrl_EmptyUrl() {
+	void testInValidUrlEmptyUrl() {
 		String emptyProfileImage = "";
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> userValidator.validateProfileImage(emptyProfileImage));
-		assertEquals("Profile Image cannot be empty", result.getMessage());
+		assertEquals("Profile image URL cannot be empty", result.getMessage());
+	}
+
+	@Test
+	void testInValidUrlNUllUrl() {
+		ValidationException result = assertThrows(ValidationException.class,
+		                                          () -> userValidator.validateProfileImage(null));
+		assertEquals("Profile image URL cannot be empty", result.getMessage());
 	}
 
 	@Test
@@ -103,7 +157,8 @@ class TestUserValidation {
 		String invalidProfileImage = "kishor.com";
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> userValidator.validateProfileImage(invalidProfileImage));
-		assertEquals("Invalid profile image URL", result.getMessage());
+		assertEquals("Invalid profile image URL. URL should be in the format 'http://www.example.com/index.html'",
+		             result.getMessage());
 	}
 
 	@Test
@@ -114,11 +169,18 @@ class TestUserValidation {
 	}
 
 	@Test
-	void testInValidName_EmptyName() {
+	void testInValidNameEmptyName() {
 		String emptyName = "";
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> userValidator.validateName(emptyName));
-		assertEquals("Name cannot be Empty", result.getMessage());
+		assertEquals("Name cannot be empty", result.getMessage());
+	}
+
+	@Test
+	void testInValidNameNullName() {
+		ValidationException result = assertThrows(ValidationException.class,
+		                                          () -> userValidator.validateName(null));
+		assertEquals("Name cannot be empty", result.getMessage());
 	}
 
 	@Test
@@ -126,7 +188,8 @@ class TestUserValidation {
 		String invalidName = "Kishor123";
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> userValidator.validateName(invalidName));
-		assertEquals("Invalid Name Format", result.getMessage());
+		assertEquals("Invalid name format. Name should start with a capital letter and may contain letters, spaces, " +
+				             "hyphens, and apostrophes.", result.getMessage());
 	}
 
 	@Test
@@ -148,15 +211,15 @@ class TestUserValidation {
 		LocalDate futureDob = LocalDate.now().plusYears(5);
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> userValidator.validateDateOfBirth(futureDob));
-		assertEquals("Date of birth cannot be in future", result.getMessage());
+		assertEquals("Invalid date of birth. Must be at least 10 years old.", result.getMessage());
 	}
 
 	@Test
 	void testInValidDateOfBirth_Young() {
-		LocalDate minAge = LocalDate.of(2015, 1, 1);
+		LocalDate minAge = LocalDate.of(1915, 1, 1);
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> userValidator.validateDateOfBirth(minAge));
-		assertEquals("Invalid date of birth. Must be at least 10 years old.", result.getMessage());
+		assertEquals("Invalid date of birth. Cannot exceed 100 years", result.getMessage());
 	}
 }
 

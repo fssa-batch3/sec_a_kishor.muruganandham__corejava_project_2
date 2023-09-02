@@ -132,11 +132,9 @@ public class BookService {
 	 */
 	public boolean deleteBook(int bookId) throws ServiceException {
 		try {
-			if (bookId <= 0) {
-				throw new ServiceException(BookConstants.FAILED_TO_DELETE_BOOK);
-			}
+
 			boolean bookExist = bookDAO.doesBookExist(bookId);    // Check if the book exists
-			if (bookExist) {
+			if (!bookExist) {
 				throw new ServiceException(BookConstants.BOOK_NOT_FOUND);
 			}
 

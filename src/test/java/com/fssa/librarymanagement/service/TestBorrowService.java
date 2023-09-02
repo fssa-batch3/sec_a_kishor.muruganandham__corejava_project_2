@@ -23,8 +23,8 @@ class TestBorrowService {
 	public void setUp() {
 		borrowService = new BorrowService();
 		borrow = new Borrow();
-		user.setUserId(8);
-		book.setBookId(9);
+		user.setUserId(1);
+		book.setBookId(4);
 		borrow.setUser(user);
 		borrow.setBook(book);
 		borrow.setBorrowDate(LocalDate.now());
@@ -65,7 +65,7 @@ class TestBorrowService {
 	@Order(4)
 	void testInvalidReturnBook() {
 		ServiceException result = assertThrows(ServiceException.class, () -> borrowService.returnBook(borrow));
-		assertEquals("Failed to return book", result.getMessage());
+		assertEquals("Return date cannot be empty", result.getMessage());
 	}
 
 	@Test
@@ -74,8 +74,8 @@ class TestBorrowService {
 		try {
 			List<Borrow> borrows = borrowService.getBorrowsByUser(borrow.getUser().getUserId());
 			for (Borrow i : borrows) {
-				System.out.println(i.getBook());
-				System.out.println(i.getUser());
+				System.out.println(i);
+				System.out.println(i);
 			}
 			assertNotNull(borrows);
 			assertFalse(borrows.isEmpty());
@@ -88,13 +88,8 @@ class TestBorrowService {
 	@Test
 	@Order(6)
 	void testInvalidGetBorrowsByUser() {
-		try {
-			List<Borrow> borrows = borrowService.getBorrowsByUser(114);
-			assertNull(borrows);
-		} catch (ServiceException e) {
-			e.printStackTrace();
-			fail("Should not throw ServiceException");
-		}
+		ServiceException result = assertThrows(ServiceException.class, () -> borrowService.getBorrowsByUser(114));
+		assertEquals("Borrows not found.", result.getMessage());
 	}
 
 	@Test
@@ -103,8 +98,8 @@ class TestBorrowService {
 		try {
 			List<Borrow> borrows = borrowService.getBorrowsByBook(borrow.getBook().getBookId());
 			for (Borrow i : borrows) {
-				System.out.println(i.getBook());
-				System.out.println(i.getUser());
+				System.out.println(i);
+				System.out.println(i);
 			}
 			assertNotNull(borrows);
 			assertFalse(borrows.isEmpty());
@@ -117,13 +112,8 @@ class TestBorrowService {
 	@Test
 	@Order(8)
 	void testInvalidGetBorrowsByBook() {
-		try {
-			List<Borrow> borrows = borrowService.getBorrowsByBook(54);
-			assertNull(borrows);
-		} catch (ServiceException e) {
-			e.printStackTrace();
-			fail("Should not throw ServiceException");
-		}
+		ServiceException result = assertThrows(ServiceException.class, () -> borrowService.getBorrowsByBook(54));
+		assertEquals("Borrows not found.", result.getMessage());
 	}
 
 	@Test

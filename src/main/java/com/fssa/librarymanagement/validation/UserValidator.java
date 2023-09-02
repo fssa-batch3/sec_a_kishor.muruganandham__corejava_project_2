@@ -57,6 +57,9 @@ public class UserValidator {
 	 * @throws ValidationException If email is invalid or empty
 	 */
 	public boolean validateEmail(String email) throws ValidationException {
+		if (email == null) {
+			throw new ValidationException(UserConstants.EMAIL_CANNOT_BE_EMPTY);
+		}
 		final String emailRegEx = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
 		email = email.trim();
 		if (email.isEmpty()) {
@@ -82,13 +85,10 @@ public class UserValidator {
 			throw new ValidationException(UserConstants.MOBILE_NUMBER_CANNOT_BE_EMPTY);
 		}
 		// Length check
-		if (mobileNoStr.length() == 10) {
+		if (mobileNoStr.length() != 10) {
 			throw new ValidationException(UserConstants.INVALID_MOBILE_NUMBER_LENGTH);
 		}
-		// Numeric check
-		if (!mobileNoStr.matches("\\d+")) {
-			throw new ValidationException(UserConstants.INVALID_MOBILE_NUMBER_FORMAT);
-		}
+
 		return true;
 	}
 
@@ -100,6 +100,9 @@ public class UserValidator {
 	 * @throws ValidationException If the password is empty or too short
 	 */
 	public boolean validatePassword(String password) throws ValidationException {
+		if (password == null) {
+			throw new ValidationException(UserConstants.PASSWORD_CANNOT_BE_EMPTY);
+		}
 		password = password.trim();
 		if (password.isEmpty()) {
 			throw new ValidationException(UserConstants.PASSWORD_CANNOT_BE_EMPTY);
@@ -134,6 +137,9 @@ public class UserValidator {
 	 * @throws ValidationException If profile image URL is empty or invalid
 	 */
 	public boolean validateProfileImage(String profileImage) throws ValidationException {
+		if (profileImage == null) {
+			throw new ValidationException(UserConstants.PROFILE_IMAGE_URL_CANNOT_BE_EMPTY);
+		}
 		profileImage = profileImage.trim();
 		if (profileImage.isEmpty()) {
 			throw new ValidationException(UserConstants.PROFILE_IMAGE_URL_CANNOT_BE_EMPTY);
@@ -154,6 +160,9 @@ public class UserValidator {
 	 * @throws ValidationException If the name is empty or has an invalid format
 	 */
 	public boolean validateName(String name) throws ValidationException {
+		if (name == null) {
+			throw new ValidationException(UserConstants.NAME_CANNOT_BE_EMPTY);
+		}
 		name = name.trim();
 		boolean isMatch = Pattern.compile("^[A-Z' -]+$", Pattern.CASE_INSENSITIVE).matcher(name).find();
 		if (name.isEmpty()) {

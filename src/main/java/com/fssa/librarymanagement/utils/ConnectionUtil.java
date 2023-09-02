@@ -37,7 +37,7 @@ public class ConnectionUtil {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 
 			// Establish and return a connection
-			return DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+			return DriverManager.getConnection("jdbc:mysql://localhost:3306/library_management", "root", "root");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new RuntimeException("Unable to connect to the database");

@@ -7,7 +7,6 @@ package com.fssa.librarymanagement.constants;
 public class BookConstants {
 
 	public static final String BOOK_NOT_FOUND = "Book not found.";
-	public static final String FAILED_TO_DELETE_BOOK = "Failed to Delete Book";
 	public static final String BOOK_TITLE_CANNOT_BE_EMPTY = "Book title cannot be empty";
 	public static final String BOOK_TITLE_CANNOT_CONTAIN_NUMBERS = "Book title cannot contain Numbers";
 	public static final String BOOK_AUTHOR_CANNOT_BE_EMPTY = "Book author cannot be empty";
@@ -19,7 +18,6 @@ public class BookConstants {
 	public static final String BOOK_LANGUAGE_CANNOT_BE_EMPTY = "Book language cannot be empty";
 	public static final String BOOK_LANGUAGE_CANNOT_CONTAIN_NUMBERS = "Book language cannot contain Numbers";
 	public static final String BOOK_DESCRIPTION_CANNOT_BE_EMPTY = "Book description cannot be empty";
-	public static final String BOOK_DESCRIPTION_CANNOT_CONTAIN_NUMBERS = "Book description cannot contain Numbers";
 	public static final String TOTAL_COPIES_SHOULD_BE_GREATER_THAN_ZERO = "Total copies should be greater than zero";
 	public static final String AVAILABE_COPIES_CANNOT_BE_LESS_THAN_0 = "Availabe copies cannot be less than 0";
 	public static final String AVAILABLE_COPIES_CANNOT_BE_GREATER_THAN_TOTAL_COPIES = "Available copies cannot be " +
@@ -27,7 +25,13 @@ public class BookConstants {
 	public static final String LOANED_COPIES_CANNOT_BE_LESS_THAN_0 = "Loaned copies cannot be less than 0";
 	public static final String LOANED_COPIES_CANNOT_BE_GREATER_THAN_TOTAL_COPIES = "Loaned copies cannot be greater " +
 			"than total copies";
+	public static final String COVER_IMAGE_URL_CANNOT_BE_EMPTY = "Cover image URL cannot be empty";
+	public static final String INVALID_COVER_IMAGE_URL = "Invalid Cover image URL. URL should be in the format " +
+			"'http://www.example.com/index.html'";
 	public static String DIGITS_REGEX = ".*[0-9].*";
 
+	private BookConstants() {
+		// Private constructor to prevent instantiation
+	}
 
 }
