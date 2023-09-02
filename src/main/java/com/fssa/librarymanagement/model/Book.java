@@ -16,7 +16,13 @@ public class Book {
 	private int totalCopies;
 	private int availableCopies;
 	private int loanedCopies;
-	private String coverImage;
+	private String coverImage = "https://dummyimage.com/600x800/000/ffffff.png&text=Failed+to+Load+Image";
+
+	/**
+	 * Constructs a new Book object with default values.
+	 */
+	public Book() {
+	}
 
 	/**
 	 * Get the book's id.

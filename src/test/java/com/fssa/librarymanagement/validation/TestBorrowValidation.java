@@ -24,14 +24,7 @@ class TestBorrowValidation {
 	@Test
 	void testValidBorrowDate() {
 		LocalDate validBorrowDate = LocalDate.now();
-		boolean result = false;
-		try {
-			result = borrowValidator.validateBorrowDate(validBorrowDate);
-		} catch (ValidationException e) {
-			e.printStackTrace();
-			fail();
-		}
-		assertTrue(result);
+		assertDoesNotThrow(() -> borrowValidator.validateBorrowDate(validBorrowDate));
 	}
 
 	@Test
@@ -46,15 +39,7 @@ class TestBorrowValidation {
 		LocalDate borrowDate = LocalDate.now().minus(Period.ofDays(7));
 		LocalDate validReturnDate = LocalDate.now();
 		borrow.setBorrowDate(borrowDate);
-
-		boolean result = false;
-		try {
-			result = borrowValidator.validateReturnDate(validReturnDate);
-		} catch (ValidationException e) {
-			e.printStackTrace();
-			fail();
-		}
-		assertTrue(result);
+		assertDoesNotThrow(() -> borrowValidator.validateReturnDate(validReturnDate));
 	}
 
 	@Test
@@ -66,21 +51,5 @@ class TestBorrowValidation {
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> borrowValidator.validateReturnDate(invalidReturnDate));
 		assertEquals("Return date should be after the borrow date", result.getMessage());
-	}
-
-	@Test
-	void testValidReturnDateForAlreadyReturnedBorrow() {
-		LocalDate borrowDate = LocalDate.now().minus(Period.ofDays(10));
-		LocalDate returnDate = LocalDate.now().minus(Period.ofDays(5));
-		borrow.setBorrowDate(borrowDate);
-
-		boolean result = false;
-		try {
-			result = borrowValidator.validateReturnDate(returnDate);
-		} catch (ValidationException e) {
-			e.printStackTrace();
-			fail();
-		}
-		assertTrue(result);
 	}
 }

@@ -1,5 +1,6 @@
 package com.fssa.librarymanagement.dao;
 
+import com.fssa.librarymanagement.constants.UserConstants;
 import com.fssa.librarymanagement.exceptions.DAOException;
 import com.fssa.librarymanagement.model.User;
 import com.fssa.librarymanagement.utils.ConnectionUtil;
@@ -14,6 +15,13 @@ import static com.fssa.librarymanagement.utils.ResultSetUtils.buildUserFromResul
  * Data Access Object (DAO) class for handling User-related database operations.
  */
 public class UserDAO {
+
+
+	/**
+	 * Constructs a new UserDAO object for performing database operations related to users.
+	 */
+	public UserDAO() {
+	}
 
 	/**
 	 * Creates a new user.
@@ -80,8 +88,7 @@ public class UserDAO {
 	 */
 	public User getUserById(int userId) throws DAOException {
 		User user = null;
-		String query = "SELECT user_id, user_name, email_id, mobile_no, password, gender, dob, created_date, "
-				+ "isActive, isAdmin, profile_image " + "FROM users WHERE user_id = ? AND isActive = true";
+		String query = UserConstants.SELECT_QUERY + " WHERE user_id = ? AND isActive = true";
 		try (Connection connection = ConnectionUtil.getConnection();
 		     PreparedStatement pst = connection.prepareStatement(query)) {
 
@@ -108,8 +115,7 @@ public class UserDAO {
 	 */
 	public User getUserByEmail(String email) throws DAOException {
 		User user = null;
-		String query = "SELECT user_id, user_name, email_id, mobile_no, password, gender, dob, created_date, "
-				+ "isActive, isAdmin, profile_image " + "FROM users WHERE email_id = ? AND isActive = true";
+		String query = UserConstants.SELECT_QUERY + " WHERE email_id = ? AND isActive = true";
 		try (Connection connection = ConnectionUtil.getConnection();
 		     PreparedStatement pst = connection.prepareStatement(query)) {
 
@@ -136,10 +142,8 @@ public class UserDAO {
 	 */
 	public List<User> getAllUsers() throws DAOException {
 		List<User> userList = new ArrayList<>();
-		String query = "SELECT user_id, user_name, email_id, mobile_no, password, gender, dob, created_date, "
-				+ "isActive," + " isAdmin, profile_image " + "FROM users";
 		try (Connection connection = ConnectionUtil.getConnection();
-		     PreparedStatement pst = connection.prepareStatement(query);
+		     PreparedStatement pst = connection.prepareStatement(UserConstants.SELECT_QUERY);
 		     ResultSet rs = pst.executeQuery()) {
 
 			while (rs.next()) {

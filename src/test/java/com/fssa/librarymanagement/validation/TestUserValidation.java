@@ -13,20 +13,13 @@ class TestUserValidation {
 
 
 	@Test
-	void testValidMobileNo() {
+	void testValidMobileNumber() {
 		long validMobileNo = 8925603157L;
-		boolean result = false;
-		try {
-			result = userValidator.validateMobileNo(validMobileNo);
-		} catch (ValidationException e) {
-			e.printStackTrace();
-			fail();
-		}
-		assertTrue(result);
+		assertDoesNotThrow(() -> userValidator.validateMobileNo(validMobileNo));
 	}
 
 	@Test
-	void testInValidMobileNo() {
+	void testInvalidMobileNumber_Empty() {
 		long invalidMobileNo = 0;
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> userValidator.validateMobileNo(invalidMobileNo));
@@ -34,8 +27,7 @@ class TestUserValidation {
 	}
 
 	@Test
-	void testInValidMobileNo_ShortNumber() {
-
+	void testInvalidMobileNumber_ShortNumber() {
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> userValidator.validateMobileNo(892560315));
 		assertEquals("Mobile number should be be 10 digits", result.getMessage());
@@ -43,10 +35,9 @@ class TestUserValidation {
 
 
 	@Test
-	void testValidEmail() throws ValidationException {
+	void testValidEmail() {
 		String validEmail = "kishor@gmail.com";
-		boolean result = userValidator.validateEmail(validEmail);
-		assertTrue(result);
+		assertDoesNotThrow(() -> userValidator.validateEmail(validEmail));
 	}
 
 	@Test
@@ -64,20 +55,18 @@ class TestUserValidation {
 	@Test
 	void testInvalidEmail_InvalidFormat() {
 		ValidationException result = assertThrows(ValidationException.class, () -> userValidator.validateEmail(
-				"kishor" +
-						"%gmail.com"));
+				"kishor%gmail.com"));
 		assertEquals("Invalid email format. Email should be in the format 'user@example.com'", result.getMessage());
 	}
 
 	@Test
-	void testValidPassword() throws ValidationException {
+	void testValidPassword() {
 		String validPassword = "Kishor123";
-		boolean result = userValidator.validatePassword(validPassword);
-		assertTrue(result);
+		assertDoesNotThrow(() -> userValidator.validatePassword(validPassword));
 	}
 
 	@Test
-	void testInValidPasswordEmptyPassword() {
+	void testInvalidPassword_EmptyPassword() {
 		String emptyPassword = "";
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> userValidator.validatePassword(emptyPassword));
@@ -85,7 +74,7 @@ class TestUserValidation {
 	}
 
 	@Test
-	void testInValidPasswordShortPassword() {
+	void testInvalidPassword_ShortPassword() {
 		String shortPassword = "123Kis";
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> userValidator.validatePassword(shortPassword));
@@ -93,7 +82,7 @@ class TestUserValidation {
 	}
 
 	@Test
-	void testInValidPasswordFormat() {
+	void testInvalidPassword_InvalidFormat() {
 		String shortPassword = "12345kishor";
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> userValidator.validatePassword(shortPassword));
@@ -102,24 +91,22 @@ class TestUserValidation {
 	}
 
 	@Test
-	void testInValidPasswordNullPassword() {
+	void testInvalidPassword_NullPassword() {
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> userValidator.validatePassword(null));
 		assertEquals("Password cannot be empty", result.getMessage());
 	}
 
 	@Test
-	void testValidGenderMale() throws ValidationException {
+	void testValidGenderMale() {
 		char validGender = 'M';
-		boolean result = userValidator.validateGender(validGender);
-		assertTrue(result);
+		assertDoesNotThrow(() -> userValidator.validateGender(validGender));
 	}
 
 	@Test
-	void testValidGenderFemale() throws ValidationException {
+	void testValidGenderFemale() {
 		char validGender = 'F';
-		boolean result = userValidator.validateGender(validGender);
-		assertTrue(result);
+		assertDoesNotThrow(() -> userValidator.validateGender(validGender));
 	}
 
 	@Test
@@ -131,14 +118,13 @@ class TestUserValidation {
 	}
 
 	@Test
-	void testValidUrl() throws ValidationException {
+	void testValidUrl() {
 		String validProfileImage = "https://example.com/";
-		boolean result = userValidator.validateProfileImage(validProfileImage);
-		assertTrue(result);
+		assertDoesNotThrow(() -> userValidator.validateProfileImage(validProfileImage));
 	}
 
 	@Test
-	void testInValidUrlEmptyUrl() {
+	void testInvalidProfileImageURL_Empty() {
 		String emptyProfileImage = "";
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> userValidator.validateProfileImage(emptyProfileImage));
@@ -146,14 +132,14 @@ class TestUserValidation {
 	}
 
 	@Test
-	void testInValidUrlNUllUrl() {
+	void testInvalidProfileImageURL_Null() {
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> userValidator.validateProfileImage(null));
 		assertEquals("Profile image URL cannot be empty", result.getMessage());
 	}
 
 	@Test
-	void testInvalidUrl() {
+	void testInvalidProfileImageURL_InvalidFormat() {
 		String invalidProfileImage = "kishor.com";
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> userValidator.validateProfileImage(invalidProfileImage));
@@ -162,14 +148,13 @@ class TestUserValidation {
 	}
 
 	@Test
-	void testValidName() throws ValidationException {
+	void testValidName() {
 		String validName = "Kishor M";
-		boolean result = userValidator.validateName(validName);
-		assertTrue(result);
+		assertDoesNotThrow(() -> userValidator.validateName(validName));
 	}
 
 	@Test
-	void testInValidNameEmptyName() {
+	void testInvalidName_Empty() {
 		String emptyName = "";
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> userValidator.validateName(emptyName));
@@ -177,14 +162,14 @@ class TestUserValidation {
 	}
 
 	@Test
-	void testInValidNameNullName() {
+	void testInvalidName_Null() {
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> userValidator.validateName(null));
 		assertEquals("Name cannot be empty", result.getMessage());
 	}
 
 	@Test
-	void testInvalidName() {
+	void testInvalidName_InvalidFromat() {
 		String invalidName = "Kishor123";
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> userValidator.validateName(invalidName));
@@ -193,10 +178,9 @@ class TestUserValidation {
 	}
 
 	@Test
-	void testValidDateOfBirth_ValidDob() throws ValidationException {
+	void testValidDateOfBirth() {
 		LocalDate validDob = LocalDate.of(2003, 1, 1);
-		boolean result = userValidator.validateDateOfBirth(validDob);
-		assertTrue(result);
+		assertDoesNotThrow(() -> userValidator.validateDateOfBirth(validDob));
 	}
 
 	@Test
@@ -215,7 +199,7 @@ class TestUserValidation {
 	}
 
 	@Test
-	void testInValidDateOfBirth_Young() {
+	void testInvalidDateOfBirth_Exceeds100Years() {
 		LocalDate minAge = LocalDate.of(1915, 1, 1);
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> userValidator.validateDateOfBirth(minAge));

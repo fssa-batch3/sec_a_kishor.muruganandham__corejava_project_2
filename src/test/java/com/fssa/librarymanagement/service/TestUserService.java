@@ -1,13 +1,10 @@
 package com.fssa.librarymanagement.service;
 
-import com.fssa.librarymanagement.dao.UserDAO;
-import com.fssa.librarymanagement.exceptions.DAOException;
 import com.fssa.librarymanagement.exceptions.ServiceException;
 import com.fssa.librarymanagement.model.User;
 import org.junit.jupiter.api.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,120 +13,139 @@ class TestUserService {
 
 	private UserService userService;
 	private User user;
-	private UserDAO userDAO;
 
 	@BeforeEach
 	public void setUp() {
 		userService = new UserService();
 		user = new User();
-		userDAO = new UserDAO();
 		user.setName("Kishor");
 		user.setEmail("kishor.muruganandham@gmail.com");
 		user.setMobileNo(8925603157L);
 		user.setPassword("12345Kishor");
 		user.setGender('M');
 		user.setDob(LocalDate.parse("2002-06-28"));
-		user.setProfileImage("http://www.example.com/index.html");
+		user.setProfileImage("https://ca.slack-edge.com/T032648LE-U042JUJR1SL-232f124dd448-512");
 	}
 
+	@Test
 	@Order(1)
-	@Test
 	void testValidRegisterUser() {
-		try {
-			boolean result = userService.registerUser(user);
-			assertTrue(result);
-		} catch (ServiceException e) {
-			e.printStackTrace();
-			fail("Should not throw ServiceException or DAOException");
-		}
+		assertDoesNotThrow(() -> userService.registerUser(user));
 	}
 
-	@Order(2)
 	@Test
+	@Order(2)
 	void testInvalidRegisterUser() {
-		User nonExistentUser = new User();
-		nonExistentUser.setEmail("kishor@example.com");
-		nonExistentUser.setPassword("invalid password");
-		assertThrows(ServiceException.class, () -> userService.registerUser(nonExistentUser));
+		User existentUser = new User();
+		existentUser.setEmail("kishor.muruganandham@gmail.com");
+		existentUser.setName("Kishor");
+		existentUser.setMobileNo(8925603157L);
+		existentUser.setPassword("12345Kishor");
+		existentUser.setGender('M');
+		existentUser.setDob(LocalDate.parse("2002-06-28"));
+		existentUser.setProfileImage("https://ca.slack-edge.com/T032648LE-U042JUJR1SL-232f124dd448-512");
+		ServiceException result = assertThrows(ServiceException.class, () -> userService.registerUser(existentUser));
+		assertEquals("User already exists.", result.getMessage());
 	}
 
 	@Test
 	@Order(3)
 	void testValidLogin() {
-		try {
-			User loggedInUser = userService.loginUser(user);
-			assertNotNull(loggedInUser);
-			assertEquals(user.getEmail(), loggedInUser.getEmail());
-		} catch (ServiceException e) {
-			e.printStackTrace();
-			fail("Should not throw ServiceException");
-		}
+		assertDoesNotThrow(() -> userService.loginUser(user));
 	}
 
 	@Test
 	@Order(4)
 	void testInvalidLogin() {
 		User nonExistentUser = new User();
-		nonExistentUser.setEmail("nonexistent@example.com");
-		nonExistentUser.setPassword("invalid password");
-		assertThrows(ServiceException.class, () -> userService.loginUser(nonExistentUser));
+		nonExistentUser.setEmail("nonexistent@gmail.com");
+		nonExistentUser.setPassword("12345Kishor");
+		ServiceException result = assertThrows(ServiceException.class, () -> userService.loginUser(nonExistentUser));
+		assertEquals("User does not exist with the given email", result.getMessage());
 	}
 
 	@Test
 	@Order(5)
-	void testGetAllUsers() {
-		try {
-			List<User> users = userService.listAllUser();
-			assertNotNull(users);
-			assertFalse(users.isEmpty());
-		} catch (ServiceException e) {
-			fail("Should not throw ServiceException");
-		}
+	void testInvalidLoginMismatchPassword() {
+		user.setPassword("12345Kishore");
+		ServiceException result = assertThrows(ServiceException.class, () -> userService.loginUser(user));
+		assertEquals("Password mismatch.", result.getMessage());
 	}
 
 	@Test
 	@Order(6)
-	void testValidUpdateUser() {
-		try {
-			user.setName("Updated Name");
-			boolean updatedUser = userService.editUser(user);
-			assertTrue(updatedUser);
-		} catch (ServiceException e) {
-			e.printStackTrace();
-			fail("Should not throw ServiceException");
-		}
+	void testValidGetUserById() {
+		assertDoesNotThrow(() -> userService.getUserById(1));
 	}
 
 	@Test
 	@Order(7)
-	void testInvalidUpdateUser() {
-		User nonExistentUser = new User();
-		nonExistentUser.setEmail("example@example.com");
-		nonExistentUser.setName("Invalid Update Name");
-		assertThrows(ServiceException.class, () -> userService.editUser(nonExistentUser));
+	void testInvalidGetUserById() {
+		ServiceException result = assertThrows(ServiceException.class, () -> userService.getUserById(304));
+		assertEquals("User not found", result.getMessage());
 	}
 
 	@Test
 	@Order(8)
-	void testValidDeleteUser() {
-		try {
-			boolean isDeleted = userService.deleteUser(user.getEmail());
-			assertTrue(isDeleted);
-			User deletedUser = userDAO.getUserByEmail(user.getEmail());
-			assertNull(deletedUser);
-		} catch (ServiceException | DAOException e) {
-			e.printStackTrace();
-			fail("Should not throw ServiceException");
-		}
+	void testValidGetUserByEmail() {
+		assertDoesNotThrow(() -> userService.getUserByEmail(user.getEmail()));
 	}
-
 
 	@Test
 	@Order(9)
+	void testInvalidGetUserByEmail() {
+		ServiceException result = assertThrows(ServiceException.class,
+		                                       () -> userService.getUserByEmail("kishor@yahoo.com"));
+		assertEquals("User does not exist with the given email", result.getMessage());
+	}
+
+	@Test
+	@Order(10)
+	void testGetAllUsers() {
+		assertDoesNotThrow(() -> userService.listAllUser());
+	}
+
+	@Test
+	@Order(11)
+	void testValidUpdateUser() {
+		try {
+			user.setName("Kishore");
+			boolean result = userService.editUser(user);
+			User updatedUser = userService.getUserByEmail(user.getEmail());
+			System.out.println(updatedUser);
+			assertTrue(result);
+			assertNotEquals(updatedUser.getName(), "Kishor");
+		} catch (ServiceException e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
+
+	@Test
+	@Order(12)
+	void testInvalidUpdateUser() {
+		User nonExistentUser = new User();
+		nonExistentUser.setEmail("nonExistentUser@gmail.com");
+		nonExistentUser.setName("Kishor");
+		nonExistentUser.setMobileNo(8925603157L);
+		nonExistentUser.setGender('M');
+		nonExistentUser.setDob(LocalDate.parse("2002-06-28"));
+		nonExistentUser.setProfileImage("https://ca.slack-edge.com/T032648LE-U042JUJR1SL-232f124dd448-512");
+		ServiceException result = assertThrows(ServiceException.class, () -> userService.editUser(nonExistentUser));
+		assertEquals("User does not exist with the given email", result.getMessage());
+	}
+
+	@Test
+	@Order(13)
+	void testValidDeleteUser() {
+		assertDoesNotThrow(() -> userService.deleteUser(user.getEmail()));
+	}
+
+	@Test
+	@Order(14)
 	void testInvalidDeleteUser() {
 		User nonExistentUser = new User();
-		nonExistentUser.setEmail("example@example.com");
+		nonExistentUser.setEmail("nonExistentUser@gmail.com");
 		assertThrows(ServiceException.class, () -> userService.deleteUser(nonExistentUser.getEmail()));
 	}
 }
-

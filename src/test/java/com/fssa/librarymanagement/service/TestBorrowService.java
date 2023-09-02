@@ -24,14 +24,14 @@ class TestBorrowService {
 		borrowService = new BorrowService();
 		borrow = new Borrow();
 		user.setUserId(1);
-		book.setBookId(4);
+		book.setBookId(5);
 		borrow.setUser(user);
 		borrow.setBook(book);
 		borrow.setBorrowDate(LocalDate.now());
 	}
 
-	@Order(1)
 	@Test
+	@Order(1)
 	void testValidBorrowBook() {
 		try {
 			boolean result = borrowService.borrowBook(borrow);
@@ -42,14 +42,14 @@ class TestBorrowService {
 		}
 	}
 
-	@Order(2)
 	@Test
+	@Order(2)
 	void testInvalidBorrowBook() {
 		assertThrows(ServiceException.class, () -> borrowService.borrowBook(borrow));
 	}
 
-	@Order(3)
 	@Test
+	@Order(3)
 	void testValidReturnBook() {
 		try {
 			borrow.setReturnDate(borrow.getDueDate().plusDays(3));

@@ -17,6 +17,11 @@ import static com.fssa.librarymanagement.utils.ResultSetUtils.buildBookFromResul
  * Data Access Object (DAO) class for handling Book-related database operations.
  */
 public class BookDAO {
+	/**
+	 * Constructs a new BookDAO object for performing database operations related to books.
+	 */
+	public BookDAO() {
+	}
 
 	/**
 	 * Retrieves a book by its title.

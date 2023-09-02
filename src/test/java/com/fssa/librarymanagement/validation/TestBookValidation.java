@@ -11,14 +11,7 @@ class TestBookValidation {
 	@Test
 	void testValidTitle() {
 		String validTitle = "Sample Title";
-		boolean result = false;
-		try {
-			result = bookValidator.validateTitle(validTitle);
-		} catch (ValidationException e) {
-			e.printStackTrace();
-			fail("Should not throw ServiceException");
-		}
-		assertTrue(result);
+		assertDoesNotThrow(() -> bookValidator.validateTitle(validTitle));
 	}
 
 	@Test
@@ -30,14 +23,13 @@ class TestBookValidation {
 	}
 
 	@Test
-	void testInvalidNullTitle() {
-		ValidationException result = assertThrows(ValidationException.class,
-		                                          () -> bookValidator.validateTitle(null));
+	void testInvalid_Null() {
+		ValidationException result = assertThrows(ValidationException.class, () -> bookValidator.validateTitle(null));
 		assertEquals("Book title cannot be empty", result.getMessage());
 	}
 
 	@Test
-	void testInvalidTitleFormat() {
+	void testInvalidTitle_Format() {
 		String invalidTitle = "Core Java 1";
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> bookValidator.validateTitle(invalidTitle));
@@ -47,18 +39,11 @@ class TestBookValidation {
 	@Test
 	void testValidAuthor() {
 		String validAuthor = "Sample Author";
-		boolean result = false;
-		try {
-			result = bookValidator.validateAuthor(validAuthor);
-		} catch (ValidationException e) {
-			e.printStackTrace();
-			fail("Should not throw ServiceException");
-		}
-		assertTrue(result);
+		assertDoesNotThrow(() -> bookValidator.validateAuthor(validAuthor));
 	}
 
 	@Test
-	void testInvalidAuthor() {
+	void testInvalidAuthor_Empty() {
 		String invalidAuthor = "";
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> bookValidator.validateAuthor(invalidAuthor));
@@ -66,14 +51,13 @@ class TestBookValidation {
 	}
 
 	@Test
-	void testInvalidNullAuthor() {
-		ValidationException result = assertThrows(ValidationException.class,
-		                                          () -> bookValidator.validateAuthor(null));
+	void testInvalidAuthor_Null() {
+		ValidationException result = assertThrows(ValidationException.class, () -> bookValidator.validateAuthor(null));
 		assertEquals("Book author cannot be empty", result.getMessage());
 	}
 
 	@Test
-	void testInvalidAuthorFormat() {
+	void testInvalidAuthor_Format() {
 		String invalidAuthor = "Kishor123";
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> bookValidator.validateAuthor(invalidAuthor));
@@ -83,18 +67,11 @@ class TestBookValidation {
 	@Test
 	void testValidPublisher() {
 		String validPublisher = "Sample Publisher";
-		boolean result = false;
-		try {
-			result = bookValidator.validatePublisher(validPublisher);
-		} catch (ValidationException e) {
-			e.printStackTrace();
-			fail("Should not throw ServiceException");
-		}
-		assertTrue(result);
+		assertDoesNotThrow(() -> bookValidator.validatePublisher(validPublisher));
 	}
 
 	@Test
-	void testInvalidPublisher() {
+	void testInvalidPublisher_Empty() {
 		String invalidPublisher = "";
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> bookValidator.validatePublisher(invalidPublisher));
@@ -102,14 +79,14 @@ class TestBookValidation {
 	}
 
 	@Test
-	void testInvalidNullPublisher() {
+	void testInvalidPublisher_Null() {
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> bookValidator.validatePublisher(null));
 		assertEquals("Book publisher cannot be empty", result.getMessage());
 	}
 
 	@Test
-	void testInvalidPublisherFormat() {
+	void testInvalidPublisher_Format() {
 		String invalidPublisher = "Bharathi Publishers 12";
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> bookValidator.validatePublisher(invalidPublisher));
@@ -119,18 +96,11 @@ class TestBookValidation {
 	@Test
 	void testValidGenre() {
 		String validGenre = "Fiction";
-		boolean result = false;
-		try {
-			result = bookValidator.validateGenre(validGenre);
-		} catch (ValidationException e) {
-			e.printStackTrace();
-			fail("Should not throw ServiceException");
-		}
-		assertTrue(result);
+		assertDoesNotThrow(() -> bookValidator.validateGenre(validGenre));
 	}
 
 	@Test
-	void testInvalidGenre() {
+	void testInvalidGenre_Empty() {
 		String invalidGenre = "";
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> bookValidator.validateGenre(invalidGenre));
@@ -138,14 +108,13 @@ class TestBookValidation {
 	}
 
 	@Test
-	void testInvalidNullGenre() {
-		ValidationException result = assertThrows(ValidationException.class,
-		                                          () -> bookValidator.validateGenre(null));
+	void testInvalidGenre_Null() {
+		ValidationException result = assertThrows(ValidationException.class, () -> bookValidator.validateGenre(null));
 		assertEquals("Book genre cannot be empty", result.getMessage());
 	}
 
 	@Test
-	void testInvalidGenreFormat() {
+	void testInvalidGenre_Format() {
 		String invalidGenre = "Tech5";
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> bookValidator.validateGenre(invalidGenre));
@@ -155,18 +124,11 @@ class TestBookValidation {
 	@Test
 	void testValidLanguage() {
 		String validLanguage = "English";
-		boolean result = false;
-		try {
-			result = bookValidator.validateLanguage(validLanguage);
-		} catch (ValidationException e) {
-			e.printStackTrace();
-			fail("Should not throw ServiceException");
-		}
-		assertTrue(result);
+		assertDoesNotThrow(() -> bookValidator.validateLanguage(validLanguage));
 	}
 
 	@Test
-	void testInvalidLanguage() {
+	void testInvalidLanguage_Empty() {
 		String invalidLanguage = "";
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> bookValidator.validateLanguage(invalidLanguage));
@@ -174,14 +136,14 @@ class TestBookValidation {
 	}
 
 	@Test
-	void testInvalidNullLanguage() {
+	void testInvalidLanguage_Null() {
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> bookValidator.validateLanguage(null));
 		assertEquals("Book language cannot be empty", result.getMessage());
 	}
 
 	@Test
-	void testInvalidLanguageFormat() {
+	void testInvalidLanguage_Format() {
 		String invalidLanguage = "English2";
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> bookValidator.validateLanguage(invalidLanguage));
@@ -191,18 +153,11 @@ class TestBookValidation {
 	@Test
 	void testValidDescription() {
 		String validDescription = "Sample book description.";
-		boolean result = false;
-		try {
-			result = bookValidator.validateDescription(validDescription);
-		} catch (ValidationException e) {
-			e.printStackTrace();
-			fail("Should not throw ServiceException");
-		}
-		assertTrue(result);
+		assertDoesNotThrow(() -> bookValidator.validateDescription(validDescription));
 	}
 
 	@Test
-	void testInvalidDescription() {
+	void testInvalidDescription_Empty() {
 		String invalidDescription = "";
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> bookValidator.validateDescription(invalidDescription));
@@ -210,21 +165,20 @@ class TestBookValidation {
 	}
 
 	@Test
-	void testInvalidNullDescription() {
+	void testInvalidDescription_Null() {
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> bookValidator.validateDescription(null));
 		assertEquals("Book description cannot be empty", result.getMessage());
 	}
 
 	@Test
-	void testValidUrl() throws ValidationException {
+	void testValidCoverImageURL() {
 		String validProfileImage = "https://example.com/";
-		boolean result = bookValidator.validateCoverImage(validProfileImage);
-		assertTrue(result);
+		assertDoesNotThrow(() -> bookValidator.validateCoverImage(validProfileImage));
 	}
 
 	@Test
-	void testInValidUrlEmptyUrl() {
+	void testInvalidCoverImageURL_Empty() {
 		String emptyProfileImage = "";
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> bookValidator.validateCoverImage(emptyProfileImage));
@@ -232,14 +186,14 @@ class TestBookValidation {
 	}
 
 	@Test
-	void testInValidUrlNullUrl() {
+	void testInvalidCoverImageURL_Null() {
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> bookValidator.validateCoverImage(null));
 		assertEquals("Cover image URL cannot be empty", result.getMessage());
 	}
 
 	@Test
-	void testInvalidUrl() {
+	void testInvalidCoverImageURL_Format() {
 		String invalidProfileImage = "kishor.com";
 		ValidationException result = assertThrows(ValidationException.class,
 		                                          () -> bookValidator.validateCoverImage(invalidProfileImage));
@@ -250,14 +204,7 @@ class TestBookValidation {
 	@Test
 	void testValidTotalCopies() {
 		int validTotalCopies = 5;
-		boolean result = false;
-		try {
-			result = bookValidator.validateTotalCopies(validTotalCopies);
-		} catch (ValidationException e) {
-			e.printStackTrace();
-			fail("Should not throw ServiceException");
-		}
-		assertTrue(result);
+		assertDoesNotThrow(() -> bookValidator.validateTotalCopies(validTotalCopies));
 	}
 
 	@Test
@@ -272,14 +219,7 @@ class TestBookValidation {
 	void testValidAvailableCopies() {
 		int validAvailableCopies = 3;
 		int validTotalCopies = 5;
-		boolean result = false;
-		try {
-			result = bookValidator.validateAvailableCopies(validAvailableCopies, validTotalCopies);
-		} catch (ValidationException e) {
-			e.printStackTrace();
-			fail("Should not throw ServiceException");
-		}
-		assertTrue(result);
+		assertDoesNotThrow(() -> bookValidator.validateAvailableCopies(validAvailableCopies, validTotalCopies));
 	}
 
 	@Test
@@ -293,7 +233,7 @@ class TestBookValidation {
 	}
 
 	@Test
-	void testInvalidAvailableCopiesLessThanZero() {
+	void testInvalidAvailableCopies_LessThanZero() {
 		int invalidAvailableCopies = -2;
 		int validTotalCopies = 5;
 		ValidationException result = assertThrows(ValidationException.class,
@@ -306,24 +246,7 @@ class TestBookValidation {
 	void testValidLoanedCopies() {
 		int validLoanedCopies = 2;
 		int validTotalCopies = 5;
-		boolean result = false;
-		try {
-			result = bookValidator.validateLoanedCopies(validLoanedCopies, validTotalCopies);
-		} catch (ValidationException e) {
-			e.printStackTrace();
-			fail("Should not throw ServiceException");
-		}
-		assertTrue(result);
-	}
-
-	@Test
-	void testInvalidLoanedCopiesLessThanZero() {
-		int invalidLoanedCopies = -1;
-		int validTotalCopies = 5;
-		ValidationException result = assertThrows(ValidationException.class,
-		                                          () -> bookValidator.validateLoanedCopies(invalidLoanedCopies,
-		                                                                                   validTotalCopies));
-		assertEquals("Loaned copies cannot be less than 0", result.getMessage());
+		assertDoesNotThrow(() -> bookValidator.validateLoanedCopies(validLoanedCopies, validTotalCopies));
 	}
 
 	@Test
@@ -334,5 +257,15 @@ class TestBookValidation {
 		                                          () -> bookValidator.validateLoanedCopies(invalidLoanedCopies,
 		                                                                                   validTotalCopies));
 		assertEquals("Loaned copies cannot be greater than total copies", result.getMessage());
+	}
+
+	@Test
+	void testInvalidLoanedCopies_LessThanZero() {
+		int invalidLoanedCopies = -1;
+		int validTotalCopies = 5;
+		ValidationException result = assertThrows(ValidationException.class,
+		                                          () -> bookValidator.validateLoanedCopies(invalidLoanedCopies,
+		                                                                                   validTotalCopies));
+		assertEquals("Loaned copies cannot be less than 0", result.getMessage());
 	}
 }

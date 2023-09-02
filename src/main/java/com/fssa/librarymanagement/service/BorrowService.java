@@ -19,9 +19,14 @@ import java.util.List;
  */
 public class BorrowService {
 
-
 	private final BookDAO bookDAO = new BookDAO();
 	private final BorrowDAO borrowDAO = new BorrowDAO();
+
+	/**
+	 * Constructs a new BorrowService object for handling borrow-related business logic and interactions.
+	 */
+	public BorrowService() {
+	}
 
 	/**
 	 * Borrow a book for a user.
@@ -99,12 +104,12 @@ public class BorrowService {
 	 * @param borrow The borrow object containing user and book information.
 	 * @return The calculated fine amount, which is 0 if the book is returned on time.
 	 */
-	private double calculateFine(Borrow borrow) {
-		double fine = 0;
+	private int calculateFine(Borrow borrow) {
+		int fine = 0;
 		if (borrow.getReturnDate().isAfter(borrow.getDueDate())) {
 			// Calculate fine for late returns
 			long daysLate = ChronoUnit.DAYS.between(borrow.getDueDate(), borrow.getReturnDate());
-			fine = daysLate * BorrowConstants.FINE_AMOUNT;
+			fine = (int) (daysLate * BorrowConstants.FINE_AMOUNT);
 		}
 		return fine;
 	}

@@ -17,9 +17,13 @@ import java.util.List;
  */
 public class BookService {
 
-
 	private final BookDAO bookDAO = new BookDAO();
 
+	/**
+	 * Constructs a new BookService object for handling book-related business logic and interactions.
+	 */
+	public BookService() {
+	}
 
 	/**
 	 * Add a new book to the library.
@@ -124,9 +128,9 @@ public class BookService {
 	}
 
 	/**
-	 * Delete a book by its name (title).
+	 * Delete a book by its id.
 	 *
-	 * @param bookId The name (title) of the book to be deleted.
+	 * @param bookId The id of the book to be deleted.
 	 * @return True if the book is deleted successfully, false otherwise.
 	 * @throws ServiceException If the book is not found, or if there's a problem with the service.
 	 */

@@ -16,6 +16,12 @@ public class Borrow {
 	private double fine;
 
 	/**
+	 * Constructs a new Borrow object with default values.
+	 */
+	public Borrow() {
+	}
+
+	/**
 	 * Get the user who borrowed the book.
 	 *
 	 * @return The user who borrowed the book.

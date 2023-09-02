@@ -17,8 +17,6 @@
         <sonar.branch.name>main</sonar.branch.name>
     </properties>
     <dependencies>
-
-
         <!-- JUnit Jupiter API for writing tests -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -32,7 +30,6 @@
             <version>5.9.1</version>
             <scope>test</scope>
         </dependency>
-
         <!-- JUnit Jupiter Engine for running tests -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>

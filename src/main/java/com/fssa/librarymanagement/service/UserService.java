@@ -19,8 +19,13 @@ import java.util.List;
  */
 public class UserService {
 
-
 	private final UserDAO userDAO = new UserDAO();
+
+	/**
+	 * Constructs a new UserService object for handling user-related business logic and interactions.
+	 */
+	public UserService() {
+	}
 
 	/**
 	 * Register a new user.
@@ -84,7 +89,11 @@ public class UserService {
 	 */
 	public User getUserById(int userId) throws ServiceException {
 		try {
-			return userDAO.getUserById(userId);
+			User user = userDAO.getUserById(userId);
+			if (user == null) {
+				throw new ServiceException(UserConstants.USER_NOT_FOUND);
+			}
+			return user;
 		} catch (DAOException e) {
 			throw new ServiceException(e.getMessage());
 		}
@@ -101,7 +110,11 @@ public class UserService {
 		try {
 			UserValidator userValidator = new UserValidator();
 			userValidator.validateEmail(email);
-			return userDAO.getUserByEmail(email);
+			User user = userDAO.getUserByEmail(email);
+			if (user == null) {
+				throw new ServiceException(UserConstants.USER_DOES_NOT_EXIST_WITH_THE_GIVEN_EMAIL);
+			}
+			return user;
 		} catch (ValidationException | DAOException e) {
 			throw new ServiceException(e.getMessage());
 		}

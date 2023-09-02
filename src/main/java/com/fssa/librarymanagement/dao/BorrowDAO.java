@@ -1,5 +1,6 @@
 package com.fssa.librarymanagement.dao;
 
+import com.fssa.librarymanagement.constants.BorrowConstants;
 import com.fssa.librarymanagement.exceptions.DAOException;
 import com.fssa.librarymanagement.model.Book;
 import com.fssa.librarymanagement.model.Borrow;
@@ -17,13 +18,12 @@ import static com.fssa.librarymanagement.utils.ResultSetUtils.buildBorrowFromRes
  */
 public class BorrowDAO {
 
-	// SQL query prefixes
-	static final String SELECT_QUERY_PREFIX = "SELECT user_id, book_id, borrow_date, return_date FROM borrows ";
-	static final String JOIN_QUERY = "SELECT b.*, u.user_name, u.user_id, u.email_id, u.profile_image, bk.book_id, " +
-			"bk" +
-			".title, bk.cover_image FROM borrows b " +
-			"JOIN users u ON b.user_id = u.user_id " +
-			"JOIN books bk ON b.book_id = bk.book_id ";
+
+	/**
+	 * Constructs a new BorrowDAO object for performing database operations related to borrow transactions.
+	 */
+	public BorrowDAO() {
+	}
 
 	/**
 	 * Borrows a book for a user.
@@ -47,7 +47,7 @@ public class BorrowDAO {
 			return rowsAffected > 0;
 
 		} catch (SQLException e) {
-			throw new DAOException("Error fetching borrow data: " + e.getMessage(), e);
+			throw new DAOException(e);
 		}
 	}
 
@@ -88,7 +88,7 @@ public class BorrowDAO {
 		List<Borrow> borrowList = null;
 
 		try (Connection connection = ConnectionUtil.getConnection();
-		     PreparedStatement pst = connection.prepareStatement(JOIN_QUERY + "WHERE b.user_id = ?")) {
+		     PreparedStatement pst = connection.prepareStatement(BorrowConstants.JOIN_QUERY + "WHERE b.user_id = ?")) {
 
 			pst.setInt(1, userId);
 
@@ -117,7 +117,7 @@ public class BorrowDAO {
 
 
 		try (Connection connection = ConnectionUtil.getConnection();
-		     PreparedStatement pst = connection.prepareStatement(JOIN_QUERY + "WHERE b.book_id = ?")) {
+		     PreparedStatement pst = connection.prepareStatement(BorrowConstants.JOIN_QUERY + "WHERE b.book_id = ?")) {
 			pst.setInt(1, bookId);
 
 			try (ResultSet rs = pst.executeQuery()) {
@@ -142,7 +142,8 @@ public class BorrowDAO {
 	 * @throws DAOException If an error occurs during database operation
 	 */
 	public Borrow getBorrowByUserAndBook(int userId, int bookId) throws DAOException {
-		String query = SELECT_QUERY_PREFIX + "WHERE user_id = ? AND book_id = ? AND isReturned = FALSE";
+		String query = BorrowConstants.SELECT_QUERY_PREFIX + "WHERE user_id = ? AND book_id = ? AND isReturned = " +
+				"FALSE";
 
 		try (Connection connection = ConnectionUtil.getConnection();
 		     PreparedStatement pst = connection.prepareStatement(query)) {
@@ -168,7 +169,7 @@ public class BorrowDAO {
 				}
 			}
 		} catch (SQLException e) {
-			throw new DAOException("Error fetching borrow data of user and book: " + e.getMessage(), e);
+			throw new DAOException(e);
 		}
 		return null;
 	}
@@ -183,7 +184,7 @@ public class BorrowDAO {
 		List<Borrow> borrowList = new ArrayList<>();
 
 		try (Connection connection = ConnectionUtil.getConnection();
-		     PreparedStatement pst = connection.prepareStatement(JOIN_QUERY);
+		     PreparedStatement pst = connection.prepareStatement(BorrowConstants.JOIN_QUERY);
 		     ResultSet rs = pst.executeQuery()) {
 
 			while (rs.next()) {
@@ -191,7 +192,7 @@ public class BorrowDAO {
 				borrowList.add(borrow);
 			}
 		} catch (SQLException e) {
-			throw new DAOException("Error fetching all borrow data's: " + e.getMessage(), e);
+			throw new DAOException(e);
 		}
 		return borrowList;
 	}
@@ -215,7 +216,7 @@ public class BorrowDAO {
 				}
 			}
 		} catch (SQLException e) {
-			throw new DAOException("Error fetching available copies count: " + e.getMessage(), e);
+			throw new DAOException(e);
 		}
 		return 0;
 	}
@@ -239,7 +240,7 @@ public class BorrowDAO {
 				}
 			}
 		} catch (SQLException e) {
-			throw new DAOException("Error fetching borrowed books count: " + e.getMessage(), e);
+			throw new DAOException(e);
 		}
 		return 0;
 	}

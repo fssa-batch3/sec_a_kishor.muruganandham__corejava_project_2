@@ -20,8 +20,15 @@ public class User {
 	private Timestamp createdDate;
 	private boolean isActive;
 	private boolean isAdmin;
-	private String profileImage;
+	private String profileImage = "https://ui-avatars.com/api/?name=" + name + "&rounded=true&uppercase=false" +
+			"&background=random";
 	private int userId;
+
+	/**
+	 * Constructs a new User object with default values.
+	 */
+	public User() {
+	}
 
 	/**
 	 * Check if the user is an administrator.

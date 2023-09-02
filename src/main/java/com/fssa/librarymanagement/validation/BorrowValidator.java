@@ -34,11 +34,12 @@ public class BorrowValidator {
 	/**
 	 * Validates all Borrow attributes.
 	 *
-	 * @return true if all attributes are valid
 	 * @throws ValidationException If any validation fails
 	 */
-	public boolean validateAll() throws ValidationException {
-		return validateBorrowDate(borrow.getBorrowDate()) && validateReturnDate(borrow.getReturnDate());
+	public void validateAll() throws ValidationException {
+		if (validateBorrowDate(borrow.getBorrowDate())) {
+			validateReturnDate(borrow.getReturnDate());
+		}
 	}
 
 	/**

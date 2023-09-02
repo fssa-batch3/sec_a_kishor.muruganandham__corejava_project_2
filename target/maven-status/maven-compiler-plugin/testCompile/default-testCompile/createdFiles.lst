@@ -1,6 +1,0 @@
-com\fssa\librarymanagement\validation\TestBorrowValidation.class
-com\fssa\librarymanagement\service\TestBookService.class
-com\fssa\librarymanagement\service\TestBorrowService.class
-com\fssa\librarymanagement\service\TestUserService.class
-com\fssa\librarymanagement\validation\TestBookValidation.class
-com\fssa\librarymanagement\validation\TestUserValidation.class
