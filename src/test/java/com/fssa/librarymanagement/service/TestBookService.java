@@ -61,12 +61,31 @@ class TestBookService {
 
 	@Test
 	@Order(5)
+	void testValidGetBookById() {
+		try {
+			Book bookByName = bookService.getBookByName(book.getTitle());
+			Book bookById = bookService.getBookById(bookByName.getBookId());
+			assertEquals(bookByName.getTitle(), bookById.getTitle());
+		} catch (ServiceException e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
+
+	@Test
+	@Order(6)
+	void testInvalidGetBookById() {
+		ServiceException result = assertThrows(ServiceException.class, () -> bookService.getBookById(4321));
+		assertEquals("Book not found.", result.getMessage());
+	}
+	@Test
+	@Order(7)
 	void testListAllBooks() {
 		assertDoesNotThrow(() -> bookService.listAllBooks());
 	}
 
 	@Test
-	@Order(6)
+	@Order(8)
 	void testValidUpdateBook() {
 		try {
 			Book beforeUpdate = bookService.getBookByName(book.getTitle());
@@ -84,7 +103,7 @@ class TestBookService {
 	}
 
 	@Test
-	@Order(7)
+	@Order(9)
 	void testInvalidUpdateBook() {
 		Book book = new Book();
 		book.setTitle("No Title");
@@ -95,7 +114,7 @@ class TestBookService {
 	}
 
 	@Test
-	@Order(8)
+	@Order(10)
 	void testValidDeleteBook() {
 		try {
 			Book existingBook = bookService.getBookByName(book.getTitle());
@@ -109,9 +128,11 @@ class TestBookService {
 	}
 
 	@Test
-	@Order(9)
+	@Order(11)
 	void testInvalidDeleteBook() {
 		ServiceException result = assertThrows(ServiceException.class, () -> bookService.deleteBook(0));
 		assertEquals("Book not found.", result.getMessage());
 	}
+
+
 }
