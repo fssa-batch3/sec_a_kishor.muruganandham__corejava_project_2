@@ -7,6 +7,7 @@ import com.fssa.librarymanagement.exceptions.DAOException;
 import com.fssa.librarymanagement.exceptions.ServiceException;
 import com.fssa.librarymanagement.exceptions.ValidationException;
 import com.fssa.librarymanagement.model.User;
+import com.fssa.librarymanagement.utils.PasswordUtil;
 import com.fssa.librarymanagement.validation.UserValidator;
 
 import java.util.List;
@@ -25,6 +26,7 @@ public class UserService {
 	 * Constructs a new UserService object for handling user-related business logic and interactions.
 	 */
 	public UserService() {
+		// Default constructor
 	}
 
 	/**
@@ -44,7 +46,7 @@ public class UserService {
 			if (existingUser) {
 				throw new ServiceException(UserConstants.USER_ALREADY_EXISTS);
 			}
-
+			user.setPassword(PasswordUtil.hashPassword(user.getPassword()));
 			return userDAO.createUser(user);    // Create the user in Database
 		} catch (ValidationException | DAOException e) {
 			throw new ServiceException(e.getMessage());
@@ -70,7 +72,7 @@ public class UserService {
 				throw new ServiceException(UserConstants.USER_DOES_NOT_EXIST_WITH_THE_GIVEN_EMAIL);
 			}
 			// Check if the password matches
-			if (user.getPassword().equals(fromDb.getPassword())) {
+			if (PasswordUtil.checkPassword(user.getPassword(), fromDb.getPassword())) {
 				return fromDb;
 			} else {
 				throw new ServiceException(UserConstants.PASSWORD_MISMATCH);

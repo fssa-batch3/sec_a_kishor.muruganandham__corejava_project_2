@@ -22,6 +22,7 @@ public class Book {
 	 * Constructs a new Book object with default values.
 	 */
 	public Book() {
+		// Default constructor
 	}
 
 	/**

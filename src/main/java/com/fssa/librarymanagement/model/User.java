@@ -28,6 +28,7 @@ public class User {
 	 * Constructs a new User object with default values.
 	 */
 	public User() {
+		// Default constructor
 	}
 
 	/**

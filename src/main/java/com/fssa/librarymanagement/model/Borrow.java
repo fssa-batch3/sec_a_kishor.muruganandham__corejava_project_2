@@ -19,6 +19,7 @@ public class Borrow {
 	 * Constructs a new Borrow object with default values.
 	 */
 	public Borrow() {
+		// Default constructor
 	}
 
 	/**

@@ -23,6 +23,7 @@ public class BookService {
 	 * Constructs a new BookService object for handling book-related business logic and interactions.
 	 */
 	public BookService() {
+		// Default constructor
 	}
 
 	/**

@@ -26,6 +26,7 @@ public class BorrowService {
 	 * Constructs a new BorrowService object for handling borrow-related business logic and interactions.
 	 */
 	public BorrowService() {
+		// Default constructor
 	}
 
 	/**
