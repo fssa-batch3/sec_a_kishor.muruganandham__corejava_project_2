@@ -2,6 +2,7 @@ package com.fssa.librarymanagement.dao;
 
 import com.fssa.librarymanagement.constants.BorrowConstants;
 import com.fssa.librarymanagement.exceptions.DAOException;
+import com.fssa.librarymanagement.exceptions.DatabaseConnectionException;
 import com.fssa.librarymanagement.model.Book;
 import com.fssa.librarymanagement.model.Borrow;
 import com.fssa.librarymanagement.model.User;
@@ -23,6 +24,7 @@ public class BorrowDAO {
 	 * Constructs a new BorrowDAO object for performing database operations related to borrow transactions.
 	 */
 	public BorrowDAO() {
+		// Default constructor
 	}
 
 	/**
@@ -46,7 +48,7 @@ public class BorrowDAO {
 			int rowsAffected = pst.executeUpdate();
 			return rowsAffected > 0;
 
-		} catch (SQLException e) {
+		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
 		}
 	}
@@ -72,7 +74,7 @@ public class BorrowDAO {
 
 			int rowsAffected = pst.executeUpdate();
 			return rowsAffected > 0;
-		} catch (SQLException e) {
+		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
 		}
 	}
@@ -99,7 +101,7 @@ public class BorrowDAO {
 					borrowList.add(borrow);
 				}
 			}
-		} catch (SQLException e) {
+		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
 		}
 		return borrowList;
@@ -127,7 +129,7 @@ public class BorrowDAO {
 					borrowList.add(borrow);
 				}
 			}
-		} catch (SQLException e) {
+		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
 		}
 		return borrowList;
@@ -168,7 +170,7 @@ public class BorrowDAO {
 					return borrow;
 				}
 			}
-		} catch (SQLException e) {
+		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
 		}
 		return null;
@@ -191,7 +193,7 @@ public class BorrowDAO {
 				Borrow borrow = buildBorrowFromResultSet(rs);
 				borrowList.add(borrow);
 			}
-		} catch (SQLException e) {
+		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
 		}
 		return borrowList;
@@ -215,7 +217,7 @@ public class BorrowDAO {
 					return rs.getInt(1);
 				}
 			}
-		} catch (SQLException e) {
+		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
 		}
 		return 0;
@@ -239,7 +241,7 @@ public class BorrowDAO {
 					return rs.getInt(1);
 				}
 			}
-		} catch (SQLException e) {
+		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
 		}
 		return 0;

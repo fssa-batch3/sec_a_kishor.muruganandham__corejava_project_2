@@ -1,6 +1,7 @@
 package com.fssa.librarymanagement.dao;
 
 import com.fssa.librarymanagement.exceptions.DAOException;
+import com.fssa.librarymanagement.exceptions.DatabaseConnectionException;
 import com.fssa.librarymanagement.model.Book;
 import com.fssa.librarymanagement.utils.ConnectionUtil;
 
@@ -21,6 +22,7 @@ public class BookDAO {
 	 * Constructs a new BookDAO object for performing database operations related to books.
 	 */
 	public BookDAO() {
+		// Default constructor
 	}
 
 	/**
@@ -46,7 +48,7 @@ public class BookDAO {
 				}
 			}
 
-		} catch (SQLException | NullPointerException e) {
+		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
 		}
 		return book;
@@ -77,7 +79,7 @@ public class BookDAO {
 				}
 			}
 
-		} catch (SQLException | NullPointerException e) {
+		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
 		}
 		return bookExists;
@@ -112,7 +114,7 @@ public class BookDAO {
 			int rowsAffected = preparedStatement.executeUpdate();
 			return rowsAffected > 0;
 
-		} catch (SQLException e) {
+		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
 		}
 	}
@@ -139,7 +141,7 @@ public class BookDAO {
 				}
 			}
 
-		} catch (SQLException | NullPointerException e) {
+		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
 		}
 		return book;
@@ -162,7 +164,7 @@ public class BookDAO {
 				Book book = buildBookFromResultSet(rs);
 				bookList.add(book);
 			}
-		} catch (SQLException e) {
+		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
 		}
 		return bookList;
@@ -198,7 +200,7 @@ public class BookDAO {
 			int rowsAffected = preparedStatement.executeUpdate();
 			return rowsAffected > 0;
 
-		} catch (SQLException e) {
+		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
 		}
 	}
@@ -224,7 +226,7 @@ public class BookDAO {
 
 			int rowsUpdated = preparedStatement.executeUpdate();
 			return rowsUpdated > 0;
-		} catch (SQLException e) {
+		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
 		}
 	}
@@ -246,7 +248,7 @@ public class BookDAO {
 
 			int rowsAffected = preparedStatement.executeUpdate();
 			return rowsAffected > 0;
-		} catch (SQLException e) {
+		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
 		}
 	}

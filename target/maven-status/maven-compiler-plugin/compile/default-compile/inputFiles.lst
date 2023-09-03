@@ -12,6 +12,7 @@ C:\Users\KishorMuruganandham\eclipse-workspace\LibraryManagement\src\main\java\c
 C:\Users\KishorMuruganandham\eclipse-workspace\LibraryManagement\src\main\java\com\fssa\librarymanagement\utils\ConnectionUtil.java
 C:\Users\KishorMuruganandham\eclipse-workspace\LibraryManagement\src\main\java\com\fssa\librarymanagement\constants\BookConstants.java
 C:\Users\KishorMuruganandham\eclipse-workspace\LibraryManagement\src\main\java\com\fssa\librarymanagement\service\UserService.java
+C:\Users\KishorMuruganandham\eclipse-workspace\LibraryManagement\src\main\java\com\fssa\librarymanagement\exceptions\DatabaseConnectionException.java
 C:\Users\KishorMuruganandham\eclipse-workspace\LibraryManagement\src\main\java\com\fssa\librarymanagement\exceptions\DAOException.java
 C:\Users\KishorMuruganandham\eclipse-workspace\LibraryManagement\src\main\java\com\fssa\librarymanagement\dao\BorrowDAO.java
 C:\Users\KishorMuruganandham\eclipse-workspace\LibraryManagement\src\main\java\com\fssa\librarymanagement\exceptions\ServiceException.java

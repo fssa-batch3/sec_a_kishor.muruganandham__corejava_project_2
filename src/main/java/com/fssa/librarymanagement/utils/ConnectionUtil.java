@@ -1,5 +1,7 @@
 package com.fssa.librarymanagement.utils;
 
+import com.fssa.librarymanagement.exceptions.DatabaseConnectionException;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -20,7 +22,7 @@ public class ConnectionUtil {
 	 * @return A database connection
 	 * @throws RuntimeException If unable to connect to the database
 	 */
-	public static Connection getConnection() {
+	public static Connection getConnection() throws DatabaseConnectionException {
 
 		// Database URL and credentials
 		final String dbUrl;
@@ -40,10 +42,10 @@ public class ConnectionUtil {
 			return DriverManager.getConnection(dbUrl, dbUser, dbPassword);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new RuntimeException("Unable to connect to the database");
+			throw new DatabaseConnectionException("Unable to connect to the database");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
-			throw new RuntimeException("Database driver class not found");
+			throw new DatabaseConnectionException("Database driver class not found");
 		}
 	}
 }

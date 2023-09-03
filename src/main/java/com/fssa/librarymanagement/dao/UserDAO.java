@@ -2,6 +2,7 @@ package com.fssa.librarymanagement.dao;
 
 import com.fssa.librarymanagement.constants.UserConstants;
 import com.fssa.librarymanagement.exceptions.DAOException;
+import com.fssa.librarymanagement.exceptions.DatabaseConnectionException;
 import com.fssa.librarymanagement.model.User;
 import com.fssa.librarymanagement.utils.ConnectionUtil;
 
@@ -21,6 +22,7 @@ public class UserDAO {
 	 * Constructs a new UserDAO object for performing database operations related to users.
 	 */
 	public UserDAO() {
+		// Default constructor
 	}
 
 	/**
@@ -50,7 +52,7 @@ public class UserDAO {
 			int rowsAffected = pst.executeUpdate();
 			return rowsAffected > 0;
 
-		} catch (SQLException e) {
+		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
 		}
 	}
@@ -74,7 +76,7 @@ public class UserDAO {
 				return rs.next(); // If a row is found, the user exists
 			}
 
-		} catch (SQLException e) {
+		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
 		}
 	}
@@ -100,7 +102,7 @@ public class UserDAO {
 				}
 			}
 
-		} catch (SQLException e) {
+		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
 		}
 		return user;
@@ -127,7 +129,7 @@ public class UserDAO {
 				}
 			}
 
-		} catch (SQLException e) {
+		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
 		}
 		return user;
@@ -150,7 +152,7 @@ public class UserDAO {
 				User user = buildUserFromResultSet(rs);
 				userList.add(user);
 			}
-		} catch (SQLException e) {
+		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
 		}
 		return userList;
@@ -180,7 +182,7 @@ public class UserDAO {
 			int rowsAffected = pst.executeUpdate();
 			return rowsAffected > 0;
 
-		} catch (SQLException e) {
+		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
 		}
 	}
@@ -201,7 +203,7 @@ public class UserDAO {
 
 			int rowsAffected = pst.executeUpdate();
 			return rowsAffected > 0;
-		} catch (SQLException e) {
+		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
 		}
 	}

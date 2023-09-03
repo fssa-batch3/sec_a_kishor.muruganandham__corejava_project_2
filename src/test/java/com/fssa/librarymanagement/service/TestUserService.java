@@ -114,7 +114,7 @@ class TestUserService {
 			User updatedUser = userService.getUserByEmail(user.getEmail());
 			System.out.println(updatedUser);
 			assertTrue(result);
-			assertNotEquals(updatedUser.getName(), "Kishor");
+			assertNotEquals("Kishor", updatedUser.getName());
 		} catch (ServiceException e) {
 			e.printStackTrace();
 			fail();
