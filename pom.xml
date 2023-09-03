@@ -22,7 +22,7 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>5.9.1</version>
-            <scope>test</scope>
+            <scope>test</scope> <!-- Dependency scope (test) -->
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -30,6 +30,7 @@
             <version>5.9.1</version>
             <scope>test</scope>
         </dependency>
+
         <!-- JUnit Jupiter Engine for running tests -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -37,16 +38,22 @@
             <version>5.9.1</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- JBCrypt library for password hashing -->
         <dependency>
             <groupId>org.mindrot</groupId>
             <artifactId>jbcrypt</artifactId>
             <version>0.4</version>
         </dependency>
+
+        <!-- MySQL Connector/J for database connectivity -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.33</version>
         </dependency>
+
+        <!-- JUnit 4 for backward compatibility (test scope) -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
