@@ -87,7 +87,7 @@ public class BorrowDAO {
 	 * @throws DAOException If an error occurs during database operation
 	 */
 	public List<Borrow> getBorrowsByUser(int userId) throws DAOException {
-		List<Borrow> borrowList = null;
+		List<Borrow> borrowList = new ArrayList<>();
 
 		try (Connection connection = ConnectionUtil.getConnection();
 		     PreparedStatement pst = connection.prepareStatement(BorrowConstants.JOIN_QUERY + "WHERE b.user_id = ?")) {
@@ -96,7 +96,6 @@ public class BorrowDAO {
 
 			try (ResultSet rs = pst.executeQuery()) {
 				while (rs.next()) {
-					borrowList = new ArrayList<>();
 					Borrow borrow = buildBorrowFromResultSet(rs);
 					borrowList.add(borrow);
 				}
@@ -115,7 +114,7 @@ public class BorrowDAO {
 	 * @throws DAOException If an error occurs during database operation
 	 */
 	public List<Borrow> getBorrowsByBook(int bookId) throws DAOException {
-		List<Borrow> borrowList = null;
+		List<Borrow> borrowList = new ArrayList<>();
 
 
 		try (Connection connection = ConnectionUtil.getConnection();
@@ -124,7 +123,6 @@ public class BorrowDAO {
 
 			try (ResultSet rs = pst.executeQuery()) {
 				while (rs.next()) {
-					borrowList = new ArrayList<>();
 					Borrow borrow = buildBorrowFromResultSet(rs);
 					borrowList.add(borrow);
 				}
@@ -133,6 +131,31 @@ public class BorrowDAO {
 			throw new DAOException(e);
 		}
 		return borrowList;
+	}
+
+	/**
+	 * Retrieves a specific Borrow by its ID.
+	 *
+	 * @param borrowId The ID of the Borrow to retrieve.
+	 * @return The Borrow object if found, or null if not found.
+	 * @throws DAOException If an error occurs during database operation.
+	 */
+	public Borrow getBorrowById(int borrowId) throws DAOException {
+		Borrow borrow = null;
+		try (Connection connection = ConnectionUtil.getConnection();
+		     PreparedStatement pst =
+				     connection.prepareStatement(BorrowConstants.JOIN_QUERY + "WHERE b.borrow_id = ?")) {
+			pst.setInt(1, borrowId);
+
+			try (ResultSet rs = pst.executeQuery()) {
+				if (rs.next()) {
+					borrow = buildBorrowFromResultSet(rs);
+				}
+			}
+		} catch (SQLException | DatabaseConnectionException e) {
+			throw new DAOException(e);
+		}
+		return borrow;
 	}
 
 	/**

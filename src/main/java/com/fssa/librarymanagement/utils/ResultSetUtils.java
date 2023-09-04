@@ -85,6 +85,8 @@ public class ResultSetUtils {
 		book.setBookId(rs.getInt("book_id"));
 		book.setTitle(rs.getString("title"));
 		book.setCoverImage(rs.getString("cover_image"));
+		borrow.setBorrowId(rs.getInt("borrow_id"));
+		borrow.setReturned(rs.getBoolean("isReturned"));
 		borrow.setUser(user);
 		borrow.setBook(book);
 		borrow.setBorrowDate(rs.getDate(BORROW_DATE).toLocalDate());

@@ -128,4 +128,17 @@ class TestBorrowService {
 			fail("Should not throw ServiceException");
 		}
 	}
+
+	@Test
+	@Order(10)
+	void testValidGetBorrowsById() {
+		assertDoesNotThrow(() -> borrowService.getBorrowById(1));
+	}
+
+	@Test
+	@Order(11)
+	void testInvalidGetBorrowsById() {
+		ServiceException result = assertThrows(ServiceException.class, () -> borrowService.getBorrowById(114));
+		assertEquals("Borrows not found.", result.getMessage());
+	}
 }

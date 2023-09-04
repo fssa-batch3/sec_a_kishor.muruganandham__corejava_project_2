@@ -35,7 +35,7 @@ public class BookDAO {
 
 	public Book getBookByTitle(String bookName) throws DAOException {
 		Book book = null;
-		String query = "SELECT * FROM books WHERE title = ? AND isActive = true AND available_copies >= 1";
+		String query = "SELECT * FROM books WHERE title = ? AND isActive = true";
 
 		try (Connection connection = ConnectionUtil.getConnection();
 		     PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -65,7 +65,7 @@ public class BookDAO {
 
 	public boolean doesBookExist(int bookId) throws DAOException {
 		boolean bookExists = false;
-		String query = "SELECT COUNT(*) FROM books WHERE book_id = ? AND isActive = true AND available_copies >= 1";
+		String query = "SELECT COUNT(*) FROM books WHERE book_id = ? AND isActive = true";
 
 		try (Connection connection = ConnectionUtil.getConnection();
 		     PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -128,7 +128,7 @@ public class BookDAO {
 	 */
 	public Book getBookById(int bookId) throws DAOException {
 		Book book = null;
-		String query = "SELECT * FROM books WHERE book_id = ? AND isActive = true AND available_copies >= 1";
+		String query = "SELECT * FROM books WHERE book_id = ? AND isActive = true";
 
 		try (Connection connection = ConnectionUtil.getConnection();
 		     PreparedStatement preparedStatement = connection.prepareStatement(query)) {

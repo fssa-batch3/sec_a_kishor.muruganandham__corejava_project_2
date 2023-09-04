@@ -8,12 +8,53 @@ import java.time.LocalDate;
  * @author KishorMuruganandham
  */
 public class Borrow {
-	private User user;           // The user who borrowed the book
-	private Book book;           // The borrowed book
+	private User user; // The user who borrowed the book
+	private Book book; // The borrowed book
 	private LocalDate borrowDate;
 	private LocalDate returnDate;
 	private LocalDate dueDate;
 	private double fine;
+	private int borrowId;
+	private boolean isReturned;
+
+	/**
+	 * Get the borrow's id.
+	 *
+	 * @return The id of the borrow.
+	 */
+
+	public int getBorrowId() {
+		return borrowId;
+	}
+
+	/**
+	 * Set the borrow's id.
+	 *
+	 * @param bookId The id of the borrow.
+	 */
+	public void setBorrowId(int borrowId) {
+		this.borrowId = borrowId;
+	}
+
+	/**
+	 * Get the borrow's return status.
+	 *
+	 * @return true if the borrow's return status is active, false otherwise.
+	 */
+
+	public boolean isReturned() {
+		return isReturned;
+	}
+
+	/**
+	 * Set the borrow's return status.
+	 *
+	 * @param active true if the borrow's return status should be active, false otherwise.
+	 */
+
+	public void setReturned(boolean isReturned) {
+		this.isReturned = isReturned;
+	}
 
 	/**
 	 * Constructs a new Borrow object with default values.
@@ -68,7 +109,8 @@ public class Borrow {
 	}
 
 	/**
-	 * Set the date when the book was borrowed. Also calculates and sets the due date.
+	 * Set the date when the book was borrowed. Also calculates and sets the due
+	 * date.
 	 *
 	 * @param borrowDate The date when the book was borrowed.
 	 */
@@ -129,13 +171,10 @@ public class Borrow {
 	 */
 	@Override
 	public String toString() {
-		return "Borrow{" +
-				"user=" + user +
-				", book=" + book +
-				", borrowDate=" + borrowDate +
-				", returnDate=" + returnDate +
-				", dueDate=" + dueDate +
-				", fine=" + fine +
-				'}';
+		return "Borrow{" + "user=" + user + ", book=" + book + ", borrowDate=" + borrowDate + ", returnDate="
+				+ returnDate + ", dueDate=" + dueDate + ", fine=" + fine + '}';
 	}
+
+
+
 }

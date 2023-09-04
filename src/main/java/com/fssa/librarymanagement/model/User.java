@@ -67,6 +67,14 @@ public class User {
 		this.profileImage = profileImage;
 	}
 
+	/**
+	 * Get the user's account activation status.
+	 *
+	 * @return true if the user's account is active, false otherwise.
+	 */
+	public boolean isActive() {
+		return isActive;
+	}
 
 	/**
 	 * Set the user's account activation status.

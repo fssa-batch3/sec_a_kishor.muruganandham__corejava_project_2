@@ -157,6 +157,26 @@ public class BorrowService {
 	}
 
 	/**
+	 * Retrieves a specific Borrow by its ID.
+	 *
+	 * @param borrowId The ID of the Borrow to retrieve.
+	 * @return The Borrow object if found, or null if not found.
+	 * @throws ServiceException If there's a problem with the service.
+	 */
+	public Borrow getBorrowById(int borrowId) throws ServiceException {
+		try {
+			// Retrieve a specific Borrow by ID
+			Borrow borrow = borrowDAO.getBorrowById(borrowId);
+			if (borrow == null) {
+				throw new ServiceException(BorrowConstants.BORROWS_NOT_FOUND);
+			}
+			return borrow;
+		} catch (DAOException e) {
+			throw new ServiceException(e.getMessage());
+		}
+	}
+
+	/**
 	 * Get a list of all borrowed books.
 	 *
 	 * @return A list of all borrow objects.
