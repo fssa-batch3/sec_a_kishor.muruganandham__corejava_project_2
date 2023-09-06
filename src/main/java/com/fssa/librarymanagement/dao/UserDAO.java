@@ -29,7 +29,6 @@ public class UserDAO {
 	public UserDAO() {
 		// Default constructor
 	}
-
 	/**
 	 * Creates a new user.
 	 *

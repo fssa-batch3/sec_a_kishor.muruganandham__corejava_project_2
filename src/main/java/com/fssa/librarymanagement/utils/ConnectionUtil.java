@@ -41,10 +41,8 @@ public class ConnectionUtil {
 			// Establish and return a connection
 			return DriverManager.getConnection(dbUrl, dbUser, dbPassword);
 		} catch (SQLException e) {
-			e.printStackTrace();
 			throw new DatabaseConnectionException("Unable to connect to the database");
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 			throw new DatabaseConnectionException("Database driver class not found");
 		}
 	}
