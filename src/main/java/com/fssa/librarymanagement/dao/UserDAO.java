@@ -1,25 +1,30 @@
 package com.fssa.librarymanagement.dao;
 
+import static com.fssa.librarymanagement.utils.ResultSetUtils.buildUserFromResultSet;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.fssa.librarymanagement.constants.UserConstants;
 import com.fssa.librarymanagement.exceptions.DAOException;
 import com.fssa.librarymanagement.exceptions.DatabaseConnectionException;
 import com.fssa.librarymanagement.model.User;
 import com.fssa.librarymanagement.utils.ConnectionUtil;
-
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.fssa.librarymanagement.utils.ResultSetUtils.buildUserFromResultSet;
+import com.fssa.librarymanagement.utils.PasswordUtil;
 
 /**
  * Data Access Object (DAO) class for handling User-related database operations.
  */
 public class UserDAO {
 
-
 	/**
-	 * Constructs a new UserDAO object for performing database operations related to users.
+	 * Constructs a new UserDAO object for performing database operations related to
+	 * users.
 	 */
 	public UserDAO() {
 		// Default constructor
@@ -36,7 +41,7 @@ public class UserDAO {
 		String query = "INSERT INTO users (user_name, email_id, mobile_no, password, gender, dob, created_date, "
 				+ "isActive, isAdmin, profile_image) " + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		try (Connection connection = ConnectionUtil.getConnection();
-		     PreparedStatement pst = connection.prepareStatement(query)) {
+				PreparedStatement pst = connection.prepareStatement(query)) {
 
 			pst.setString(1, user.getName());
 			pst.setString(2, user.getEmail());
@@ -57,18 +62,18 @@ public class UserDAO {
 		}
 	}
 
-
 	/**
 	 * Checks if a user with the given email exists.
 	 *
 	 * @param email The email of the user to check for existence.
-	 * @return True if the user with the given email exists and is active, otherwise false.
+	 * @return True if the user with the given email exists and is active, otherwise
+	 *         false.
 	 * @throws DAOException If an error occurs during the database operation.
 	 */
 	public boolean doesUserExist(String email) throws DAOException {
 		String query = "SELECT 1 FROM users WHERE email_id = ? AND isActive = true";
 		try (Connection connection = ConnectionUtil.getConnection();
-		     PreparedStatement pst = connection.prepareStatement(query)) {
+				PreparedStatement pst = connection.prepareStatement(query)) {
 
 			pst.setString(1, email);
 
@@ -92,7 +97,7 @@ public class UserDAO {
 		User user = null;
 		String query = UserConstants.SELECT_QUERY + " WHERE user_id = ? AND isActive = true";
 		try (Connection connection = ConnectionUtil.getConnection();
-		     PreparedStatement pst = connection.prepareStatement(query)) {
+				PreparedStatement pst = connection.prepareStatement(query)) {
 
 			pst.setInt(1, userId);
 
@@ -119,7 +124,7 @@ public class UserDAO {
 		User user = null;
 		String query = UserConstants.SELECT_QUERY + " WHERE email_id = ? AND isActive = true";
 		try (Connection connection = ConnectionUtil.getConnection();
-		     PreparedStatement pst = connection.prepareStatement(query)) {
+				PreparedStatement pst = connection.prepareStatement(query)) {
 
 			pst.setString(1, email);
 
@@ -135,6 +140,31 @@ public class UserDAO {
 		return user;
 	}
 
+	/**
+	 * Updates the password of a user with the given email.
+	 *
+	 * @param email       The email of the user whose password needs to be updated
+	 * @param newPassword The new password to set for the user
+	 * @return True if the password was successfully updated, false otherwise
+	 * @throws DAOException If an error occurs during database operation
+	 */
+	public boolean updatePassword(String email, String newPassword) throws DAOException {
+		String updateQuery = "UPDATE users SET password = ? WHERE email_id = ?";
+
+		try (Connection connection = ConnectionUtil.getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
+
+			String hashedPassword = PasswordUtil.hashPassword(newPassword);
+			preparedStatement.setString(1, hashedPassword);
+			preparedStatement.setString(2, email);
+
+			int rowsUpdated = preparedStatement.executeUpdate();
+
+			return rowsUpdated > 0;
+		} catch (SQLException | DatabaseConnectionException e) {
+			throw new DAOException(e);
+		}
+	}
 
 	/**
 	 * Retrieves a list of all users.
@@ -145,8 +175,8 @@ public class UserDAO {
 	public List<User> getAllUsers() throws DAOException {
 		List<User> userList = new ArrayList<>();
 		try (Connection connection = ConnectionUtil.getConnection();
-		     PreparedStatement pst = connection.prepareStatement(UserConstants.SELECT_QUERY);
-		     ResultSet rs = pst.executeQuery()) {
+				PreparedStatement pst = connection.prepareStatement(UserConstants.SELECT_QUERY);
+				ResultSet rs = pst.executeQuery()) {
 
 			while (rs.next()) {
 				User user = buildUserFromResultSet(rs);
@@ -170,7 +200,7 @@ public class UserDAO {
 				+ "WHERE email_id = ?";
 
 		try (Connection connection = ConnectionUtil.getConnection();
-		     PreparedStatement pst = connection.prepareStatement(query)) {
+				PreparedStatement pst = connection.prepareStatement(query)) {
 
 			pst.setString(1, user.getName());
 			pst.setString(2, user.getProfileImage());
@@ -197,7 +227,7 @@ public class UserDAO {
 	public boolean deleteUser(String stringValue) throws DAOException {
 		String query = "UPDATE users SET isActive = false WHERE email_id = ?";
 		try (Connection connection = ConnectionUtil.getConnection();
-		     PreparedStatement pst = connection.prepareStatement(query)) {
+				PreparedStatement pst = connection.prepareStatement(query)) {
 
 			pst.setString(1, stringValue);
 

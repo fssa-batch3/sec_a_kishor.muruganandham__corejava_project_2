@@ -37,7 +37,9 @@ public class UserConstants {
 	public static final String PASSWORD_MISMATCH = "Password mismatch.";
 	public static final String INVALID_MOBILE_NUMBER_LENGTH = "Mobile number should be be 10 digits";
 	public static final String USER_NOT_FOUND = "User not found";
+	public static final String PASSWORDS_CANNOT_BE_SAME = "Old Password and New Password Cannot be same";
 	public static final String SELECT_QUERY = "SELECT * FROM users";
+	public static final String INCORRECT_OLD_PASSWORD = "Incorrect old password.";
 
 	private UserConstants() {
 		// Private constructor to prevent instantiation

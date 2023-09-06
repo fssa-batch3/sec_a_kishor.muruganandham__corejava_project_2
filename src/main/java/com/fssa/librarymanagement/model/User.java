@@ -20,8 +20,7 @@ public class User {
 	private Timestamp createdDate;
 	private boolean isActive;
 	private boolean isAdmin;
-	private String profileImage = "https://ui-avatars.com/api/?name=" + name + "&rounded=true&uppercase=false" +
-			"&background=random";
+	private String profileImage;
 	private int userId;
 
 	/**
@@ -64,6 +63,7 @@ public class User {
 	 * @param profileImage The URL of the user's profile image.
 	 */
 	public void setProfileImage(String profileImage) {
+
 		this.profileImage = profileImage;
 	}
 
@@ -100,6 +100,7 @@ public class User {
 	 * @param name The user's name.
 	 */
 	public void setName(String name) {
+		this.profileImage = "https://ui-avatars.com/api/?name=" + name + "&rounded=true&uppercase=false&background=random";
 		this.name = name;
 	}
 

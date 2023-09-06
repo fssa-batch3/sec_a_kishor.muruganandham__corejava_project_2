@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS users (
 
 -- Insert a sample user record
 INSERT INTO users (user_name, email_id, mobile_no, password, gender, dob, created_date, isAdmin, profile_image)
-VALUES ('John Doe', 'johndoe@gmail.com', 9691285360, '12345John', 'M', '1990-01-01', NOW(), true, 'https://ui-avatars.com/api/?name=Jhone%20Doe&rounded=true&uppercase=false&background=random');
+VALUES ('John Doe', 'johndoe@gmail.com', 9691285360, '$10$fba51bObkP.3nMOpwioNe.Q7SPYH5caWrQKX9NdBivfkOjynDaUYq', 'M', '1990-01-01', NOW(), FALSE, 'https://ui-avatars.com/api/?name=Jhone%20Doe&rounded=true&uppercase=false&background=random');
 
 -- Retrieve all records from 'users' table
 SELECT * FROM users;

@@ -1,5 +1,7 @@
 package com.fssa.librarymanagement.service;
 
+import java.util.List;
+
 import com.fssa.librarymanagement.constants.BookConstants;
 import com.fssa.librarymanagement.constants.UserConstants;
 import com.fssa.librarymanagement.dao.UserDAO;
@@ -9,8 +11,6 @@ import com.fssa.librarymanagement.exceptions.ValidationException;
 import com.fssa.librarymanagement.model.User;
 import com.fssa.librarymanagement.utils.PasswordUtil;
 import com.fssa.librarymanagement.validation.UserValidator;
-
-import java.util.List;
 
 /**
  * This class provides services related to user management, such as register,
@@ -23,7 +23,8 @@ public class UserService {
 	private final UserDAO userDAO = new UserDAO();
 
 	/**
-	 * Constructs a new UserService object for handling user-related business logic and interactions.
+	 * Constructs a new UserService object for handling user-related business logic
+	 * and interactions.
 	 */
 	public UserService() {
 		// Default constructor
@@ -47,7 +48,7 @@ public class UserService {
 				throw new ServiceException(UserConstants.USER_ALREADY_EXISTS);
 			}
 			user.setPassword(PasswordUtil.hashPassword(user.getPassword()));
-			return userDAO.createUser(user);    // Create the user in Database
+			return userDAO.createUser(user); // Create the user in Database
 		} catch (ValidationException | DAOException e) {
 			throw new ServiceException(e.getMessage());
 		}
@@ -78,6 +79,43 @@ public class UserService {
 				throw new ServiceException(UserConstants.PASSWORD_MISMATCH);
 			}
 		} catch (ValidationException | DAOException e) {
+			throw new ServiceException(e.getMessage());
+		}
+	}
+
+	/**
+	 * Updates the password for a user if the old password is correct.
+	 *
+	 * @param email       The email of the user whose password needs to be updated
+	 * @param oldPassword The old password to verify before updating
+	 * @param newPassword The new password to set for the user
+	 * @return True if the password was successfully updated, false otherwise
+	 * @throws ServiceException If there's a problem with the service, including
+	 *                          incorrect old password or database errors
+	 */
+	public boolean updatePassword(String email, String oldPassword, String newPassword) throws ServiceException {
+		try {
+			UserValidator userValidator = new UserValidator();
+			userValidator.validateEmail(email);
+			userValidator.validatePassword(oldPassword);
+			userValidator.validatePassword(newPassword);
+
+			if (oldPassword.equals(newPassword)) {
+				throw new ServiceException(UserConstants.PASSWORDS_CANNOT_BE_SAME);
+			}
+			User fromDb = userDAO.getUserByEmail(email);	// Retrieve the user from the database by email
+
+			if (fromDb == null) {
+				throw new ServiceException(UserConstants.USER_NOT_FOUND);
+			}
+
+			// Check if the provided old password matches the user's current password
+			if (PasswordUtil.checkPassword(oldPassword, fromDb.getPassword())) {
+				return userDAO.updatePassword(email, newPassword);
+			} else {
+				throw new ServiceException(UserConstants.INCORRECT_OLD_PASSWORD);
+			}
+		} catch (DAOException | ValidationException e) {
 			throw new ServiceException(e.getMessage());
 		}
 	}
@@ -122,7 +160,6 @@ public class UserService {
 		}
 	}
 
-
 	/**
 	 * Get a list of all users.
 	 *
@@ -131,7 +168,7 @@ public class UserService {
 	 */
 	public List<User> listAllUser() throws ServiceException {
 		try {
-			List<User> users = userDAO.getAllUsers();   // Retrieve all users from the database
+			List<User> users = userDAO.getAllUsers(); // Retrieve all users from the database
 
 			// Check if the list is not null and has elements
 			if (users != null && !users.isEmpty()) {
@@ -160,12 +197,12 @@ public class UserService {
 			userValidator.validateGender(user.getGender());
 			userValidator.validateMobileNo(user.getMobileNo());
 
-			boolean userExist = userDAO.doesUserExist(user.getEmail());   // Check if the user exists
+			boolean userExist = userDAO.doesUserExist(user.getEmail()); // Check if the user exists
 			if (!userExist) {
 				throw new ServiceException(UserConstants.USER_DOES_NOT_EXIST_WITH_THE_GIVEN_EMAIL);
 			}
 
-			return userDAO.updateUser(user);    // Update the user and return true if successful
+			return userDAO.updateUser(user); // Update the user and return true if successful
 		} catch (ValidationException | DAOException e) {
 			throw new ServiceException(e.getMessage());
 		}
@@ -181,12 +218,12 @@ public class UserService {
 	public boolean deleteUser(String email) throws ServiceException {
 		try {
 
-			boolean userExist = userDAO.doesUserExist(email);   // Check if the user exists
+			boolean userExist = userDAO.doesUserExist(email); // Check if the user exists
 			if (!userExist) {
 				throw new ServiceException(UserConstants.USER_DOES_NOT_EXIST_WITH_THE_GIVEN_EMAIL);
 			}
 
-			return userDAO.deleteUser(email);   // Delete the user and return true if successful
+			return userDAO.deleteUser(email); // Delete the user and return true if successful
 		} catch (DAOException e) {
 			throw new ServiceException(e.getMessage());
 		}
