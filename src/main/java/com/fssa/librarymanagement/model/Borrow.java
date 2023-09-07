@@ -14,6 +14,8 @@ public class Borrow {
 	private LocalDate returnDate;
 	private LocalDate dueDate;
 	private double fine;
+	private int borrowId;
+	private boolean isReturned;
 
 	/**
 	 * Constructs a new Borrow object with default values.
@@ -22,6 +24,9 @@ public class Borrow {
 		// Default constructor
 	}
 
+	public int getBorrowId() {
+		return borrowId;
+	}
 
 	/**
 	 * Set the borrow's id.
@@ -29,16 +34,7 @@ public class Borrow {
 	 * @param borrowId The id of the borrow.
 	 */
 	public void setBorrowId(int borrowId) {
-	}
-
-
-	/**
-	 * Set the borrow's return status.
-	 *
-	 * @param isReturned true if the borrow's return status should be active, false otherwise.
-	 */
-
-	public void setReturned(boolean isReturned) {
+		this.borrowId = borrowId;
 	}
 
 	/**
@@ -153,5 +149,17 @@ public class Borrow {
 				+ returnDate + ", dueDate=" + dueDate + ", fine=" + fine + '}';
 	}
 
+	public boolean isReturned() {
+		return isReturned;
+	}
 
+	/**
+	 * Set the borrow's return status.
+	 *
+	 * @param isReturned true if the borrow's return status should be active, false otherwise.
+	 */
+
+	public void setReturned(boolean isReturned) {
+		this.isReturned = isReturned;
+	}
 }
