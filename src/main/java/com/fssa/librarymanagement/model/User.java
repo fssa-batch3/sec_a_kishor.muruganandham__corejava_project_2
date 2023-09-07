@@ -100,7 +100,8 @@ public class User {
 	 * @param name The user's name.
 	 */
 	public void setName(String name) {
-		this.profileImage = "https://ui-avatars.com/api/?name=" + name + "&rounded=true&uppercase=false&background=random";
+		this.profileImage = "https://ui-avatars.com/api/?name=" + name + "&rounded=true&uppercase=false&background" +
+				"=random";
 		this.name = name;
 	}
 

@@ -1,7 +1,5 @@
 package com.fssa.librarymanagement.service;
 
-import java.util.List;
-
 import com.fssa.librarymanagement.constants.BookConstants;
 import com.fssa.librarymanagement.constants.UserConstants;
 import com.fssa.librarymanagement.dao.UserDAO;
@@ -11,6 +9,8 @@ import com.fssa.librarymanagement.exceptions.ValidationException;
 import com.fssa.librarymanagement.model.User;
 import com.fssa.librarymanagement.utils.PasswordUtil;
 import com.fssa.librarymanagement.validation.UserValidator;
+
+import java.util.List;
 
 /**
  * This class provides services related to user management, such as register,
@@ -103,7 +103,7 @@ public class UserService {
 			if (oldPassword.equals(newPassword)) {
 				throw new ServiceException(UserConstants.PASSWORDS_CANNOT_BE_SAME);
 			}
-			User fromDb = userDAO.getUserByEmail(email);	// Retrieve the user from the database by email
+			User fromDb = userDAO.getUserByEmail(email);    // Retrieve the user from the database by email
 
 			if (fromDb == null) {
 				throw new ServiceException(UserConstants.USER_NOT_FOUND);

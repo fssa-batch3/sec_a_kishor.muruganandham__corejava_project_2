@@ -135,17 +135,60 @@ class TestUserService {
 		assertEquals("User does not exist with the given email", result.getMessage());
 	}
 
+
 	@Test
 	@Order(13)
+	void testValidUpdatePassword() {
+		String newPassword = "12345Kishore";
+		assertDoesNotThrow(() -> userService.updatePassword(user.getEmail(), user.getPassword(), newPassword));
+	}
+
+	@Test
+	@Order(14)
+	void testInvalidUpdatePassword_SamePassword() {
+		String newPassword = "12345Kishor";
+		ServiceException result = assertThrows(ServiceException.class,
+		                                       () -> userService.updatePassword(user.getEmail(), user.getPassword(),
+		                                                                        newPassword));
+		assertEquals("Old Password and New Password Cannot be same", result.getMessage());
+	}
+
+
+	@Test
+	@Order(15)
+	void testInvalidUpdatePassword_wrongOldPassword() {
+		String newPassword = "12345Kishore";
+		user.setPassword("123456Kishor");
+		ServiceException result = assertThrows(ServiceException.class,
+		                                       () -> userService.updatePassword(user.getEmail(), user.getPassword(),
+		                                                                        newPassword));
+		assertEquals("Incorrect old password.", result.getMessage());
+	}
+
+	@Test
+	@Order(16)
+	void testInvalidUpdatePassword_nonExistentUser() {
+		String newPassword = "12345Kishore";
+		user.setEmail("nonExistentUser@gmail.com");
+		ServiceException result = assertThrows(ServiceException.class,
+		                                       () -> userService.updatePassword(user.getEmail(), user.getPassword(),
+		                                                                        newPassword));
+		assertEquals("User not found", result.getMessage());
+	}
+
+	@Test
+	@Order(17)
 	void testValidDeleteUser() {
 		assertDoesNotThrow(() -> userService.deleteUser(user.getEmail()));
 	}
 
 	@Test
-	@Order(14)
+	@Order(18)
 	void testInvalidDeleteUser() {
 		User nonExistentUser = new User();
 		nonExistentUser.setEmail("nonExistentUser@gmail.com");
-		assertThrows(ServiceException.class, () -> userService.deleteUser(nonExistentUser.getEmail()));
+		ServiceException result = assertThrows(ServiceException.class,
+		                                       () -> userService.deleteUser(nonExistentUser.getEmail()));
+		assertEquals("User does not exist with the given email", result.getMessage());
 	}
 }

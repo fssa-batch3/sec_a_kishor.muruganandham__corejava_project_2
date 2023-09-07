@@ -78,6 +78,7 @@ class TestBookService {
 		ServiceException result = assertThrows(ServiceException.class, () -> bookService.getBookById(4321));
 		assertEquals("Book not found.", result.getMessage());
 	}
+
 	@Test
 	@Order(7)
 	void testListAllBooks() {

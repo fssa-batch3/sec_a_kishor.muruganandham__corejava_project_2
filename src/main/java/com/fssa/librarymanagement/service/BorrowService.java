@@ -45,21 +45,22 @@ public class BorrowService {
 		boolean success;
 
 		try {
+			borrowValidator.validateBorrowDate(borrow.getBorrowDate());
+
 			// Check if the user has already borrowed the book
 			existingBorrow = borrowDAO.getBorrowByUserAndBook(borrow.getUser().getUserId(),
 			                                                  borrow.getBook().getBookId());
-			availableCopies = borrowDAO.getAvailableCopiesCount(borrow.getBook().getBookId());
-			borrowedBooksCount = borrowDAO.getBorrowedBooksCountByUser(borrow.getUser().getUserId());
-
 			if (existingBorrow != null) {
 				throw new ServiceException(BorrowConstants.THIS_BOOK_HAS_ALREADY_BEEN_BORROWED_BY_YOU);
 			}
-			borrowValidator.validateBorrowDate(borrow.getBorrowDate());
+			availableCopies = borrowDAO.getAvailableCopiesCount(borrow.getBook().getBookId());
 
 			// Check if there are available copies of the book
 			if (availableCopies <= 0) {
 				throw new ServiceException(BorrowConstants.NO_AVAILABLE_COPIES_OF_THE_BOOK);
 			}
+
+			borrowedBooksCount = borrowDAO.getBorrowedBooksCountByUser(borrow.getUser().getUserId());
 			// Check if the user has reached the borrow limit
 			if (borrowedBooksCount >= BorrowConstants.BORROW_LIMIT) {
 				throw new ServiceException(BorrowConstants.BORROW_LIMIT_EXCEEDED_FOR_THE_USER);

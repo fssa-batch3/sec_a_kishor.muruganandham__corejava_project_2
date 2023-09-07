@@ -18,49 +18,31 @@ public class Borrow {
 	private boolean isReturned;
 
 	/**
-	 * Get the borrow's id.
-	 *
-	 * @return The id of the borrow.
+	 * Constructs a new Borrow object with default values.
 	 */
-
-	public int getBorrowId() {
-		return borrowId;
+	public Borrow() {
+		// Default constructor
 	}
+
 
 	/**
 	 * Set the borrow's id.
 	 *
-	 * @param bookId The id of the borrow.
+	 * @param borrowId The id of the borrow.
 	 */
 	public void setBorrowId(int borrowId) {
 		this.borrowId = borrowId;
 	}
 
-	/**
-	 * Get the borrow's return status.
-	 *
-	 * @return true if the borrow's return status is active, false otherwise.
-	 */
-
-	public boolean isReturned() {
-		return isReturned;
-	}
 
 	/**
 	 * Set the borrow's return status.
 	 *
-	 * @param active true if the borrow's return status should be active, false otherwise.
+	 * @param isReturned true if the borrow's return status should be active, false otherwise.
 	 */
 
 	public void setReturned(boolean isReturned) {
 		this.isReturned = isReturned;
-	}
-
-	/**
-	 * Constructs a new Borrow object with default values.
-	 */
-	public Borrow() {
-		// Default constructor
 	}
 
 	/**
@@ -174,7 +156,6 @@ public class Borrow {
 		return "Borrow{" + "user=" + user + ", book=" + book + ", borrowDate=" + borrowDate + ", returnDate="
 				+ returnDate + ", dueDate=" + dueDate + ", fine=" + fine + '}';
 	}
-
 
 
 }
