@@ -14,8 +14,6 @@ public class Borrow {
 	private LocalDate returnDate;
 	private LocalDate dueDate;
 	private double fine;
-	private int borrowId;
-	private boolean isReturned;
 
 	/**
 	 * Constructs a new Borrow object with default values.
@@ -31,7 +29,6 @@ public class Borrow {
 	 * @param borrowId The id of the borrow.
 	 */
 	public void setBorrowId(int borrowId) {
-		this.borrowId = borrowId;
 	}
 
 
@@ -42,7 +39,6 @@ public class Borrow {
 	 */
 
 	public void setReturned(boolean isReturned) {
-		this.isReturned = isReturned;
 	}
 
 	/**
