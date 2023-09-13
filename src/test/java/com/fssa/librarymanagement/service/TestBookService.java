@@ -91,7 +91,7 @@ class TestBookService {
 		try {
 			Book beforeUpdate = bookService.getBookByName(book.getTitle());
 			book.setBookId(beforeUpdate.getBookId());
-			book.setDescription("Updated description");
+			book.setDescription("A thrilling legal thriller involving murder");
 			boolean bookUpdate = bookService.updateBook(book);
 			Book updatedBook = bookService.getBookByName(book.getTitle());
 

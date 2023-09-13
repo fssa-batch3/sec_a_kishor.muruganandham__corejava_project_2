@@ -1,4 +1,4 @@
--- Create the 'library_management' database if it doesn't exist and switch to it
+-- Create the 'kishor_muruganandham_corejava_project' database if it doesn't exist and switch to it
 CREATE DATABASE IF NOT EXISTS kishor_muruganandham_corejava_project;
 USE kishor_muruganandham_corejava_project;
 

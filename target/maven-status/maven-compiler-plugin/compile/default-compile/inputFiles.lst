@@ -3,7 +3,6 @@ C:\Users\KishorMuruganandham\eclipse-workspace\LibraryManagement\src\main\java\c
 C:\Users\KishorMuruganandham\eclipse-workspace\LibraryManagement\src\main\java\com\fssa\librarymanagement\exceptions\package-info.java
 C:\Users\KishorMuruganandham\eclipse-workspace\LibraryManagement\src\main\java\com\fssa\librarymanagement\validation\package-info.java
 C:\Users\KishorMuruganandham\eclipse-workspace\LibraryManagement\src\main\java\com\fssa\librarymanagement\constants\package-info.java
-C:\Users\KishorMuruganandham\eclipse-workspace\LibraryManagement\src\main\java\com\fssa\librarymanagement\package-info.java
 C:\Users\KishorMuruganandham\eclipse-workspace\LibraryManagement\src\main\java\com\fssa\librarymanagement\model\User.java
 C:\Users\KishorMuruganandham\eclipse-workspace\LibraryManagement\src\main\java\com\fssa\librarymanagement\service\BookService.java
 C:\Users\KishorMuruganandham\eclipse-workspace\LibraryManagement\src\main\java\com\fssa\librarymanagement\dao\UserDAO.java
@@ -27,5 +26,4 @@ C:\Users\KishorMuruganandham\eclipse-workspace\LibraryManagement\src\main\java\c
 C:\Users\KishorMuruganandham\eclipse-workspace\LibraryManagement\src\main\java\com\fssa\librarymanagement\utils\ResultSetUtils.java
 C:\Users\KishorMuruganandham\eclipse-workspace\LibraryManagement\src\main\java\com\fssa\librarymanagement\exceptions\ValidationException.java
 C:\Users\KishorMuruganandham\eclipse-workspace\LibraryManagement\src\main\java\com\fssa\librarymanagement\dao\package-info.java
-C:\Users\KishorMuruganandham\eclipse-workspace\LibraryManagement\src\main\java\com\fssa\librarymanagement\App.java
 C:\Users\KishorMuruganandham\eclipse-workspace\LibraryManagement\src\main\java\com\fssa\librarymanagement\model\Book.java

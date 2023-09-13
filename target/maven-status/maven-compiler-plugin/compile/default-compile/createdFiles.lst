@@ -9,7 +9,6 @@ com\fssa\librarymanagement\model\Book.class
 com\fssa\librarymanagement\constants\UserConstants.class
 com\fssa\librarymanagement\service\BorrowService.class
 com\fssa\librarymanagement\utils\ConnectionUtil.class
-com\fssa\librarymanagement\App.class
 com\fssa\librarymanagement\model\Borrow.class
 com\fssa\librarymanagement\service\BookService.class
 com\fssa\librarymanagement\dao\BorrowDAO.class
