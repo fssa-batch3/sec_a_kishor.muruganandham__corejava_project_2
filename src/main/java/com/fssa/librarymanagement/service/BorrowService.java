@@ -1,5 +1,8 @@
 package com.fssa.librarymanagement.service;
 
+import java.time.temporal.ChronoUnit;
+import java.util.List;
+
 import com.fssa.librarymanagement.constants.BorrowConstants;
 import com.fssa.librarymanagement.dao.BookDAO;
 import com.fssa.librarymanagement.dao.BorrowDAO;
@@ -8,9 +11,6 @@ import com.fssa.librarymanagement.exceptions.ServiceException;
 import com.fssa.librarymanagement.exceptions.ValidationException;
 import com.fssa.librarymanagement.model.Borrow;
 import com.fssa.librarymanagement.validation.BorrowValidator;
-
-import java.time.temporal.ChronoUnit;
-import java.util.List;
 
 /**
  * This class provides services related to borrowing and returning books.
@@ -172,6 +172,23 @@ public class BorrowService {
 				throw new ServiceException(BorrowConstants.BORROWS_NOT_FOUND);
 			}
 			return borrow;
+		} catch (DAOException e) {
+			throw new ServiceException(e.getMessage());
+		}
+	}
+
+	/**
+	 * Retrieves a specific Borrow by user and book.
+	 *
+	 * @param userId The ID of the User.
+	 * @param bookId The ID of the Book.
+	 * @return The Borrow object if found, or null if not found.
+	 * @throws ServiceException If there's a problem with the service.
+	 */
+	public Borrow getBorrowByUserAndBook(int userId, int bookId) throws ServiceException {
+		try {
+			// Retrieve a specific Borrow by ID
+			return borrowDAO.getBorrowByUserAndBook(userId, bookId);
 		} catch (DAOException e) {
 			throw new ServiceException(e.getMessage());
 		}

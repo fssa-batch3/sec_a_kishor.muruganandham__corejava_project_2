@@ -21,4 +21,8 @@ public class DatabaseConnectionException extends Exception {
 		super(msg);
 	}
 
+	public DatabaseConnectionException(String msg, Throwable ex) {
+		super(msg,ex);
+	}
+
 }

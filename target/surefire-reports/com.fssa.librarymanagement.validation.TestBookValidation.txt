@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.fssa.librarymanagement.validation.TestBookValidation
+-------------------------------------------------------------------------------
+Tests run: 35, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.145 s -- in com.fssa.librarymanagement.validation.TestBookValidation

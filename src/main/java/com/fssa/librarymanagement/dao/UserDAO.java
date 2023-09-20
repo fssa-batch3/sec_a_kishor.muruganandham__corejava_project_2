@@ -1,17 +1,21 @@
 package com.fssa.librarymanagement.dao;
 
+import static com.fssa.librarymanagement.utils.ResultSetUtils.buildUserFromResultSet;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.fssa.librarymanagement.constants.UserConstants;
 import com.fssa.librarymanagement.exceptions.DAOException;
 import com.fssa.librarymanagement.exceptions.DatabaseConnectionException;
 import com.fssa.librarymanagement.model.User;
 import com.fssa.librarymanagement.utils.ConnectionUtil;
 import com.fssa.librarymanagement.utils.PasswordUtil;
-
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.fssa.librarymanagement.utils.ResultSetUtils.buildUserFromResultSet;
 
 /**
  * Data Access Object (DAO) class for handling User-related database operations.
@@ -161,6 +165,31 @@ public class UserDAO {
 			throw new DAOException(e);
 		}
 	}
+	/**
+	 * Updates the profile image of a user with the given user Id.
+	 *
+	 * @param userId       The id of the user whose profile image needs to be updated
+	 * @param profileImage The new profile image to set for the user
+	 * @return True if the profile image was successfully updated, false otherwise
+	 * @throws DAOException If an error occurs during database operation
+	 */
+	public boolean updateProfileImage(int userId, String profileImage) throws DAOException {
+		String updateQuery = "UPDATE users SET profile_image = ? WHERE user_id = ?";
+		
+		try (Connection connection = ConnectionUtil.getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
+			
+			
+			preparedStatement.setString(1, profileImage);
+			preparedStatement.setInt(2, userId);
+			
+			int rowsUpdated = preparedStatement.executeUpdate();
+			
+			return rowsUpdated > 0;
+		} catch (SQLException | DatabaseConnectionException e) {
+			throw new DAOException(e);
+		}
+	}
 
 	/**
 	 * Retrieves a list of all users.
@@ -184,6 +213,8 @@ public class UserDAO {
 		return userList;
 	}
 
+
+	
 	/**
 	 * Updates user information.
 	 *

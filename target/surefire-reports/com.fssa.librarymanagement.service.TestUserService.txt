@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.fssa.librarymanagement.service.TestUserService
+-------------------------------------------------------------------------------
+Tests run: 18, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 78.83 s -- in com.fssa.librarymanagement.service.TestUserService

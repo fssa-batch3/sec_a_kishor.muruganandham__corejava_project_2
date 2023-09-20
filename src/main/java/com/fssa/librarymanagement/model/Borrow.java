@@ -2,6 +2,8 @@ package com.fssa.librarymanagement.model;
 
 import java.time.LocalDate;
 
+import com.fssa.librarymanagement.BorrowingDuration;
+
 /**
  * Represents a borrowing transaction in a library system.
  *
@@ -90,7 +92,6 @@ public class Borrow {
 	 */
 	public void setBorrowDate(LocalDate borrowDate) {
 		this.borrowDate = borrowDate;
-		this.dueDate = borrowDate.plusDays(10);
 	}
 
 	/**
@@ -139,6 +140,23 @@ public class Borrow {
 	}
 
 	/**
+	 * Set the due date for returning the book based on the selected borrowing
+	 * duration.
+	 *
+	 * @param borrowingDuration The borrowing duration selected from the
+	 *                          {@link BorrowingDuration} enum.
+	 **/
+
+	public void setDueDate(BorrowingDuration borrowingDuration) {
+		this.dueDate = borrowDate.plusDays(borrowingDuration.getValue());
+	}
+
+	
+	public void setDueDate(LocalDate dueDate) {
+		this.dueDate = dueDate;
+	}
+
+	/**
 	 * Returns a string representation of the Borrow object.
 	 *
 	 * @return A string representation of the Borrow object.
@@ -156,7 +174,8 @@ public class Borrow {
 	/**
 	 * Set the borrow's return status.
 	 *
-	 * @param isReturned true if the borrow's return status should be active, false otherwise.
+	 * @param isReturned true if the borrow's return status should be active, false
+	 *                   otherwise.
 	 */
 
 	public void setReturned(boolean isReturned) {

@@ -1,9 +1,6 @@
 package com.fssa.librarymanagement.dao;
 
-import com.fssa.librarymanagement.exceptions.DAOException;
-import com.fssa.librarymanagement.exceptions.DatabaseConnectionException;
-import com.fssa.librarymanagement.model.Book;
-import com.fssa.librarymanagement.utils.ConnectionUtil;
+import static com.fssa.librarymanagement.utils.ResultSetUtils.buildBookFromResultSet;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,7 +9,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.fssa.librarymanagement.utils.ResultSetUtils.buildBookFromResultSet;
+import com.fssa.librarymanagement.exceptions.DAOException;
+import com.fssa.librarymanagement.exceptions.DatabaseConnectionException;
+import com.fssa.librarymanagement.model.Book;
+import com.fssa.librarymanagement.utils.ConnectionUtil;
 
 /**
  * Data Access Object (DAO) class for handling Book-related database operations.
@@ -95,8 +95,8 @@ public class BookDAO {
 	 */
 	public boolean createBook(Book book) throws DAOException {
 		String query = "INSERT INTO books (title, author, publisher, genre, language, description, total_copies, " +
-				"available_copies, loaned_copies, cover_image) " +
-				"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				"available_copies, loaned_copies, pages, cover_image) " +
+				"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		try (Connection connection = ConnectionUtil.getConnection();
 		     PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
@@ -109,7 +109,8 @@ public class BookDAO {
 			preparedStatement.setInt(7, book.getTotalCopies());
 			preparedStatement.setInt(8, book.getAvailableCopies());
 			preparedStatement.setInt(9, book.getLoanedCopies());
-			preparedStatement.setString(10, book.getCoverImage());
+			preparedStatement.setInt(10, book.getPages());
+			preparedStatement.setString(11, book.getCoverImage());
 
 			int rowsAffected = preparedStatement.executeUpdate();
 			return rowsAffected > 0;
@@ -252,4 +253,28 @@ public class BookDAO {
 			throw new DAOException(e);
 		}
 	}
+    private static final String SELECT_GENRES_QUERY = "SELECT DISTINCT genre FROM books ORDER BY genre";
+    /**
+     * Retrieves a list of all distinct genres from the database.
+     *
+     * @return A list of distinct genres
+     * @throws DAOException If an error occurs during database operation
+     */
+    public List<String> getAllGenres() throws DAOException {
+        List<String> genresList = new ArrayList<>();
+
+        try (Connection connection = ConnectionUtil.getConnection();
+             PreparedStatement pst = connection.prepareStatement(SELECT_GENRES_QUERY);
+             ResultSet rs = pst.executeQuery()) {
+
+            while (rs.next()) {
+                String genre = rs.getString("genre");
+                genresList.add(genre);
+            }
+        } catch (SQLException | DatabaseConnectionException e) {
+            throw new DAOException(e);
+        }
+
+        return genresList;
+    }
 }

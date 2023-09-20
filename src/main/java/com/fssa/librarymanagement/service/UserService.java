@@ -1,5 +1,7 @@
 package com.fssa.librarymanagement.service;
 
+import java.util.List;
+
 import com.fssa.librarymanagement.constants.BookConstants;
 import com.fssa.librarymanagement.constants.UserConstants;
 import com.fssa.librarymanagement.dao.UserDAO;
@@ -9,8 +11,6 @@ import com.fssa.librarymanagement.exceptions.ValidationException;
 import com.fssa.librarymanagement.model.User;
 import com.fssa.librarymanagement.utils.PasswordUtil;
 import com.fssa.librarymanagement.validation.UserValidator;
-
-import java.util.List;
 
 /**
  * This class provides services related to user management, such as register,
@@ -119,6 +119,25 @@ public class UserService {
 			throw new ServiceException(e.getMessage());
 		}
 	}
+	/**
+	 * Updates the profile image for a user if the old password is correct.
+	 *
+	 * @param userId       The id of the user whose profile image needs to be updated
+	 * @param profileImage  The new profile image to set for the user
+	 * @return True if the profile image was successfully updated, false otherwise
+	 * @throws ServiceException If there's a problem with the service, including
+	 *                          incorrect old password or database errors
+	 */
+	public boolean updateProfileImage(int userId, String profileImage) throws ServiceException {
+		try {
+			UserValidator userValidator = new UserValidator();
+			userValidator.validateProfileImage(profileImage);
+					
+			return userDAO.updateProfileImage(userId, profileImage);
+		} catch (DAOException | ValidationException e) {
+			throw new ServiceException(e.getMessage());
+		}
+	}
 
 	/**
 	 * Retrieve a user.
@@ -180,6 +199,9 @@ public class UserService {
 			throw new ServiceException(e.getMessage());
 		}
 	}
+	
+
+
 
 	/**
 	 * Edit a user's information.

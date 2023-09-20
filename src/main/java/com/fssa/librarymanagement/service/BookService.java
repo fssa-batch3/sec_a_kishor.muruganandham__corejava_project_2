@@ -1,5 +1,10 @@
 package com.fssa.librarymanagement.service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import com.fssa.librarymanagement.constants.BookConstants;
 import com.fssa.librarymanagement.dao.BookDAO;
 import com.fssa.librarymanagement.exceptions.DAOException;
@@ -7,8 +12,6 @@ import com.fssa.librarymanagement.exceptions.ServiceException;
 import com.fssa.librarymanagement.exceptions.ValidationException;
 import com.fssa.librarymanagement.model.Book;
 import com.fssa.librarymanagement.validation.BookValidator;
-
-import java.util.List;
 
 /**
  * This class provides services related to book management, such as adding, retrieving, updating, and deleting books.
@@ -148,4 +151,38 @@ public class BookService {
 			throw new ServiceException(e.getMessage());
 		}
 	}
+	
+    /**
+     * Retrieves a list of all distinct genres.
+     *
+     * @return A list of distinct genres
+     * @throws ServiceException If there's a problem with the service
+     */
+    public List<String> listAllGenres() throws ServiceException {
+        try {
+            List<String> genres = bookDAO.getAllGenres(); // Retrieve all genres from the database
+
+            // Check if the list is not null and has elements
+            if (genres != null && !genres.isEmpty()) {
+                return separateWordsBySpace(genres);
+            } else {
+                throw new ServiceException("No genres found.");
+            }
+        } catch (DAOException e) {
+            throw new ServiceException("Error retrieving genres: " + e.getMessage());
+        }
+    }
+    
+    private static List<String> separateWordsBySpace(List<String> genres) {
+        Set<String> uniqueWords = new HashSet<>();
+        for (String genre : genres) {
+            String[] words = genre.split("\\s+");
+            for (String word : words) {
+                if (!word.isEmpty()) {
+                    uniqueWords.add(word);
+                }
+            }
+        }
+        return new ArrayList<>(uniqueWords);
+    }
 }

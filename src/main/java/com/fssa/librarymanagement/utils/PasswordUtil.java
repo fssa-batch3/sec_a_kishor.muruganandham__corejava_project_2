@@ -29,7 +29,8 @@ public class PasswordUtil {
 	 *
 	 * @param plainPassword  The plain password to check
 	 * @param hashedPassword The hashed password to compare against
-	 * @return True if the plain password matches the hashed password, false otherwise
+	 * @return True if the plain password matches the hashed password, false
+	 *         otherwise
 	 */
 	public static boolean checkPassword(String plainPassword, String hashedPassword) {
 		return BCrypt.checkpw(plainPassword, hashedPassword);

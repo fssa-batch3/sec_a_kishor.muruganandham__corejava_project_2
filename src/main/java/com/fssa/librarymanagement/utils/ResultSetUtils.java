@@ -1,12 +1,14 @@
 package com.fssa.librarymanagement.utils;
 
-import com.fssa.librarymanagement.model.Book;
-import com.fssa.librarymanagement.model.Borrow;
-import com.fssa.librarymanagement.model.User;
-
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+
+import com.fssa.librarymanagement.model.Book;
+import com.fssa.librarymanagement.model.Borrow;
+import com.fssa.librarymanagement.model.Comment;
+import com.fssa.librarymanagement.model.User;
 
 /**
  * Utility class for building model objects from ResultSet data.
@@ -15,6 +17,7 @@ public class ResultSetUtils {
 
 	private static final String RETURN_DATE = "return_date";
 	private static final String BORROW_DATE = "borrow_date";
+	private static final String DUE_DATE = "due_date";
 
 	// Private constructor to prevent instantiation
 	private ResultSetUtils() {
@@ -63,6 +66,7 @@ public class ResultSetUtils {
 		book.setTotalCopies(rs.getInt("total_copies"));
 		book.setAvailableCopies(rs.getInt("available_copies"));
 		book.setLoanedCopies(rs.getInt("loaned_copies"));
+		book.setPages(rs.getInt("pages"));
 		book.setCoverImage(rs.getString("cover_image"));
 		return book;
 	}
@@ -90,10 +94,44 @@ public class ResultSetUtils {
 		borrow.setUser(user);
 		borrow.setBook(book);
 		borrow.setBorrowDate(rs.getDate(BORROW_DATE).toLocalDate());
+		borrow.setDueDate(rs.getDate(DUE_DATE).toLocalDate());
 		Date returnDate = rs.getDate(RETURN_DATE);
 		if (returnDate != null) {
 			borrow.setReturnDate(returnDate.toLocalDate());
 		}
 		return borrow;
 	}
+	
+    public static Comment buildCommentFromResultSet(ResultSet rs) throws SQLException {
+        Comment comment = new Comment();
+        comment.setCommentId(rs.getInt("comment_id"));
+        
+        User user = new User();
+        user.setUserId(rs.getInt("user_id"));
+        user.setName(rs.getString("user_name"));
+        user.setEmail(rs.getString("email_id"));
+        user.setProfileImage(rs.getString("profile_image"));
+        
+        Book book = new Book();
+        book.setBookId(rs.getInt("book_id"));
+        book.setTitle(rs.getString("title"));
+        book.setCoverImage(rs.getString("cover_image"));
+        
+        comment.setUser(user);
+        comment.setBook(book);
+        comment.setDescription(rs.getString("description"));
+        
+        LocalDate createdAt = rs.getDate("created_at").toLocalDate();
+        comment.setCreatedAt(createdAt);
+        
+        LocalDate editedAt = rs.getDate("edited_at").toLocalDate();
+        comment.setEditedAt(editedAt);
+        
+        comment.setActive(rs.getBoolean("is_active"));
+        comment.setEdited(rs.getBoolean("is_edited"));
+        
+        return comment;
+    }
+	
+	
 }

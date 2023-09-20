@@ -1,9 +1,10 @@
 package com.fssa.librarymanagement.validation;
 
+import java.time.LocalDate;
+
+import com.fssa.librarymanagement.BorrowingDuration;
 import com.fssa.librarymanagement.exceptions.ValidationException;
 import com.fssa.librarymanagement.model.Borrow;
-
-import java.time.LocalDate;
 
 /**
  * This class provides Validations for all Borrow data.
@@ -24,8 +25,9 @@ public class BorrowValidator {
 	}
 
 	/**
-	 * Constructs a BorrowValidator instance without a specific borrow.
-	 * This constructor can be used when validating borrows with individual validation methods.
+	 * Constructs a BorrowValidator instance without a specific borrow. This
+	 * constructor can be used when validating borrows with individual validation
+	 * methods.
 	 */
 	public BorrowValidator() {
 		// Default constructor
@@ -72,5 +74,14 @@ public class BorrowValidator {
 			throw new ValidationException("Return date should be after the borrow date");
 		}
 		return true;
+	}
+
+	public static boolean vnalidateBorrowingDuration(int input) {
+		for (BorrowingDuration duration : BorrowingDuration.values()) {
+			if (duration.getValue() == input) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

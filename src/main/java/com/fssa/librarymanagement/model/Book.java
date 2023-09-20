@@ -16,6 +16,15 @@ public class Book {
 	private int totalCopies;
 	private int availableCopies;
 	private int loanedCopies;
+	private int pages;
+	public int getPages() {
+		return pages;
+	}
+
+	public void setPages(int pages) {
+		this.pages = pages;
+	}
+
 	private String coverImage = "https://dummyimage.com/600x800/000/ffffff.png&text=Failed+to+Load+Image";
 
 	/**
