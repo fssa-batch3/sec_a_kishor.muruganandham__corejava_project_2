@@ -3,7 +3,7 @@ package com.fssa.librarymanagement.utils;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.fssa.librarymanagement.model.Book;
 import com.fssa.librarymanagement.model.Borrow;
@@ -121,11 +121,13 @@ public class ResultSetUtils {
         comment.setBook(book);
         comment.setDescription(rs.getString("description"));
         
-        LocalDate createdAt = rs.getDate("created_at").toLocalDate();
+        LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
         comment.setCreatedAt(createdAt);
         
-        LocalDate editedAt = rs.getDate("edited_at").toLocalDate();
-        comment.setEditedAt(editedAt);
+        if (rs.getDate("edited_at") != null) {
+        	LocalDateTime editedAt = rs.getTimestamp("edited_at").toLocalDateTime();
+        	comment.setEditedAt(editedAt);			
+		}
         
         comment.setActive(rs.getBoolean("is_active"));
         comment.setEdited(rs.getBoolean("is_edited"));

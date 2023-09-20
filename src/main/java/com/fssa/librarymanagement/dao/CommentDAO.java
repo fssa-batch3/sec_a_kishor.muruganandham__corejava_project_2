@@ -6,10 +6,10 @@ package com.fssa.librarymanagement.dao;
 import static com.fssa.librarymanagement.utils.ResultSetUtils.buildCommentFromResultSet;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,9 +31,8 @@ public class CommentDAO {
 	private static final String DELETE_COMMENT_QUERY = "UPDATE comments SET is_active = false WHERE comment_id = ?";
 
 	private static final String BASE_COMMENT_QUERY = "SELECT c.comment_id, c.description, c.created_at, c.edited_at, c.is_active, c.is_edited, "
-			+ "u.user_id AS user_user_id, u.user_name, u.email_id, u.profile_image, "
-			+ "b.book_id AS book_book_id, b.title, b.cover_image " + "FROM comments c "
-			+ "JOIN users u ON c.user_id = u.user_id " + "JOIN books b ON c.book_id = b.book_id ";
+			+ "u.user_id, u.user_name, u.email_id, u.profile_image, " + "b.book_id, b.title, b.cover_image "
+			+ "FROM comments c " + "JOIN users u ON c.user_id = u.user_id " + "JOIN books b ON c.book_id = b.book_id ";
 
 	private static final String LIST_COMMENTS_BY_BOOK_QUERY = BASE_COMMENT_QUERY
 			+ "WHERE c.book_id = ? AND c.is_active = true";
@@ -48,7 +47,7 @@ public class CommentDAO {
 			pst.setInt(1, comment.getUser().getUserId());
 			pst.setInt(2, comment.getBook().getBookId());
 			pst.setString(3, comment.getDescription());
-			pst.setDate(4, Date.valueOf(comment.getCreatedAt()));
+			pst.setTimestamp(4, Timestamp.valueOf(comment.getCreatedAt()));
 
 			int rowsAffected = pst.executeUpdate();
 			return rowsAffected > 0;
@@ -63,9 +62,8 @@ public class CommentDAO {
 				PreparedStatement pst = connection.prepareStatement(UPDATE_COMMENT_QUERY)) {
 
 			pst.setString(1, comment.getDescription());
-			pst.setDate(2, Date.valueOf(comment.getEditedAt()));
-			pst.setBoolean(3, comment.isEdited());
-			pst.setInt(4, comment.getCommentId());
+			pst.setTimestamp(2, Timestamp.valueOf(comment.getEditedAt()));
+			pst.setInt(3, comment.getCommentId());
 
 			int rowsAffected = pst.executeUpdate();
 			return rowsAffected > 0;

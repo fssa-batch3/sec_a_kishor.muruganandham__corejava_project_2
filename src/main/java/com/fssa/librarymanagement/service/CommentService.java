@@ -38,9 +38,11 @@ public class CommentService {
 	public boolean updateComment(Comment comment) throws ServiceException {
 		try {
 
+			CommentValidator commentValidator = new CommentValidator();
+			commentValidator.validateAll();
 			return commentDAO.updateComment(comment);
 
-		} catch (DAOException e) {
+		} catch (DAOException | ValidationException e) {
 			throw new ServiceException(e.getMessage());
 		}
 	}
