@@ -2,7 +2,7 @@ package com.fssa.librarymanagement.model;
 
 import java.time.LocalDate;
 
-import com.fssa.librarymanagement.BorrowingDuration;
+import com.fssa.librarymanagement.enums.BorrowingDuration;
 
 /**
  * Represents a borrowing transaction in a library system.

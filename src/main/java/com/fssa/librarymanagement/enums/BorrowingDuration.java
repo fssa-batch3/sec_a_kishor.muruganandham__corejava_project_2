@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.fssa.librarymanagement;
+package com.fssa.librarymanagement.enums;
 
 /**
  * 

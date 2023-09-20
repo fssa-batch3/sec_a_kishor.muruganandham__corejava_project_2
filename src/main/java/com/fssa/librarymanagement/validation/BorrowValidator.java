@@ -2,7 +2,7 @@ package com.fssa.librarymanagement.validation;
 
 import java.time.LocalDate;
 
-import com.fssa.librarymanagement.BorrowingDuration;
+import com.fssa.librarymanagement.enums.BorrowingDuration;
 import com.fssa.librarymanagement.exceptions.ValidationException;
 import com.fssa.librarymanagement.model.Borrow;
 

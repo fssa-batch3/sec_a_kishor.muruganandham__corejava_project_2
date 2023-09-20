@@ -1,6 +1,6 @@
 package com.fssa.librarymanagement.utils;
 
-import com.fssa.librarymanagement.BorrowingDuration;
+import com.fssa.librarymanagement.enums.BorrowingDuration;
 
 public class BorrowingDurationEnumMapper {
 	public static BorrowingDuration mapToBorrowingDuration(int days) {
