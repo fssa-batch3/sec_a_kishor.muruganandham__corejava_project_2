@@ -34,7 +34,7 @@ public class UserConstants {
 			"100 years";
 	public static final String USER_ALREADY_EXISTS = "User already exists.";
 	public static final String USER_DOES_NOT_EXIST_WITH_THE_GIVEN_EMAIL = "User does not exist with the given email";
-	public static final String PASSWORD_MISMATCH = "Password mismatch.";
+	public static final String INVALID_LOGIN_CREDENTIALS = "Ivalid Login Credentials";
 	public static final String INVALID_MOBILE_NUMBER_LENGTH = "Mobile number should be be 10 digits";
 	public static final String USER_NOT_FOUND = "User not found";
 	public static final String PASSWORDS_CANNOT_BE_SAME = "Old Password and New Password Cannot be same";

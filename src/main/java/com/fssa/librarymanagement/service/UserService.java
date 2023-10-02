@@ -76,7 +76,7 @@ public class UserService {
 			if (PasswordUtil.checkPassword(user.getPassword(), fromDb.getPassword())) {
 				return fromDb;
 			} else {
-				throw new ServiceException(UserConstants.PASSWORD_MISMATCH);
+				throw new ServiceException(UserConstants.INVALID_LOGIN_CREDENTIALS);
 			}
 		} catch (ValidationException | DAOException e) {
 			throw new ServiceException(e.getMessage());

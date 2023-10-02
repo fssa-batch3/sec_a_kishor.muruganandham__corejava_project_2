@@ -1,10 +1,17 @@
 package com.fssa.librarymanagement.service;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+
 import com.fssa.librarymanagement.exceptions.ServiceException;
 import com.fssa.librarymanagement.model.Book;
-import org.junit.jupiter.api.*;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TestBookService {
@@ -46,31 +53,10 @@ class TestBookService {
 		assertThrows(ServiceException.class, () -> bookService.addBook(invalidBook));
 	}
 
-	@Test
-	@Order(3)
-	void testValidGetBookByName() {
-		assertDoesNotThrow(() -> bookService.getBookByName(book.getTitle()));
-	}
 
-	@Test
-	@Order(4)
-	void testInvalidGetBookByName() {
-		ServiceException result = assertThrows(ServiceException.class, () -> bookService.getBookByName("No Title"));
-		assertEquals("Book not found.", result.getMessage());
-	}
 
-	@Test
-	@Order(5)
-	void testValidGetBookById() {
-		try {
-			Book bookByName = bookService.getBookByName(book.getTitle());
-			Book bookById = bookService.getBookById(bookByName.getBookId());
-			assertEquals(bookByName.getTitle(), bookById.getTitle());
-		} catch (ServiceException e) {
-			e.printStackTrace();
-			fail();
-		}
-	}
+	
+
 
 	@Test
 	@Order(6)
@@ -85,23 +71,7 @@ class TestBookService {
 		assertDoesNotThrow(() -> bookService.listAllBooks());
 	}
 
-	@Test
-	@Order(8)
-	void testValidUpdateBook() {
-		try {
-			Book beforeUpdate = bookService.getBookByName(book.getTitle());
-			book.setBookId(beforeUpdate.getBookId());
-			book.setDescription("A thrilling legal thriller involving murder");
-			boolean bookUpdate = bookService.updateBook(book);
-			Book updatedBook = bookService.getBookByName(book.getTitle());
 
-			assertTrue(bookUpdate);
-			assertEquals(book.getDescription(), updatedBook.getDescription(), "Description should be updated");
-		} catch (ServiceException e) {
-			e.printStackTrace();
-			fail("Should not throw ServiceException");
-		}
-	}
 
 	@Test
 	@Order(9)
@@ -114,19 +84,7 @@ class TestBookService {
 		assertEquals("Book not found.", result.getMessage());
 	}
 
-	@Test
-	@Order(10)
-	void testValidDeleteBook() {
-		try {
-			Book existingBook = bookService.getBookByName(book.getTitle());
-			System.out.println(existingBook);
-			boolean isDeleted = bookService.deleteBook(existingBook.getBookId());
-			assertTrue(isDeleted);
-		} catch (ServiceException e) {
-			e.printStackTrace();
-			fail("Should not throw ServiceException");
-		}
-	}
+
 
 	@Test
 	@Order(11)

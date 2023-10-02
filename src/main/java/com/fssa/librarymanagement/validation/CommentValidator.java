@@ -22,11 +22,10 @@ public class CommentValidator {
 	}
 	
     public void validateAll() throws ValidationException{
-        validateDescription(comment);
+        validateDescription(comment.getDescription());
     }
 
-    public void validateDescription(Comment comment) throws ValidationException {
-        String description = comment.getDescription();
+    public void validateDescription(String description) throws ValidationException {
         if (description == null || description.trim().isEmpty()) {
             throw new ValidationException("Description cannot be empty.");
         } else if (description.length() > 230) {

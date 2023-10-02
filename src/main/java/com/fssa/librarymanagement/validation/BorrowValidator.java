@@ -1,6 +1,7 @@
 package com.fssa.librarymanagement.validation;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.fssa.librarymanagement.enums.BorrowingDuration;
 import com.fssa.librarymanagement.exceptions.ValidationException;
@@ -51,7 +52,7 @@ public class BorrowValidator {
 	 * @return true if borrow date is valid
 	 * @throws ValidationException If borrow date is empty
 	 */
-	public boolean validateBorrowDate(LocalDate borrowDate) throws ValidationException {
+	public boolean validateBorrowDate(LocalDateTime borrowDate) throws ValidationException {
 		if (borrowDate == null) {
 			throw new ValidationException("Borrow date cannot be empty");
 		}
@@ -66,11 +67,11 @@ public class BorrowValidator {
 	 * @throws ValidationException If the return date is empty or before borrow date
 	 */
 	public boolean validateReturnDate(LocalDate returnDate) throws ValidationException {
-		LocalDate borrowDate = borrow.getBorrowDate();
+		LocalDateTime borrowDate = borrow.getBorrowDate();
 		if (returnDate == null) {
 			throw new ValidationException("Return date cannot be empty");
 		}
-		if (returnDate.isBefore(borrowDate)) {
+		if (returnDate.isBefore(borrowDate.toLocalDate())) {
 			throw new ValidationException("Return date should be after the borrow date");
 		}
 		return true;

@@ -18,6 +18,8 @@ public class Comment {
 	private LocalDateTime editedAt;
 	private boolean isActive;
 	private boolean isEdited;
+	private boolean isTrusted;
+
 
 	/**
 	 * @return the commentId
@@ -130,6 +132,21 @@ public class Comment {
 	public void setEdited(boolean isEdited) {
 		this.isEdited = isEdited;
 	}
+	
+	/**
+	 * @return the isTrusted
+	 */
+	public boolean isTrusted() {
+		return isTrusted;
+	}
+
+	/**
+	 * @param isTrusted the isTrusted to set
+	 */
+	public void setTrusted(boolean isTrusted) {
+		this.isTrusted = isTrusted;
+	}
+
 
 	@Override
 	public String toString() {

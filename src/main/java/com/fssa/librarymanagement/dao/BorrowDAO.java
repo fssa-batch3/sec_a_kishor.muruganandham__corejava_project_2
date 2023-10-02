@@ -7,6 +7,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class BorrowDAO {
 
 			pst.setInt(1, borrow.getUser().getUserId());
 			pst.setInt(2, borrow.getBook().getBookId());
-			pst.setDate(3, Date.valueOf(borrow.getBorrowDate()));
+			pst.setTimestamp(3, Timestamp.valueOf(borrow.getBorrowDate()));
 			pst.setDate(4, Date.valueOf(borrow.getDueDate()));
 
 			int rowsAffected = pst.executeUpdate();
@@ -188,7 +189,7 @@ public class BorrowDAO {
 					book.setBookId(rs.getInt("book_id"));
 					borrow.setUser(user);
 					borrow.setBook(book);
-					borrow.setBorrowDate(rs.getDate("borrow_date").toLocalDate());
+					borrow.setBorrowDate(rs.getTimestamp("borrow_date").toLocalDateTime());
 					borrow.setDueDate(rs.getDate("due_date").toLocalDate());
 					Date returnDate = rs.getDate("return_date");
 					if (returnDate != null) {

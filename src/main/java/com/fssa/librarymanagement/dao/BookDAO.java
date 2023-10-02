@@ -7,7 +7,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.fssa.librarymanagement.exceptions.DAOException;
 import com.fssa.librarymanagement.exceptions.DatabaseConnectionException;
@@ -19,47 +21,52 @@ import com.fssa.librarymanagement.utils.ConnectionUtil;
  */
 public class BookDAO {
 	/**
-	 * Constructs a new BookDAO object for performing database operations related to books.
+	 * Constructs a new BookDAO object for performing database operations related to
+	 * books.
 	 */
 	public BookDAO() {
 		// Default constructor
 	}
 
 	/**
-	 * Retrieves a book by its title.
+	 * Retrieves books by a title match.
 	 *
-	 * @param bookName The title of the book
-	 * @return The Book object if found, otherwise null
+	 * @param title The title of the book
+	 * @return A list of Book objects matching the title, an empty list if none
+	 *         found
 	 * @throws DAOException If an error occurs during database operation
 	 */
-
-	public Book getBookByTitle(String bookName) throws DAOException {
-		Book book = null;
-		String query = "SELECT * FROM books WHERE title = ? AND isActive = true";
+	public List<Book> searchBooksByTitle(String title) throws DAOException {
+		List<Book> books = new ArrayList<>();
+		String query = "SELECT book_id,title,cover_image FROM books WHERE title LIKE ? AND isActive = true";
 
 		try (Connection connection = ConnectionUtil.getConnection();
-		     PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+				PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-			preparedStatement.setString(1, bookName);
+			preparedStatement.setString(1, "%" + title + "%");
 
 			try (ResultSet rs = preparedStatement.executeQuery()) {
-				if (rs.next()) {
-					book = buildBookFromResultSet(rs);
+				while (rs.next()) {
+					Book book = new Book();
+					book.setBookId(rs.getInt("book_id"));
+					book.setTitle(rs.getString("title"));
+					book.setCoverImage(rs.getString("cover_image"));
+					books.add(book);
 				}
 			}
 
 		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
 		}
-		return book;
+		return books;
 	}
 
 	/**
-	 * Checks if a book with the given title exists in the database.
+	 * Checks if a book with the given id exists in the database.
 	 *
-	 * @param bookId The title of the book to check.
-	 * @return {@code true} if a book with the specified title exists and meets certain criteria,
-	 * {@code false} otherwise.
+	 * @param bookId The id of the book to check.
+	 * @return {@code true} if a book with the specified id exists and meets certain
+	 *         criteria, {@code false} otherwise.
 	 * @throws DAOException If an error occurs during the database operation.
 	 */
 
@@ -68,7 +75,7 @@ public class BookDAO {
 		String query = "SELECT COUNT(*) FROM books WHERE book_id = ? AND isActive = true";
 
 		try (Connection connection = ConnectionUtil.getConnection();
-		     PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+				PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
 			preparedStatement.setInt(1, bookId);
 
@@ -85,7 +92,6 @@ public class BookDAO {
 		return bookExists;
 	}
 
-
 	/**
 	 * Creates a new book.
 	 *
@@ -94,11 +100,10 @@ public class BookDAO {
 	 * @throws DAOException If an error occurs during database operation
 	 */
 	public boolean createBook(Book book) throws DAOException {
-		String query = "INSERT INTO books (title, author, publisher, genre, language, description, total_copies, " +
-				"available_copies, loaned_copies, pages, cover_image) " +
-				"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String query = "INSERT INTO books (title, author, publisher, genre, language, description, total_copies, "
+				+ "available_copies, loaned_copies, pages, cover_image) " + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		try (Connection connection = ConnectionUtil.getConnection();
-		     PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+				PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
 			preparedStatement.setString(1, book.getTitle());
 			preparedStatement.setString(2, book.getAuthor());
@@ -132,7 +137,7 @@ public class BookDAO {
 		String query = "SELECT * FROM books WHERE book_id = ? AND isActive = true";
 
 		try (Connection connection = ConnectionUtil.getConnection();
-		     PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+				PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
 			preparedStatement.setInt(1, bookId);
 
@@ -158,8 +163,8 @@ public class BookDAO {
 		List<Book> bookList = new ArrayList<>();
 		String query = "SELECT * FROM books WHERE isActive = true";
 		try (Connection connection = ConnectionUtil.getConnection();
-		     PreparedStatement preparedStatement = connection.prepareStatement(query);
-		     ResultSet rs = preparedStatement.executeQuery()) {
+				PreparedStatement preparedStatement = connection.prepareStatement(query);
+				ResultSet rs = preparedStatement.executeQuery()) {
 
 			while (rs.next()) {
 				Book book = buildBookFromResultSet(rs);
@@ -179,14 +184,11 @@ public class BookDAO {
 	 * @throws DAOException If an error occurs during database operation
 	 */
 	public boolean updateBook(Book book) throws DAOException {
-		String query = "UPDATE books SET " +
-				"title = ?, description = ?, total_copies = ?, " +
-				"cover_image = ?, genre = ?, language = ?, " +
-				"author = ?, publisher = ? " +
-				"WHERE book_id = ?";
+		String query = "UPDATE books SET " + "title = ?, description = ?, total_copies = ?, "
+				+ "cover_image = ?, genre = ?, language = ?, " + "author = ?, publisher = ? " + "WHERE book_id = ?";
 
 		try (Connection connection = ConnectionUtil.getConnection();
-		     PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+				PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
 			preparedStatement.setString(1, book.getTitle());
 			preparedStatement.setString(2, book.getDescription());
@@ -210,16 +212,18 @@ public class BookDAO {
 	 * Updates the loaned and available copies of a book.
 	 *
 	 * @param bookId              The ID of the book
-	 * @param loanedCopyChange    The change in loaned copies counts (positive for increase, negative for decrease)
-	 * @param availableCopyChange The change in available copies counts (positive for increase, negative for decrease)
+	 * @param loanedCopyChange    The change in loaned copies counts (positive for
+	 *                            increase, negative for decrease)
+	 * @param availableCopyChange The change in available copies counts (positive
+	 *                            for increase, negative for decrease)
 	 * @return true if the update was successful, false otherwise
 	 * @throws DAOException If an error occurs during database operation
 	 */
 	public boolean updateBookCopies(int bookId, int loanedCopyChange, int availableCopyChange) throws DAOException {
-		String query = "UPDATE books SET loaned_copies = loaned_copies + ?, available_copies = available_copies + ? " +
-				"WHERE book_id = ?";
+		String query = "UPDATE books SET loaned_copies = loaned_copies + ?, available_copies = available_copies + ? "
+				+ "WHERE book_id = ?";
 		try (Connection connection = ConnectionUtil.getConnection();
-		     PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+				PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
 			preparedStatement.setInt(1, loanedCopyChange);
 			preparedStatement.setInt(2, availableCopyChange);
@@ -232,7 +236,6 @@ public class BookDAO {
 		}
 	}
 
-
 	/**
 	 * Marks a book as inactive (soft delete) by its title.
 	 *
@@ -243,7 +246,7 @@ public class BookDAO {
 	public boolean deleteBook(int bookId) throws DAOException {
 		String query = "UPDATE books SET isActive = false WHERE book_id = ?";
 		try (Connection connection = ConnectionUtil.getConnection();
-		     PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+				PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
 			preparedStatement.setInt(1, bookId);
 
@@ -253,28 +256,71 @@ public class BookDAO {
 			throw new DAOException(e);
 		}
 	}
-    private static final String SELECT_GENRES_QUERY = "SELECT DISTINCT genre FROM books ORDER BY genre";
-    /**
-     * Retrieves a list of all distinct genres from the database.
-     *
-     * @return A list of distinct genres
-     * @throws DAOException If an error occurs during database operation
-     */
-    public List<String> getAllGenres() throws DAOException {
-        List<String> genresList = new ArrayList<>();
 
-        try (Connection connection = ConnectionUtil.getConnection();
-             PreparedStatement pst = connection.prepareStatement(SELECT_GENRES_QUERY);
-             ResultSet rs = pst.executeQuery()) {
+	private static final String SELECT_GENRES_QUERY = "SELECT DISTINCT genre FROM books WHERE isActive = TRUE ORDER BY genre";
 
-            while (rs.next()) {
-                String genre = rs.getString("genre");
-                genresList.add(genre);
-            }
-        } catch (SQLException | DatabaseConnectionException e) {
-            throw new DAOException(e);
-        }
+	/**
+	 * Retrieves a list of all distinct genres from the database.
+	 *
+	 * @return A list of distinct genres
+	 * @throws DAOException If an error occurs during database operation
+	 */
+	public List<String> getAllGenres() throws DAOException {
+		List<String> genresList = new ArrayList<>();
 
-        return genresList;
-    }
+		try (Connection connection = ConnectionUtil.getConnection();
+				PreparedStatement pst = connection.prepareStatement(SELECT_GENRES_QUERY);
+				ResultSet rs = pst.executeQuery()) {
+
+			while (rs.next()) {
+				String genre = rs.getString("genre");
+				genresList.add(genre);
+			}
+		} catch (SQLException | DatabaseConnectionException e) {
+			throw new DAOException(e);
+		}
+
+		return genresList;
+	}
+
+	public boolean createBookRequest(Map<String, String> bookRequestData) throws DAOException {
+		String query = "INSERT INTO book_requests (book_name, author_name, source_link, description) "
+				+ "VALUES (?, ?, ?, ?)";
+		try (Connection connection = ConnectionUtil.getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+			preparedStatement.setString(1, bookRequestData.get("book_name"));
+			preparedStatement.setString(2, bookRequestData.get("author_name"));
+			preparedStatement.setString(3, bookRequestData.get("source_link"));
+			preparedStatement.setString(4, bookRequestData.get("reason"));
+
+			int rowsAffected = preparedStatement.executeUpdate();
+			return rowsAffected > 0;
+
+		} catch (SQLException | DatabaseConnectionException e) {
+			throw new DAOException(e);
+		}
+	}
+
+	public List<Map<String, String>> getAllBookRequests() throws DAOException {
+		List<Map<String, String>> bookRequestList = new ArrayList<>();
+		String query = "SELECT * FROM book_requests";
+		try (Connection connection = ConnectionUtil.getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(query);
+				ResultSet rs = preparedStatement.executeQuery()) {
+	
+			while (rs.next()) { 
+				Map<String, String> bookRequestData = new HashMap<>();
+				bookRequestData.put("bookName", rs.getString("book_name"));
+				bookRequestData.put("authorName", rs.getString("author_name"));
+				bookRequestData.put("sourceLink", rs.getString("source_link"));
+				bookRequestData.put("description", rs.getString("reason"));
+
+				bookRequestList.add(bookRequestData);
+			}
+		} catch (SQLException | DatabaseConnectionException e) {
+			throw new DAOException(e);
+		}
+		return bookRequestList;
+	}
 }

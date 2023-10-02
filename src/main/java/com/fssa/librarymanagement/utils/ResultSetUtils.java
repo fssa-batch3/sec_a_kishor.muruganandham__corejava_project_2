@@ -93,7 +93,8 @@ public class ResultSetUtils {
 		borrow.setReturned(rs.getBoolean("isReturned"));
 		borrow.setUser(user);
 		borrow.setBook(book);
-		borrow.setBorrowDate(rs.getDate(BORROW_DATE).toLocalDate());
+		borrow.setBorrowDate(rs.getTimestamp(BORROW_DATE).toLocalDateTime());
+		borrow.setFine(rs.getDouble("fine"));
 		borrow.setDueDate(rs.getDate(DUE_DATE).toLocalDate());
 		Date returnDate = rs.getDate(RETURN_DATE);
 		if (returnDate != null) {
@@ -131,6 +132,7 @@ public class ResultSetUtils {
         
         comment.setActive(rs.getBoolean("is_active"));
         comment.setEdited(rs.getBoolean("is_edited"));
+        comment.setTrusted(rs.getBoolean("is_trusted"));
         
         return comment;
     }

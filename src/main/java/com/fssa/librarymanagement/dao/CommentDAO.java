@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,14 +24,14 @@ import com.fssa.librarymanagement.utils.ConnectionUtil;
  */
 public class CommentDAO {
 
-	private static final String INSERT_COMMENT_QUERY = "INSERT INTO comments (user_id, book_id, description, created_at) "
-			+ "VALUES (?, ?, ?, ?)";
+	private static final String INSERT_COMMENT_QUERY = "INSERT INTO comments (user_id, book_id, description, created_at, is_trusted) "
+			+ "VALUES (?, ?, ?, ?, ?)";
 
 	private static final String UPDATE_COMMENT_QUERY = "UPDATE comments SET description = ?, edited_at = ?, is_edited = TRUE WHERE comment_id = ?";
 
 	private static final String DELETE_COMMENT_QUERY = "UPDATE comments SET is_active = false WHERE comment_id = ?";
 
-	private static final String BASE_COMMENT_QUERY = "SELECT c.comment_id, c.description, c.created_at, c.edited_at, c.is_active, c.is_edited, "
+	private static final String BASE_COMMENT_QUERY = "SELECT c.comment_id, c.description, c.created_at, c.edited_at, c.is_active, c.is_edited,c.is_trusted, "
 			+ "u.user_id, u.user_name, u.email_id, u.profile_image, " + "b.book_id, b.title, b.cover_image "
 			+ "FROM comments c " + "JOIN users u ON c.user_id = u.user_id " + "JOIN books b ON c.book_id = b.book_id ";
 
@@ -39,23 +40,33 @@ public class CommentDAO {
 
 	private static final String LIST_ALL_COMMENTS_QUERY = BASE_COMMENT_QUERY + "WHERE c.is_active = true";
 
-	public boolean createComment(Comment comment) throws DAOException {
+	public Comment createComment(Comment comment) throws DAOException {
+	    try (Connection connection = ConnectionUtil.getConnection();
+	         PreparedStatement pst = connection.prepareStatement(INSERT_COMMENT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
 
-		try (Connection connection = ConnectionUtil.getConnection();
-				PreparedStatement pst = connection.prepareStatement(INSERT_COMMENT_QUERY)) {
+	        pst.setInt(1, comment.getUser().getUserId());
+	        pst.setInt(2, comment.getBook().getBookId());
+	        pst.setString(3, comment.getDescription());
+	        pst.setTimestamp(4, Timestamp.valueOf(comment.getCreatedAt()));
+	        pst.setBoolean(5, comment.isTrusted());
 
-			pst.setInt(1, comment.getUser().getUserId());
-			pst.setInt(2, comment.getBook().getBookId());
-			pst.setString(3, comment.getDescription());
-			pst.setTimestamp(4, Timestamp.valueOf(comment.getCreatedAt()));
+	        int rowsAffected = pst.executeUpdate();
+	        if (rowsAffected > 0) {
+	            ResultSet generatedKeys = pst.getGeneratedKeys();
+	            if (generatedKeys.next()) {
+	                int generatedId = generatedKeys.getInt(1);
+	                comment.setCommentId(generatedId);  // Assuming Comment class has a setCommentId method
+	            }
+	            return comment;
+	        }
 
-			int rowsAffected = pst.executeUpdate();
-			return rowsAffected > 0;
+	        return null;
 
-		} catch (SQLException | DatabaseConnectionException e) {
-			throw new DAOException(e);
-		}
+	    } catch (SQLException | DatabaseConnectionException e) {
+	        throw new DAOException(e);
+	    }
 	}
+
 
 	public boolean updateComment(Comment comment) throws DAOException {
 		try (Connection connection = ConnectionUtil.getConnection();

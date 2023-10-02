@@ -106,8 +106,18 @@ CREATE TABLE IF NOT EXISTS comments (
     edited_at DATETIME,
     is_active BOOLEAN NOT NULL DEFAULT 1,
     is_edited BOOLEAN NOT NULL DEFAULT 0,
+    is_trusted BOOLEAN NOT NULL DEFAULT 0,
     FOREIGN KEY (user_id)
         REFERENCES users (user_id),
     FOREIGN KEY (book_id)
         REFERENCES books (book_id)
 );
+
+CREATE TABLE IF NOT EXISTS  book_requests (
+    request_id INT PRIMARY KEY AUTO_INCREMENT,
+    book_name VARCHAR(255) NOT NULL,
+    author_name VARCHAR(255) NOT NULL,
+    source_link VARCHAR(255),
+    reason TEXT NOT NULL
+);
+

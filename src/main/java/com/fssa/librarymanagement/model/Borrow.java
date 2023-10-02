@@ -1,6 +1,7 @@
 package com.fssa.librarymanagement.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.fssa.librarymanagement.enums.BorrowingDuration;
 
@@ -12,7 +13,7 @@ import com.fssa.librarymanagement.enums.BorrowingDuration;
 public class Borrow {
 	private User user; // The user who borrowed the book
 	private Book book; // The borrowed book
-	private LocalDate borrowDate;
+	private LocalDateTime borrowDate;
 	private LocalDate returnDate;
 	private LocalDate dueDate;
 	private double fine;
@@ -80,7 +81,7 @@ public class Borrow {
 	 *
 	 * @return The date when the book was borrowed.
 	 */
-	public LocalDate getBorrowDate() {
+	public LocalDateTime getBorrowDate() {
 		return borrowDate;
 	}
 
@@ -90,7 +91,7 @@ public class Borrow {
 	 *
 	 * @param borrowDate The date when the book was borrowed.
 	 */
-	public void setBorrowDate(LocalDate borrowDate) {
+	public void setBorrowDate(LocalDateTime borrowDate) {
 		this.borrowDate = borrowDate;
 	}
 
@@ -148,7 +149,7 @@ public class Borrow {
 	 **/
 
 	public void setDueDate(BorrowingDuration borrowingDuration) {
-		this.dueDate = borrowDate.plusDays(borrowingDuration.getValue());
+		this.dueDate = borrowDate.plusDays(borrowingDuration.getValue()).toLocalDate();
 	}
 
 	
