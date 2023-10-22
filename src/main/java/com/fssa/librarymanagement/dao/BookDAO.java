@@ -314,7 +314,7 @@ public class BookDAO {
 				bookRequestData.put("bookName", rs.getString("book_name"));
 				bookRequestData.put("authorName", rs.getString("author_name"));
 				bookRequestData.put("sourceLink", rs.getString("source_link"));
-				bookRequestData.put("description", rs.getString("reason"));
+				bookRequestData.put("description", rs.getString("description"));
 
 				bookRequestList.add(bookRequestData);
 			}

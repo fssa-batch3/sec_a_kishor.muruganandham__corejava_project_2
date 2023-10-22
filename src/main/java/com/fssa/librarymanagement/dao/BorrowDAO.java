@@ -214,7 +214,7 @@ public class BorrowDAO {
 		List<Borrow> borrowList = new ArrayList<>();
 
 		try (Connection connection = ConnectionUtil.getConnection();
-				PreparedStatement pst = connection.prepareStatement(BorrowConstants.JOIN_QUERY);
+				PreparedStatement pst = connection.prepareStatement(BorrowConstants.JOIN_QUERY + " ORDER BY b.borrow_date DESC");
 				ResultSet rs = pst.executeQuery()) {
 
 			while (rs.next()) {

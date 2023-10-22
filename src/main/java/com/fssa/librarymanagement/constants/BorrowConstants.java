@@ -22,9 +22,8 @@ public class BorrowConstants {
 
 	// SQL query prefixes
 	public static final String SELECT_QUERY_PREFIX = "SELECT user_id, book_id, borrow_date, due_date, return_date FROM borrows ";
-	public static final String JOIN_QUERY = "SELECT b.*, u.user_name, u.user_id, u.email_id, u.profile_image, bk" +
-			".book_id, " +
-			"bk.title, bk.cover_image FROM borrows b " +
+	public static final String JOIN_QUERY = "SELECT b.*, u.user_name, u.user_id, u.email_id, u.profile_image,"+
+			" bk.book_id, bk.title, bk.cover_image FROM borrows b " +
 			"JOIN users u ON b.user_id = u.user_id " +
 			"JOIN books bk ON b.book_id = bk.book_id ";
 
