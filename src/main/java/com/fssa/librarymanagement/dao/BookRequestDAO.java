@@ -58,11 +58,8 @@ public class BookRequestDAO {
 				BookRequest bookRequestData = new BookRequest();
 				bookRequestData.setBookName(rs.getString("book_name"));
 				bookRequestData.setAuthorName(rs.getString("author_name"));
-				;
 				bookRequestData.setSourceLink(rs.getString("source_link"));
-				;
 				bookRequestData.setDescription(rs.getString("description"));
-				;
 
 				bookRequestList.add(bookRequestData);
 			}

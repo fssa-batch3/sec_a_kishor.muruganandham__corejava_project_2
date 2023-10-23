@@ -36,7 +36,6 @@ public class ImageUploader {
 			// Upload the image bytes to Cloudinary
 			return cloudinary.uploader().upload(imageBytes, options);
 		} catch (IOException e) {
-			e.printStackTrace();
 			throw e;
 		}
 	}
