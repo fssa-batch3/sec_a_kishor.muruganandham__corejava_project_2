@@ -67,7 +67,7 @@ public class BorrowDAO {
 	 */
 	public boolean returnBook(Borrow borrow) throws DAOException {
 		String query = "UPDATE borrows SET isReturned = true, return_date = ?, fine = ? WHERE user_id = ? AND "
-				+ "book_id" + " " + "= ? AND isReturned = false";
+				+ "book_id = ? AND isReturned = false";
 		try (Connection connection = ConnectionUtil.getConnection();
 				PreparedStatement pst = connection.prepareStatement(query)) {
 			pst.setDate(1, Date.valueOf(borrow.getReturnDate()));
@@ -214,7 +214,8 @@ public class BorrowDAO {
 		List<Borrow> borrowList = new ArrayList<>();
 
 		try (Connection connection = ConnectionUtil.getConnection();
-				PreparedStatement pst = connection.prepareStatement(BorrowConstants.JOIN_QUERY + " ORDER BY b.borrow_date DESC");
+				PreparedStatement pst = connection
+						.prepareStatement(BorrowConstants.JOIN_QUERY + " ORDER BY b.borrow_date DESC");
 				ResultSet rs = pst.executeQuery()) {
 
 			while (rs.next()) {

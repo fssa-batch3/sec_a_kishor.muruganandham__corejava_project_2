@@ -3,16 +3,15 @@ package com.fssa.librarymanagement.exceptions;
 import java.io.Serial;
 
 /**
- * This exception class is used to handle errors related to Data Access Object (DAO) operations.
+ * This exception class is used to handle errors related to Data Access Object
+ * (DAO) operations.
  *
  * @author KishorMuruganandham
  */
 public class DAOException extends Exception {
 
-
 	@Serial
 	private static final long serialVersionUID = 1L;
-
 
 	/**
 	 * Constructs a new DAOException with the specified cause.
@@ -21,6 +20,19 @@ public class DAOException extends Exception {
 	 */
 	public DAOException(Throwable ex) {
 		super(ex);
+	}
+
+	/**
+	 * Constructs a new DAOException with the detail message..
+	 *
+	 * @param msg The detail message.
+	 */
+	public DAOException(String msg) {
+		super(msg);
+	}
+
+	public DAOException(String msg, Throwable ex) {
+		super(msg, ex);
 	}
 
 }

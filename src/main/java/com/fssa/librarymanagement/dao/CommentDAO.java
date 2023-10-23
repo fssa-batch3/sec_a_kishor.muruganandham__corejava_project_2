@@ -41,32 +41,32 @@ public class CommentDAO {
 	private static final String LIST_ALL_COMMENTS_QUERY = BASE_COMMENT_QUERY + "WHERE c.is_active = true";
 
 	public Comment createComment(Comment comment) throws DAOException {
-	    try (Connection connection = ConnectionUtil.getConnection();
-	         PreparedStatement pst = connection.prepareStatement(INSERT_COMMENT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
+		try (Connection connection = ConnectionUtil.getConnection();
+				PreparedStatement pst = connection.prepareStatement(INSERT_COMMENT_QUERY,
+						Statement.RETURN_GENERATED_KEYS)) {
 
-	        pst.setInt(1, comment.getUser().getUserId());
-	        pst.setInt(2, comment.getBook().getBookId());
-	        pst.setString(3, comment.getDescription());
-	        pst.setTimestamp(4, Timestamp.valueOf(comment.getCreatedAt()));
-	        pst.setBoolean(5, comment.isTrusted());
+			pst.setInt(1, comment.getUser().getUserId());
+			pst.setInt(2, comment.getBook().getBookId());
+			pst.setString(3, comment.getDescription());
+			pst.setTimestamp(4, Timestamp.valueOf(comment.getCreatedAt()));
+			pst.setBoolean(5, comment.isTrusted());
 
-	        int rowsAffected = pst.executeUpdate();
-	        if (rowsAffected > 0) {
-	            ResultSet generatedKeys = pst.getGeneratedKeys();
-	            if (generatedKeys.next()) {
-	                int generatedId = generatedKeys.getInt(1);
-	                comment.setCommentId(generatedId);  // Assuming Comment class has a setCommentId method
-	            }
-	            return comment;
-	        }
+			int rowsAffected = pst.executeUpdate();
+			if (rowsAffected > 0) {
+				ResultSet generatedKeys = pst.getGeneratedKeys();
+				if (generatedKeys.next()) {
+					int generatedId = generatedKeys.getInt(1);
+					comment.setCommentId(generatedId); // Assuming Comment class has a setCommentId method
+				}
+				return comment;
+			}
 
-	        return null;
+			return null;
 
-	    } catch (SQLException | DatabaseConnectionException e) {
-	        throw new DAOException(e);
-	    }
+		} catch (SQLException | DatabaseConnectionException e) {
+			throw new DAOException(e);
+		}
 	}
-
 
 	public boolean updateComment(Comment comment) throws DAOException {
 		try (Connection connection = ConnectionUtil.getConnection();

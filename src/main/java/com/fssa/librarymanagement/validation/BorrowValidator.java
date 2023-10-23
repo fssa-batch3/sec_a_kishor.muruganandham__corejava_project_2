@@ -3,7 +3,6 @@ package com.fssa.librarymanagement.validation;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import com.fssa.librarymanagement.enums.BorrowingDuration;
 import com.fssa.librarymanagement.exceptions.ValidationException;
 import com.fssa.librarymanagement.model.Borrow;
 
@@ -77,12 +76,4 @@ public class BorrowValidator {
 		return true;
 	}
 
-	public static boolean vnalidateBorrowingDuration(int input) {
-		for (BorrowingDuration duration : BorrowingDuration.values()) {
-			if (duration.getValue() == input) {
-				return true;
-			}
-		}
-		return false;
-	}
 }

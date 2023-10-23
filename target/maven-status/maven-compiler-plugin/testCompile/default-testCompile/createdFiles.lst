@@ -1,0 +1,13 @@
+com\fssa\librarymanagement\service\TestCommentService.class
+com\fssa\librarymanagement\validation\TestBorrowValidation.class
+com\fssa\librarymanagement\service\TestBorrowService.class
+com\fssa\librarymanagement\validation\TestBookValidation.class
+com\fssa\librarymanagement\validation\TestUserValidation.class
+com\fssa\librarymanagement\exception\TestCustomException.class
+com\fssa\librarymanagement\service\TestBookService.class
+com\fssa\librarymanagement\service\TestUserService.class
+com\fssa\librarymanagement\validation\TestBookRequestValidation.class
+com\fssa\librarymanagement\validation\TestRatingValidation.class
+com\fssa\librarymanagement\service\TestRatingService.class
+com\fssa\librarymanagement\validation\TestCommentValidation.class
+com\fssa\librarymanagement\service\TestBookRequest.class

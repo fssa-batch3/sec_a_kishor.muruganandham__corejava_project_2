@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.fssa.librarymanagement.service.TestBorrowService
--------------------------------------------------------------------------------
-Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 51.58 s -- in com.fssa.librarymanagement.service.TestBorrowService

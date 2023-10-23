@@ -1,11 +1,11 @@
 package com.fssa.librarymanagement.validation;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import com.fssa.librarymanagement.constants.BookConstants;
 import com.fssa.librarymanagement.exceptions.ValidationException;
 import com.fssa.librarymanagement.model.Book;
-
-import java.net.MalformedURLException;
-import java.net.URL;
 
 /**
  * This class provides Validations for all Book data.
@@ -13,7 +13,6 @@ import java.net.URL;
  * @author KishorMuruganandham
  */
 public class BookValidator {
-
 
 	private Book book; // The book object to be validated
 
@@ -27,8 +26,8 @@ public class BookValidator {
 	}
 
 	/**
-	 * Constructs a BookValidator instance without a specific book.
-	 * This constructor can be used when validating books with individual validation methods.
+	 * Constructs a BookValidator instance without a specific book. This constructor
+	 * can be used when validating books with individual validation methods.
 	 */
 	public BookValidator() {
 		// Default constructor
@@ -235,7 +234,8 @@ public class BookValidator {
 	 * @param loanedCopies The loaned copies to validate
 	 * @param totalCopies  The total copies for comparison
 	 * @return true if loaned copies are valid
-	 * @throws ValidationException If loaned, copies are negative or exceed total copies
+	 * @throws ValidationException If loaned, copies are negative or exceed total
+	 *                             copies
 	 */
 	public boolean validateLoanedCopies(int loanedCopies, int totalCopies) throws ValidationException {
 		if (loanedCopies < 0) {
@@ -246,4 +246,5 @@ public class BookValidator {
 		}
 		return true;
 	}
+
 }

@@ -7,9 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.fssa.librarymanagement.exceptions.DAOException;
 import com.fssa.librarymanagement.exceptions.DatabaseConnectionException;
@@ -283,44 +281,4 @@ public class BookDAO {
 		return genresList;
 	}
 
-	public boolean createBookRequest(Map<String, String> bookRequestData) throws DAOException {
-		String query = "INSERT INTO book_requests (book_name, author_name, source_link, description) "
-				+ "VALUES (?, ?, ?, ?)";
-		try (Connection connection = ConnectionUtil.getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-
-			preparedStatement.setString(1, bookRequestData.get("book_name"));
-			preparedStatement.setString(2, bookRequestData.get("author_name"));
-			preparedStatement.setString(3, bookRequestData.get("source_link"));
-			preparedStatement.setString(4, bookRequestData.get("reason"));
-
-			int rowsAffected = preparedStatement.executeUpdate();
-			return rowsAffected > 0;
-
-		} catch (SQLException | DatabaseConnectionException e) {
-			throw new DAOException(e);
-		}
-	}
-
-	public List<Map<String, String>> getAllBookRequests() throws DAOException {
-		List<Map<String, String>> bookRequestList = new ArrayList<>();
-		String query = "SELECT * FROM book_requests";
-		try (Connection connection = ConnectionUtil.getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(query);
-				ResultSet rs = preparedStatement.executeQuery()) {
-	
-			while (rs.next()) { 
-				Map<String, String> bookRequestData = new HashMap<>();
-				bookRequestData.put("bookName", rs.getString("book_name"));
-				bookRequestData.put("authorName", rs.getString("author_name"));
-				bookRequestData.put("sourceLink", rs.getString("source_link"));
-				bookRequestData.put("description", rs.getString("description"));
-
-				bookRequestList.add(bookRequestData);
-			}
-		} catch (SQLException | DatabaseConnectionException e) {
-			throw new DAOException(e);
-		}
-		return bookRequestList;
-	}
 }

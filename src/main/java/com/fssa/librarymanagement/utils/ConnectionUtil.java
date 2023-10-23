@@ -33,7 +33,7 @@ public class ConnectionUtil {
 		dbUrl = System.getenv("DB_URL");
 		dbUser = System.getenv("DB_USER");
 		dbPassword = System.getenv("DB_PASSWORD");
-		
+
 		try {
 			// Load the MySQL database driver
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -41,9 +41,9 @@ public class ConnectionUtil {
 			// Establish and return a connection
 			return DriverManager.getConnection(dbUrl, dbUser, dbPassword);
 		} catch (SQLException e) {
-			throw new DatabaseConnectionException("Unable to connect to the database",e);
+			throw new DatabaseConnectionException("Unable to connect to the database", e);
 		} catch (ClassNotFoundException e) {
-			throw new DatabaseConnectionException("Database driver class not found",e);
+			throw new DatabaseConnectionException("Database driver class not found", e);
 		}
 	}
 }

@@ -17,6 +17,7 @@ public class Book {
 	private int availableCopies;
 	private int loanedCopies;
 	private int pages;
+
 	public int getPages() {
 		return pages;
 	}
@@ -258,18 +259,9 @@ public class Book {
 	 */
 	@Override
 	public String toString() {
-		return "Book{" +
-				"bookId=" + bookId +
-				", title='" + title + '\'' +
-				", author='" + author + '\'' +
-				", publisher='" + publisher + '\'' +
-				", genre='" + genre + '\'' +
-				", language='" + language + '\'' +
-				", description='" + description + '\'' +
-				", totalCopies=" + totalCopies +
-				", availableCopies=" + availableCopies +
-				", loanedCopies=" + loanedCopies +
-				", coverImage='" + coverImage + '\'' +
-				'}';
+		return "Book{" + "bookId=" + bookId + ", title='" + title + '\'' + ", author='" + author + '\''
+				+ ", publisher='" + publisher + '\'' + ", genre='" + genre + '\'' + ", language='" + language + '\''
+				+ ", description='" + description + '\'' + ", totalCopies=" + totalCopies + ", availableCopies="
+				+ availableCopies + ", loanedCopies=" + loanedCopies + ", coverImage='" + coverImage + '\'' + '}';
 	}
 }

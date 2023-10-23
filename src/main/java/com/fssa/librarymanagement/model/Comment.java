@@ -20,7 +20,6 @@ public class Comment {
 	private boolean isEdited;
 	private boolean isTrusted;
 
-
 	/**
 	 * @return the commentId
 	 */
@@ -106,24 +105,10 @@ public class Comment {
 	}
 
 	/**
-	 * @return the isActive
-	 */
-	public boolean isActive() {
-		return isActive;
-	}
-
-	/**
 	 * @param isActive the isActive to set
 	 */
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
-	}
-
-	/**
-	 * @return the isEdited
-	 */
-	public boolean isEdited() {
-		return isEdited;
 	}
 
 	/**
@@ -132,7 +117,7 @@ public class Comment {
 	public void setEdited(boolean isEdited) {
 		this.isEdited = isEdited;
 	}
-	
+
 	/**
 	 * @return the isTrusted
 	 */
@@ -145,30 +130,6 @@ public class Comment {
 	 */
 	public void setTrusted(boolean isTrusted) {
 		this.isTrusted = isTrusted;
-	}
-
-
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Comment [commentId=");
-		builder.append(commentId);
-		builder.append(", user=");
-		builder.append(user);
-		builder.append(", book=");
-		builder.append(book);
-		builder.append(", description=");
-		builder.append(description);
-		builder.append(", createdAt=");
-		builder.append(createdAt);
-		builder.append(", editedAt=");
-		builder.append(editedAt);
-		builder.append(", isActive=");
-		builder.append(isActive);
-		builder.append(", isEdited=");
-		builder.append(isEdited);
-		builder.append("]");
-		return builder.toString();
 	}
 
 }

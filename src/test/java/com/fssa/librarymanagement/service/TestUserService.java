@@ -1,12 +1,22 @@
 package com.fssa.librarymanagement.service;
 
-import com.fssa.librarymanagement.exceptions.ServiceException;
-import com.fssa.librarymanagement.model.User;
-import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+
+import com.fssa.librarymanagement.exceptions.ServiceException;
+import com.fssa.librarymanagement.model.User;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TestUserService {
@@ -69,7 +79,7 @@ class TestUserService {
 	void testInvalidLoginMismatchPassword() {
 		user.setPassword("12345Kishore");
 		ServiceException result = assertThrows(ServiceException.class, () -> userService.loginUser(user));
-		assertEquals("Password mismatch.", result.getMessage());
+		assertEquals("Ivalid Login Credentials", result.getMessage());
 	}
 
 	@Test
@@ -95,7 +105,7 @@ class TestUserService {
 	@Order(9)
 	void testInvalidGetUserByEmail() {
 		ServiceException result = assertThrows(ServiceException.class,
-		                                       () -> userService.getUserByEmail("kishor@yahoo.com"));
+				() -> userService.getUserByEmail("kishor@yahoo.com"));
 		assertEquals("User does not exist with the given email", result.getMessage());
 	}
 
@@ -135,7 +145,6 @@ class TestUserService {
 		assertEquals("User does not exist with the given email", result.getMessage());
 	}
 
-
 	@Test
 	@Order(13)
 	void testValidUpdatePassword() {
@@ -148,11 +157,9 @@ class TestUserService {
 	void testInvalidUpdatePassword_SamePassword() {
 		String newPassword = "12345Kishor";
 		ServiceException result = assertThrows(ServiceException.class,
-		                                       () -> userService.updatePassword(user.getEmail(), user.getPassword(),
-		                                                                        newPassword));
+				() -> userService.updatePassword(user.getEmail(), user.getPassword(), newPassword));
 		assertEquals("Old Password and New Password Cannot be same", result.getMessage());
 	}
-
 
 	@Test
 	@Order(15)
@@ -160,8 +167,7 @@ class TestUserService {
 		String newPassword = "12345Kishore";
 		user.setPassword("123456Kishor");
 		ServiceException result = assertThrows(ServiceException.class,
-		                                       () -> userService.updatePassword(user.getEmail(), user.getPassword(),
-		                                                                        newPassword));
+				() -> userService.updatePassword(user.getEmail(), user.getPassword(), newPassword));
 		assertEquals("Incorrect old password.", result.getMessage());
 	}
 
@@ -171,8 +177,7 @@ class TestUserService {
 		String newPassword = "12345Kishore";
 		user.setEmail("nonExistentUser@gmail.com");
 		ServiceException result = assertThrows(ServiceException.class,
-		                                       () -> userService.updatePassword(user.getEmail(), user.getPassword(),
-		                                                                        newPassword));
+				() -> userService.updatePassword(user.getEmail(), user.getPassword(), newPassword));
 		assertEquals("User not found", result.getMessage());
 	}
 
@@ -188,7 +193,7 @@ class TestUserService {
 		User nonExistentUser = new User();
 		nonExistentUser.setEmail("nonExistentUser@gmail.com");
 		ServiceException result = assertThrows(ServiceException.class,
-		                                       () -> userService.deleteUser(nonExistentUser.getEmail()));
+				() -> userService.deleteUser(nonExistentUser.getEmail()));
 		assertEquals("User does not exist with the given email", result.getMessage());
 	}
 }

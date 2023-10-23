@@ -20,8 +20,8 @@ public class CloudinaryUtil {
 		System.out.println(CLOUDINARY_CLOUD_NAME);
 		System.out.println(CLOUDINARY_API_KEY);
 		System.out.println(CLOUDINARY_API_SECRET);
-		cloudinary = new Cloudinary(ObjectUtils.asMap("cloud_name", CLOUDINARY_CLOUD_NAME, "api_key", CLOUDINARY_API_KEY,
-				"api_secret", CLOUDINARY_API_SECRET));
+		cloudinary = new Cloudinary(ObjectUtils.asMap("cloud_name", CLOUDINARY_CLOUD_NAME, "api_key",
+				CLOUDINARY_API_KEY, "api_secret", CLOUDINARY_API_SECRET));
 	}
 
 	public Cloudinary getCloudinary() {

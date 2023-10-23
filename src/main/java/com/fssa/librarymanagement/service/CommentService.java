@@ -29,30 +29,29 @@ public class CommentService {
 	public Comment createComment(Comment comment) throws ServiceException {
 		BorrowService borrowService = new BorrowService();
 		try {
-			
-			CommentValidator commentValidator = new CommentValidator(comment);
-			commentValidator.validateAll();
-			List<Borrow> borrows = borrowService.getBorrowsByUser(comment.getUser().getUserId());
-			
-	        boolean bookBorrowed = false;
 
-	        // Iterate through the borrows
-	        for (Borrow borrow : borrows) {
-	            if (borrow.getBook().getBookId() == comment.getBook().getBookId()) {
-	                // Check if the borrow date is greater than one day
-	                LocalDateTime borrowDate = borrow.getBorrowDate();
-	                LocalDateTime now = LocalDateTime.now();
-	                if (ChronoUnit.HOURS.between(borrowDate, now) > 5) {
-	                	System.out.println("Borr : " + borrow);
-	                    bookBorrowed = true;
-	                    break;
-	                }
-	            }
-	        }
-	        
-	        if(bookBorrowed) {
-	        	comment.setTrusted(true);
-	        }
+			CommentValidator commentValidator = new CommentValidator();
+			commentValidator.validateDescription(comment.getDescription());
+			List<Borrow> borrows = borrowService.getBorrowsByUser(comment.getUser().getUserId());
+
+			boolean bookBorrowed = false;
+
+			// Iterate through the borrows
+			for (Borrow borrow : borrows) {
+				if (borrow.getBook().getBookId() == comment.getBook().getBookId()) {
+					// Check if the borrow date is greater than one day
+					LocalDateTime borrowDate = borrow.getBorrowDate();
+					LocalDateTime now = LocalDateTime.now();
+					if (ChronoUnit.HOURS.between(borrowDate, now) > 5) {
+						bookBorrowed = true;
+						break;
+					}
+				}
+			}
+
+			if (bookBorrowed) {
+				comment.setTrusted(true);
+			}
 			comment.setCreatedAt(LocalDateTime.now());
 			return commentDAO.createComment(comment);
 
@@ -64,8 +63,9 @@ public class CommentService {
 	public boolean updateComment(Comment comment) throws ServiceException {
 		try {
 
-			CommentValidator commentValidator = new CommentValidator(comment);
-			commentValidator.validateAll();
+			CommentValidator commentValidator = new CommentValidator();
+			commentValidator.validateDescription(comment.getDescription());
+			comment.setEditedAt(LocalDateTime.now());
 			return commentDAO.updateComment(comment);
 
 		} catch (DAOException | ValidationException e) {

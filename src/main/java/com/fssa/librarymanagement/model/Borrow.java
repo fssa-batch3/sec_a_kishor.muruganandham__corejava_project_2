@@ -27,9 +27,7 @@ public class Borrow {
 		// Default constructor
 	}
 
-	public int getBorrowId() {
-		return borrowId;
-	}
+	
 
 	/**
 	 * Set the borrow's id.
@@ -152,7 +150,6 @@ public class Borrow {
 		this.dueDate = borrowDate.plusDays(borrowingDuration.getValue()).toLocalDate();
 	}
 
-	
 	public void setDueDate(LocalDate dueDate) {
 		this.dueDate = dueDate;
 	}
@@ -168,9 +165,7 @@ public class Borrow {
 				+ returnDate + ", dueDate=" + dueDate + ", fine=" + fine + '}';
 	}
 
-	public boolean isReturned() {
-		return isReturned;
-	}
+	
 
 	/**
 	 * Set the borrow's return status.

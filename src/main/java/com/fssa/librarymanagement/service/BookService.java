@@ -3,7 +3,6 @@ package com.fssa.librarymanagement.service;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import com.fssa.librarymanagement.constants.BookConstants;
@@ -62,7 +61,11 @@ public class BookService {
 	 */
 	public List<Book> searchBooksByTitle(String title) throws ServiceException {
 		try {
-			return bookDAO.searchBooksByTitle(title);
+			List<Book> books = bookDAO.searchBooksByTitle(title);
+			if (books == null || books.isEmpty()) {
+				throw new ServiceException("No Books Found");
+			}
+			return books;
 		} catch (DAOException e) {
 			throw new ServiceException(e.getMessage());
 		}
@@ -187,19 +190,4 @@ public class BookService {
 		return new ArrayList<>(uniqueWords);
 	}
 
-	public boolean createBookRequest(Map<String, String> bookRequestData) throws ServiceException {
-		try {
-			return bookDAO.createBookRequest(bookRequestData);
-		} catch (DAOException e) {
-			throw new ServiceException(e.getMessage());
-		}
-	}
-
-	public List<Map<String, String>> getAllBookRequests() throws ServiceException {
-		try {
-			return bookDAO.getAllBookRequests();
-		} catch (DAOException e) {
-			throw new ServiceException(e.getMessage());
-		}
-	}
 }

@@ -29,8 +29,8 @@ class TestBookService {
 		book.setPublisher("Doubleday");
 		book.setLanguage("English");
 		book.setGenre("Mystery");
-		book.setCoverImage("https://books.google.co.in/books/content?id=LOmrO03ioesC&pg=PP1&img=1&zoom=3&hl=en&bul=1" +
-				                   "&sig=ACfU3U3aZTlrPszR_20legpDQ24tf3ThiQ&w=1280");
+		book.setCoverImage("https://books.google.co.in/books/content?id=LOmrO03ioesC&pg=PP1&img=1&zoom=3&hl=en&bul=1"
+				+ "&sig=ACfU3U3aZTlrPszR_20legpDQ24tf3ThiQ&w=1280");
 		book.setTotalCopies(13);
 		book.setAvailableCopies(10);
 		book.setLoanedCopies(3);
@@ -53,11 +53,6 @@ class TestBookService {
 		assertThrows(ServiceException.class, () -> bookService.addBook(invalidBook));
 	}
 
-
-
-	
-
-
 	@Test
 	@Order(6)
 	void testInvalidGetBookById() {
@@ -71,8 +66,6 @@ class TestBookService {
 		assertDoesNotThrow(() -> bookService.listAllBooks());
 	}
 
-
-
 	@Test
 	@Order(9)
 	void testInvalidUpdateBook() {
@@ -84,8 +77,6 @@ class TestBookService {
 		assertEquals("Book not found.", result.getMessage());
 	}
 
-
-
 	@Test
 	@Order(11)
 	void testInvalidDeleteBook() {
@@ -93,5 +84,23 @@ class TestBookService {
 		assertEquals("Book not found.", result.getMessage());
 	}
 
+	@Test
+	@Order(12)
+	void testValidSearchBooksByTitle() {
+		assertDoesNotThrow(() -> bookService.searchBooksByTitle(""));
+	}
+
+	@Test
+	@Order(13)
+	void testInvalidSearchBooksByTitle() {
+		ServiceException result = assertThrows(ServiceException.class, () -> bookService.searchBooksByTitle("zxcvb"));
+		assertEquals("No Books Found", result.getMessage());
+	}
+
+	@Test
+	@Order(14)
+	void testValidListAllGenres() {
+		assertDoesNotThrow(() -> bookService.listAllGenres());
+	}
 
 }

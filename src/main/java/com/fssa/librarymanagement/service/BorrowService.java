@@ -23,7 +23,8 @@ public class BorrowService {
 	private final BorrowDAO borrowDAO = new BorrowDAO();
 
 	/**
-	 * Constructs a new BorrowService object for handling borrow-related business logic and interactions.
+	 * Constructs a new BorrowService object for handling borrow-related business
+	 * logic and interactions.
 	 */
 	public BorrowService() {
 		// Default constructor
@@ -33,7 +34,8 @@ public class BorrowService {
 	 * Borrow a book for a user.
 	 *
 	 * @param borrow The borrow object containing user and book information.
-	 * @return A success message if the book is successfully borrowed, or an error message if not.
+	 * @return A success message if the book is successfully borrowed, or an error
+	 *         message if not.
 	 * @throws ServiceException If there's a problem with the service.
 	 */
 	public boolean borrowBook(Borrow borrow) throws ServiceException {
@@ -49,7 +51,7 @@ public class BorrowService {
 
 			// Check if the user has already borrowed the book
 			existingBorrow = borrowDAO.getBorrowByUserAndBook(borrow.getUser().getUserId(),
-			                                                  borrow.getBook().getBookId());
+					borrow.getBook().getBookId());
 			if (existingBorrow != null) {
 				throw new ServiceException(BorrowConstants.THIS_BOOK_HAS_ALREADY_BEEN_BORROWED_BY_YOU);
 			}
@@ -83,18 +85,20 @@ public class BorrowService {
 	 * Return the book borrowed by User.
 	 *
 	 * @param borrow The borrow object containing user and book information.
-	 * @return A success message if the book is successfully returned, or an error message if not.
+	 * @return A success message if the book is successfully returned, or an error
+	 *         message if not.
 	 * @throws ServiceException If there is a problem with the service.
 	 */
 	public boolean returnBook(Borrow borrow) throws ServiceException {
 		BorrowValidator borrowValidator = new BorrowValidator(borrow);
 		try {
-			borrowValidator.validateAll();  // Validate the return date
+			borrowValidator.validateAll(); // Validate the return date
 
-			double fine = calculateFine(borrow);    // Calculate fine for late returns
+			double fine = calculateFine(borrow); // Calculate fine for late returns
 			borrow.setFine(fine);
 
-			return borrowDAO.returnBook(borrow);
+			borrowDAO.returnBook(borrow);
+			return bookDAO.updateBookCopies(borrow.getBook().getBookId(), -1, 1);
 		} catch (ValidationException | DAOException e) {
 			throw new ServiceException(e.getMessage());
 		}
@@ -104,7 +108,8 @@ public class BorrowService {
 	 * Calculates the fine for a late book return.
 	 *
 	 * @param borrow The borrow object containing user and book information.
-	 * @return The calculated fine amount, which is 0 if the book is returned on time.
+	 * @return The calculated fine amount, which is 0 if the book is returned on
+	 *         time.
 	 */
 	private int calculateFine(Borrow borrow) {
 		int fine = 0;
@@ -115,7 +120,6 @@ public class BorrowService {
 		}
 		return fine;
 	}
-
 
 	/**
 	 * Get a list of borrowed books by a user.

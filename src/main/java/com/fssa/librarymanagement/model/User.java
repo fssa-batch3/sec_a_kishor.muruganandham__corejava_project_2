@@ -67,15 +67,7 @@ public class User {
 		this.profileImage = profileImage;
 	}
 
-	/**
-	 * Get the user's account activation status.
-	 *
-	 * @return true if the user's account is active, false otherwise.
-	 */
-	public boolean isActive() {
-		return isActive;
-	}
-
+	
 	/**
 	 * Set the user's account activation status.
 	 *
@@ -100,8 +92,8 @@ public class User {
 	 * @param name The user's name.
 	 */
 	public void setName(String name) {
-		this.profileImage = "https://ui-avatars.com/api/?name=" + name + "&rounded=true&uppercase=false&background" +
-				"=random";
+		this.profileImage = "https://ui-avatars.com/api/?name=" + name + "&rounded=true&uppercase=false&background"
+				+ "=random";
 		this.name = name;
 	}
 
@@ -239,18 +231,9 @@ public class User {
 	 */
 	@Override
 	public String toString() {
-		return "User{" +
-				"userId=" + userId +
-				", name='" + name + '\'' +
-				", email='" + email + '\'' +
-				", mobileNo=" + mobileNo +
-				", password='" + password + '\'' +
-				", gender=" + gender +
-				", dob=" + dob +
-				", createdDate=" + createdDate +
-				", isActive=" + isActive +
-				", isAdmin=" + isAdmin +
-				", profileImage='" + profileImage + '\'' +
-				'}';
+		return "User{" + "userId=" + userId + ", name='" + name + '\'' + ", email='" + email + '\'' + ", mobileNo="
+				+ mobileNo + ", password='" + password + '\'' + ", gender=" + gender + ", dob=" + dob + ", createdDate="
+				+ createdDate + ", isActive=" + isActive + ", isAdmin=" + isAdmin + ", profileImage='" + profileImage
+				+ '\'' + '}';
 	}
 }

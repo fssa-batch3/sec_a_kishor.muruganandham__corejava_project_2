@@ -20,71 +20,70 @@ import com.fssa.librarymanagement.utils.ConnectionUtil;
  */
 public class RatingDAO {
 
-    private static final String INSERT_OR_UPDATE_RATING_QUERY =
-            "INSERT INTO ratings (user_id, book_id, rating) VALUES (?, ?, ?) " +
-            "ON DUPLICATE KEY UPDATE rating = VALUES(rating)";
+	private static final String INSERT_OR_UPDATE_RATING_QUERY = "INSERT INTO ratings (user_id, book_id, rating) VALUES (?, ?, ?) "
+			+ "ON DUPLICATE KEY UPDATE rating = VALUES(rating)";
 
-    public boolean submitRating(Rating rating) throws DAOException {
-        try (Connection connection = ConnectionUtil.getConnection();
-             PreparedStatement pst = connection.prepareStatement(INSERT_OR_UPDATE_RATING_QUERY)) {
+	public boolean submitRating(Rating rating) throws DAOException {
+		try (Connection connection = ConnectionUtil.getConnection();
+				PreparedStatement pst = connection.prepareStatement(INSERT_OR_UPDATE_RATING_QUERY)) {
 
-            pst.setInt(1, rating.getUserId());
-            pst.setInt(2, rating.getBookId());
-            pst.setInt(3, rating.getRating());
+			pst.setInt(1, rating.getUserId());
+			pst.setInt(2, rating.getBookId());
+			pst.setInt(3, rating.getRating());
 
-            int rowsAffected = pst.executeUpdate();
-            return rowsAffected > 0;
+			int rowsAffected = pst.executeUpdate();
+			return rowsAffected > 0;
 
-        } catch (SQLException | DatabaseConnectionException e) {
-            throw new DAOException(e);
-        }
-    }
-    
-    private static final String GET_RATING_BY_BOOK_QUERY =
-            "SELECT AVG(rating) AS average_rating, COUNT(*) AS rating_count " +
-            "FROM ratings WHERE book_id = ?";
+		} catch (SQLException | DatabaseConnectionException e) {
+			throw new DAOException(e);
+		}
+	}
 
-    public Map<String, Object> getRatingByBook(int bookId) throws DAOException {
-        Map<String, Object> ratingInfo = new HashMap<>();
+	private static final String GET_RATING_BY_BOOK_QUERY = "SELECT AVG(rating) AS average_rating, COUNT(*) AS rating_count "
+			+ "FROM ratings WHERE book_id = ?";
 
-        try (Connection connection = ConnectionUtil.getConnection();
-             PreparedStatement pst = connection.prepareStatement(GET_RATING_BY_BOOK_QUERY)) {
+	public Map<String, Object> getRatingByBook(int bookId) throws DAOException {
+	    Map<String, Object> ratingInfo = null;
 
-            pst.setInt(1, bookId);
-            ResultSet resultSet = pst.executeQuery();
+	    try (Connection connection = ConnectionUtil.getConnection();
+	         PreparedStatement pst = connection.prepareStatement(GET_RATING_BY_BOOK_QUERY)) {
 
-            if (resultSet.next()) {
-                ratingInfo.put("average_rating", resultSet.getDouble("average_rating"));
-                ratingInfo.put("rating_count", resultSet.getInt("rating_count"));
-            }
+	        pst.setInt(1, bookId);
+	        ResultSet resultSet = pst.executeQuery();
 
-        } catch (SQLException | DatabaseConnectionException e) {
-            throw new DAOException(e);
-        }
+	        if (resultSet.next()) {
+	            ratingInfo = new HashMap<>();
+	            ratingInfo.put("average_rating", resultSet.getDouble("average_rating"));
+	            ratingInfo.put("rating_count", resultSet.getInt("rating_count"));
+	        }
 
-        return ratingInfo;
-    }
+	    } catch (SQLException | DatabaseConnectionException e) {
+	        throw new DAOException(e);
+	    }
 
-    private static final String GET_RATING_BY_BOOK_AND_USER_QUERY =
-            "SELECT rating FROM ratings WHERE book_id = ? AND user_id = ?";
+	    return ratingInfo; 
+	}
 
-    public int getRatingByBookAndUser(int bookId, int userId) throws DAOException {
-        try (Connection connection = ConnectionUtil.getConnection();
-             PreparedStatement pst = connection.prepareStatement(GET_RATING_BY_BOOK_AND_USER_QUERY)) {
 
-            pst.setInt(1, bookId);
-            pst.setInt(2, userId);
-            ResultSet resultSet = pst.executeQuery();
+	private static final String GET_RATING_BY_BOOK_AND_USER_QUERY = "SELECT rating FROM ratings WHERE book_id = ? AND user_id = ?";
 
-            if (resultSet.next()) {
-                return resultSet.getInt("rating");
-            }
+	public int getRatingByBookAndUser(int bookId, int userId) throws DAOException {
+		try (Connection connection = ConnectionUtil.getConnection();
+				PreparedStatement pst = connection.prepareStatement(GET_RATING_BY_BOOK_AND_USER_QUERY)) {
 
-        } catch (SQLException | DatabaseConnectionException e) {
-            throw new DAOException(e);
-        }
+			pst.setInt(1, bookId);
+			pst.setInt(2, userId);
+			ResultSet resultSet = pst.executeQuery();
 
-        return 0; 
-    }
+			if (resultSet.next()) {
+				return resultSet.getInt("rating");
+			}
+
+		} catch (SQLException | DatabaseConnectionException e) {
+			throw new DAOException(e);
+		}
+
+		return 0;
+	}
 
 }

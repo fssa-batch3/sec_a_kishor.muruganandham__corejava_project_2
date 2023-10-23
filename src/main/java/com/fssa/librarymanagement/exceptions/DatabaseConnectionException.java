@@ -13,7 +13,8 @@ public class DatabaseConnectionException extends Exception {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Constructs a new DatabaseConnectionException with the specified detail message.
+	 * Constructs a new DatabaseConnectionException with the specified detail
+	 * message.
 	 *
 	 * @param msg The detail message.
 	 */
@@ -22,7 +23,11 @@ public class DatabaseConnectionException extends Exception {
 	}
 
 	public DatabaseConnectionException(String msg, Throwable ex) {
-		super(msg,ex);
+		super(msg, ex);
+	}
+
+	public DatabaseConnectionException(Throwable ex) {
+		super(ex);
 	}
 
 }

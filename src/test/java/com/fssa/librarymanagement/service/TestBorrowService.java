@@ -1,15 +1,26 @@
 package com.fssa.librarymanagement.service;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+
 import com.fssa.librarymanagement.exceptions.ServiceException;
 import com.fssa.librarymanagement.model.Book;
 import com.fssa.librarymanagement.model.Borrow;
 import com.fssa.librarymanagement.model.User;
-import org.junit.jupiter.api.*;
-
-import java.time.LocalDate;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TestBorrowService {
@@ -27,7 +38,8 @@ class TestBorrowService {
 		book.setBookId(5);
 		borrow.setUser(user);
 		borrow.setBook(book);
-		borrow.setBorrowDate(LocalDate.now());
+		borrow.setBorrowDate(LocalDateTime.now());
+		borrow.setDueDate(BorrowingDurationEnumMapper.mapToBorrowingDuration(5));
 	}
 
 	@Test
@@ -141,4 +153,5 @@ class TestBorrowService {
 		ServiceException result = assertThrows(ServiceException.class, () -> borrowService.getBorrowById(114));
 		assertEquals("Borrows not found.", result.getMessage());
 	}
+
 }

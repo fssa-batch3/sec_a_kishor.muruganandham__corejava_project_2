@@ -103,7 +103,7 @@ public class UserService {
 			if (oldPassword.equals(newPassword)) {
 				throw new ServiceException(UserConstants.PASSWORDS_CANNOT_BE_SAME);
 			}
-			User fromDb = userDAO.getUserByEmail(email);    // Retrieve the user from the database by email
+			User fromDb = userDAO.getUserByEmail(email); // Retrieve the user from the database by email
 
 			if (fromDb == null) {
 				throw new ServiceException(UserConstants.USER_NOT_FOUND);
@@ -119,11 +119,13 @@ public class UserService {
 			throw new ServiceException(e.getMessage());
 		}
 	}
+
 	/**
 	 * Updates the profile image for a user if the old password is correct.
 	 *
-	 * @param userId       The id of the user whose profile image needs to be updated
-	 * @param profileImage  The new profile image to set for the user
+	 * @param userId       The id of the user whose profile image needs to be
+	 *                     updated
+	 * @param profileImage The new profile image to set for the user
 	 * @return True if the profile image was successfully updated, false otherwise
 	 * @throws ServiceException If there's a problem with the service, including
 	 *                          incorrect old password or database errors
@@ -132,7 +134,7 @@ public class UserService {
 		try {
 			UserValidator userValidator = new UserValidator();
 			userValidator.validateProfileImage(profileImage);
-					
+
 			return userDAO.updateProfileImage(userId, profileImage);
 		} catch (DAOException | ValidationException e) {
 			throw new ServiceException(e.getMessage());
@@ -199,9 +201,6 @@ public class UserService {
 			throw new ServiceException(e.getMessage());
 		}
 	}
-	
-
-
 
 	/**
 	 * Edit a user's information.

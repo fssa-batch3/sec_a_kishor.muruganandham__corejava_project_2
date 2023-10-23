@@ -3,12 +3,12 @@ package com.fssa.librarymanagement.exceptions;
 import java.io.Serial;
 
 /**
- * This exception class is used to handle validation errors related to validation layer operations.
+ * This exception class is used to handle validation errors related to
+ * validation layer operations.
  *
  * @author KishorMuruganandham
  */
 public class ValidationException extends Exception {
-
 
 	@Serial
 	private static final long serialVersionUID = 1L;
@@ -22,5 +22,12 @@ public class ValidationException extends Exception {
 		super(message);
 	}
 
+	public ValidationException(Throwable ex) {
+		super(ex);
+	}
+
+	public ValidationException(String message, Throwable ex) {
+		super(message, ex);
+	}
 
 }

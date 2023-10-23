@@ -102,40 +102,39 @@ public class ResultSetUtils {
 		}
 		return borrow;
 	}
-	
-    public static Comment buildCommentFromResultSet(ResultSet rs) throws SQLException {
-        Comment comment = new Comment();
-        comment.setCommentId(rs.getInt("comment_id"));
-        
-        User user = new User();
-        user.setUserId(rs.getInt("user_id"));
-        user.setName(rs.getString("user_name"));
-        user.setEmail(rs.getString("email_id"));
-        user.setProfileImage(rs.getString("profile_image"));
-        
-        Book book = new Book();
-        book.setBookId(rs.getInt("book_id"));
-        book.setTitle(rs.getString("title"));
-        book.setCoverImage(rs.getString("cover_image"));
-        
-        comment.setUser(user);
-        comment.setBook(book);
-        comment.setDescription(rs.getString("description"));
-        
-        LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
-        comment.setCreatedAt(createdAt);
-        
-        if (rs.getDate("edited_at") != null) {
-        	LocalDateTime editedAt = rs.getTimestamp("edited_at").toLocalDateTime();
-        	comment.setEditedAt(editedAt);			
+
+	public static Comment buildCommentFromResultSet(ResultSet rs) throws SQLException {
+		Comment comment = new Comment();
+		comment.setCommentId(rs.getInt("comment_id"));
+
+		User user = new User();
+		user.setUserId(rs.getInt("user_id"));
+		user.setName(rs.getString("user_name"));
+		user.setEmail(rs.getString("email_id"));
+		user.setProfileImage(rs.getString("profile_image"));
+
+		Book book = new Book();
+		book.setBookId(rs.getInt("book_id"));
+		book.setTitle(rs.getString("title"));
+		book.setCoverImage(rs.getString("cover_image"));
+
+		comment.setUser(user);
+		comment.setBook(book);
+		comment.setDescription(rs.getString("description"));
+
+		LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
+		comment.setCreatedAt(createdAt);
+
+		if (rs.getDate("edited_at") != null) {
+			LocalDateTime editedAt = rs.getTimestamp("edited_at").toLocalDateTime();
+			comment.setEditedAt(editedAt);
 		}
-        
-        comment.setActive(rs.getBoolean("is_active"));
-        comment.setEdited(rs.getBoolean("is_edited"));
-        comment.setTrusted(rs.getBoolean("is_trusted"));
-        
-        return comment;
-    }
-	
-	
+
+		comment.setActive(rs.getBoolean("is_active"));
+		comment.setEdited(rs.getBoolean("is_edited"));
+		comment.setTrusted(rs.getBoolean("is_trusted"));
+
+		return comment;
+	}
+
 }
