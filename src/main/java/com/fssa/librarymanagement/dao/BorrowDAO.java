@@ -41,6 +41,7 @@ public class BorrowDAO {
 	 * @throws DAOException If an error occurs during database operation
 	 */
 	public boolean borrowBook(Borrow borrow) throws DAOException {
+		boolean hasBorrowed = false;
 		String query = "INSERT INTO borrows (user_id, book_id, borrow_date, due_date) " + "VALUES (?, ?, ?, ?)";
 		try (Connection connection = ConnectionUtil.getConnection();
 				PreparedStatement pst = connection.prepareStatement(query)) {
@@ -51,7 +52,10 @@ public class BorrowDAO {
 			pst.setDate(4, Date.valueOf(borrow.getDueDate()));
 
 			int rowsAffected = pst.executeUpdate();
-			return rowsAffected > 0;
+			if(rowsAffected > 0) {
+				hasBorrowed = true;
+			}
+			return hasBorrowed;
 
 		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
@@ -66,6 +70,7 @@ public class BorrowDAO {
 	 * @throws DAOException If an error occurs during database operation
 	 */
 	public boolean returnBook(Borrow borrow) throws DAOException {
+		boolean hasReturned = false;
 		String query = "UPDATE borrows SET isReturned = true, return_date = ?, fine = ? WHERE user_id = ? AND "
 				+ "book_id = ? AND isReturned = false";
 		try (Connection connection = ConnectionUtil.getConnection();
@@ -76,7 +81,10 @@ public class BorrowDAO {
 			pst.setInt(4, borrow.getBook().getBookId());
 
 			int rowsAffected = pst.executeUpdate();
-			return rowsAffected > 0;
+			if(rowsAffected > 0) {
+				hasReturned = true;
+			}
+			return hasReturned;
 		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
 		}
@@ -191,10 +199,7 @@ public class BorrowDAO {
 					borrow.setBook(book);
 					borrow.setBorrowDate(rs.getTimestamp("borrow_date").toLocalDateTime());
 					borrow.setDueDate(rs.getDate("due_date").toLocalDate());
-					Date returnDate = rs.getDate("return_date");
-					if (returnDate != null) {
-						borrow.setReturnDate(returnDate.toLocalDate());
-					}
+					
 					return borrow;
 				}
 			}
@@ -236,6 +241,7 @@ public class BorrowDAO {
 	 * @throws DAOException If an error occurs during database operation
 	 */
 	public int getAvailableCopiesCount(int bookId) throws DAOException {
+		int count = 0;
 		String query = "SELECT available_copies FROM books WHERE book_id = ?";
 		try (Connection connection = ConnectionUtil.getConnection();
 				PreparedStatement pst = connection.prepareStatement(query)) {
@@ -243,13 +249,13 @@ public class BorrowDAO {
 
 			try (ResultSet rs = pst.executeQuery()) {
 				if (rs.next()) {
-					return rs.getInt(1);
+					count = rs.getInt(1);
 				}
 			}
 		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
 		}
-		return 0;
+		return count;
 	}
 
 	/**
@@ -260,6 +266,7 @@ public class BorrowDAO {
 	 * @throws DAOException If an error occurs during database operation
 	 */
 	public int getBorrowedBooksCountByUser(int userId) throws DAOException {
+		int count = 0;
 		String query = "SELECT COUNT(*) FROM borrows WHERE user_id = ? AND isReturned = false";
 		try (Connection connection = ConnectionUtil.getConnection();
 				PreparedStatement pst = connection.prepareStatement(query)) {
@@ -267,12 +274,12 @@ public class BorrowDAO {
 
 			try (ResultSet rs = pst.executeQuery()) {
 				if (rs.next()) {
-					return rs.getInt(1);
+					count = rs.getInt(1);
 				}
 			}
 		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
 		}
-		return 0;
+		return count;
 	}
 }

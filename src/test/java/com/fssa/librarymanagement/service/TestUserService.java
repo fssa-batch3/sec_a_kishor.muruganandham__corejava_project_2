@@ -17,6 +17,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 import com.fssa.librarymanagement.exceptions.ServiceException;
 import com.fssa.librarymanagement.model.User;
+import com.fssa.librarymanagement.utils.ConnectionUtil;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TestUserService {
@@ -122,7 +123,7 @@ class TestUserService {
 			user.setName("Kishore");
 			boolean result = userService.editUser(user);
 			User updatedUser = userService.getUserByEmail(user.getEmail());
-			System.out.println(updatedUser);
+			
 			assertTrue(result);
 			assertNotEquals("Kishor", updatedUser.getName());
 		} catch (ServiceException e) {
@@ -195,5 +196,75 @@ class TestUserService {
 		ServiceException result = assertThrows(ServiceException.class,
 				() -> userService.deleteUser(nonExistentUser.getEmail()));
 		assertEquals("User does not exist with the given email", result.getMessage());
+	}
+	
+	@Test
+	@Order(19)
+	void testCreateUser_ServiceException() {
+		ConnectionUtil.setTestingMode(true);
+		User user = new User();
+		assertThrows(ServiceException.class, () -> userService.registerUser(user));
+
+		ConnectionUtil.setTestingMode(false);
+	}
+
+	@Test
+	@Order(20)
+	void testDeleteUser_ServiceException() {
+		ConnectionUtil.setTestingMode(true);
+
+		assertThrows(ServiceException.class, () -> userService.deleteUser(""));
+		ConnectionUtil.setTestingMode(false);
+	}
+
+	@Test
+	@Order(21)
+	void testUpdateUser_ServiceException() {
+		ConnectionUtil.setTestingMode(true);
+		User user = new User();
+		assertThrows(ServiceException.class, () -> userService.editUser(user));
+		ConnectionUtil.setTestingMode(false);
+	}
+
+	@Test
+	@Order(22)
+	void testGetAllUsers_ServiceException() {
+		ConnectionUtil.setTestingMode(true);
+
+		assertThrows(ServiceException.class, () -> userService.listAllUser());
+		ConnectionUtil.setTestingMode(false);
+	}
+
+	@Test
+	@Order(23)
+	void testGetUserByEmail_ServiceException() {
+		ConnectionUtil.setTestingMode(true);
+		
+		assertThrows(ServiceException.class, () -> userService.getUserByEmail(""));
+		ConnectionUtil.setTestingMode(false);
+	}
+	@Test
+	@Order(24)
+	void testGetUserById_ServiceException() {
+		ConnectionUtil.setTestingMode(true);
+		
+		assertThrows(ServiceException.class, () -> userService.getUserById(0));
+		ConnectionUtil.setTestingMode(false);
+	}
+	@Test
+	@Order(25)
+	void testUpdatePassword_ServiceException() {
+		ConnectionUtil.setTestingMode(true);
+		
+		assertThrows(ServiceException.class, () -> userService.updatePassword("","",""));
+		ConnectionUtil.setTestingMode(false);
+	}
+	@Test
+	@Order(26)
+	void testLoginUser_ServiceException() {
+		ConnectionUtil.setTestingMode(true);
+		User user = new User();
+		assertThrows(ServiceException.class, () -> userService.loginUser(user));
+		ConnectionUtil.setTestingMode(false);
 	}
 }

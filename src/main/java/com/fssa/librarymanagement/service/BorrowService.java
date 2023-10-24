@@ -44,7 +44,7 @@ public class BorrowService {
 		Borrow existingBorrow;
 		int availableCopies;
 		int borrowedBooksCount;
-		boolean success;
+		boolean hasBorrowed = false;
 
 		try {
 			borrowValidator.validateBorrowDate(borrow.getBorrowDate());
@@ -68,14 +68,11 @@ public class BorrowService {
 				throw new ServiceException(BorrowConstants.BORROW_LIMIT_EXCEEDED_FOR_THE_USER);
 			}
 
-			success = borrowDAO.borrowBook(borrow);
-			if (success) {
+			if (borrowDAO.borrowBook(borrow)) {
 				// Update book copies after successful borrowing
-				return bookDAO.updateBookCopies(borrow.getBook().getBookId(), 1, -1);
-			} else {
-				return false;
+				hasBorrowed = bookDAO.updateBookCopies(borrow.getBook().getBookId(), 1, -1);
 			}
-
+			return hasBorrowed;
 		} catch (DAOException | ValidationException e) {
 			throw new ServiceException(e.getMessage());
 		}
@@ -192,7 +189,12 @@ public class BorrowService {
 	public Borrow getBorrowByUserAndBook(int userId, int bookId) throws ServiceException {
 		try {
 			// Retrieve a specific Borrow by ID
-			return borrowDAO.getBorrowByUserAndBook(userId, bookId);
+			Borrow borrow = borrowDAO.getBorrowByUserAndBook(userId, bookId);
+			if (borrow == null) {
+				throw new ServiceException(BorrowConstants.BORROWS_NOT_FOUND);
+			}
+
+			return borrow;
 		} catch (DAOException e) {
 			throw new ServiceException(e.getMessage());
 		}

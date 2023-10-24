@@ -58,10 +58,9 @@ public class CommentDAO {
 					int generatedId = generatedKeys.getInt(1);
 					comment.setCommentId(generatedId); // Assuming Comment class has a setCommentId method
 				}
-				return comment;
 			}
 
-			return null;
+			return comment;
 
 		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
@@ -69,6 +68,7 @@ public class CommentDAO {
 	}
 
 	public boolean updateComment(Comment comment) throws DAOException {
+		boolean hasUpdated = false;
 		try (Connection connection = ConnectionUtil.getConnection();
 				PreparedStatement pst = connection.prepareStatement(UPDATE_COMMENT_QUERY)) {
 
@@ -77,7 +77,10 @@ public class CommentDAO {
 			pst.setInt(3, comment.getCommentId());
 
 			int rowsAffected = pst.executeUpdate();
-			return rowsAffected > 0;
+			if(rowsAffected > 0) {
+				hasUpdated = true;
+			}
+			return hasUpdated;
 
 		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
@@ -85,13 +88,17 @@ public class CommentDAO {
 	}
 
 	public boolean deleteComment(int commentId) throws DAOException {
+		boolean isDeleted = false;
 		try (Connection connection = ConnectionUtil.getConnection();
 				PreparedStatement pst = connection.prepareStatement(DELETE_COMMENT_QUERY)) {
 
 			pst.setInt(1, commentId);
 
 			int rowsAffected = pst.executeUpdate();
-			return rowsAffected > 0;
+			if(rowsAffected > 0) {
+				isDeleted = true;
+			}
+			return isDeleted;
 
 		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);

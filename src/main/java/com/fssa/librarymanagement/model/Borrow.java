@@ -27,8 +27,6 @@ public class Borrow {
 		// Default constructor
 	}
 
-	
-
 	/**
 	 * Set the borrow's id.
 	 *
@@ -108,7 +106,9 @@ public class Borrow {
 	 * @param returnDate The date when the book was returned.
 	 */
 	public void setReturnDate(LocalDate returnDate) {
-		this.returnDate = returnDate;
+		if (returnDate != null) {
+			this.returnDate = returnDate;
+		}
 	}
 
 	/**
@@ -153,19 +153,6 @@ public class Borrow {
 	public void setDueDate(LocalDate dueDate) {
 		this.dueDate = dueDate;
 	}
-
-	/**
-	 * Returns a string representation of the Borrow object.
-	 *
-	 * @return A string representation of the Borrow object.
-	 */
-	@Override
-	public String toString() {
-		return "Borrow{" + "user=" + user + ", book=" + book + ", borrowDate=" + borrowDate + ", returnDate="
-				+ returnDate + ", dueDate=" + dueDate + ", fine=" + fine + '}';
-	}
-
-	
 
 	/**
 	 * Set the borrow's return status.

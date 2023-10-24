@@ -98,6 +98,7 @@ public class BookDAO {
 	 * @throws DAOException If an error occurs during database operation
 	 */
 	public boolean createBook(Book book) throws DAOException {
+		boolean hasCreated = false;
 		String query = "INSERT INTO books (title, author, publisher, genre, language, description, total_copies, "
 				+ "available_copies, loaned_copies, pages, cover_image) " + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		try (Connection connection = ConnectionUtil.getConnection();
@@ -116,7 +117,10 @@ public class BookDAO {
 			preparedStatement.setString(11, book.getCoverImage());
 
 			int rowsAffected = preparedStatement.executeUpdate();
-			return rowsAffected > 0;
+			if(rowsAffected > 0) {
+				hasCreated = true;
+			}
+			return hasCreated;
 
 		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
@@ -182,6 +186,7 @@ public class BookDAO {
 	 * @throws DAOException If an error occurs during database operation
 	 */
 	public boolean updateBook(Book book) throws DAOException {
+		boolean hasUpdated = false;
 		String query = "UPDATE books SET " + "title = ?, description = ?, total_copies = ?, "
 				+ "cover_image = ?, genre = ?, language = ?, " + "author = ?, publisher = ? " + "WHERE book_id = ?";
 
@@ -199,7 +204,10 @@ public class BookDAO {
 			preparedStatement.setInt(9, book.getBookId());
 
 			int rowsAffected = preparedStatement.executeUpdate();
-			return rowsAffected > 0;
+			if(rowsAffected > 0) {
+				hasUpdated = true;
+			}
+			return hasUpdated;
 
 		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
@@ -218,6 +226,7 @@ public class BookDAO {
 	 * @throws DAOException If an error occurs during database operation
 	 */
 	public boolean updateBookCopies(int bookId, int loanedCopyChange, int availableCopyChange) throws DAOException {
+		boolean hasUpdated = false;
 		String query = "UPDATE books SET loaned_copies = loaned_copies + ?, available_copies = available_copies + ? "
 				+ "WHERE book_id = ?";
 		try (Connection connection = ConnectionUtil.getConnection();
@@ -228,7 +237,10 @@ public class BookDAO {
 			preparedStatement.setInt(3, bookId);
 
 			int rowsUpdated = preparedStatement.executeUpdate();
-			return rowsUpdated > 0;
+			if(rowsUpdated > 0) {
+				hasUpdated = true;
+			}
+			return hasUpdated;
 		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
 		}
@@ -242,6 +254,7 @@ public class BookDAO {
 	 * @throws DAOException If an error occurs during database operation
 	 */
 	public boolean deleteBook(int bookId) throws DAOException {
+		boolean isDeleted = false;
 		String query = "UPDATE books SET isActive = false WHERE book_id = ?";
 		try (Connection connection = ConnectionUtil.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -249,7 +262,10 @@ public class BookDAO {
 			preparedStatement.setInt(1, bookId);
 
 			int rowsAffected = preparedStatement.executeUpdate();
-			return rowsAffected > 0;
+			if(rowsAffected > 0) {
+				isDeleted = true;
+			}
+			return isDeleted;
 		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
 		}

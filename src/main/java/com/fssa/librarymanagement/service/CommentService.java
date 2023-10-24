@@ -36,7 +36,6 @@ public class CommentService {
 
 			boolean bookBorrowed = false;
 
-			// Iterate through the borrows
 			for (Borrow borrow : borrows) {
 				if (borrow.getBook().getBookId() == comment.getBook().getBookId()) {
 					// Check if the borrow date is greater than one day

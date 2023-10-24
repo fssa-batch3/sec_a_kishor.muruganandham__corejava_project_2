@@ -252,16 +252,5 @@ public class Book {
 		this.coverImage = coverImage;
 	}
 
-	/**
-	 * Returns a string representation of the User object.
-	 *
-	 * @return A string representation of the User object.
-	 */
-	@Override
-	public String toString() {
-		return "Book{" + "bookId=" + bookId + ", title='" + title + '\'' + ", author='" + author + '\''
-				+ ", publisher='" + publisher + '\'' + ", genre='" + genre + '\'' + ", language='" + language + '\''
-				+ ", description='" + description + '\'' + ", totalCopies=" + totalCopies + ", availableCopies="
-				+ availableCopies + ", loanedCopies=" + loanedCopies + ", coverImage='" + coverImage + '\'' + '}';
-	}
+
 }

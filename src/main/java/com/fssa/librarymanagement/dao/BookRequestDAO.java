@@ -29,6 +29,7 @@ public class BookRequestDAO {
 	}
 
 	public boolean createBookRequest(BookRequest bookRequestData) throws DAOException {
+		boolean hasCreated = false;
 		String query = "INSERT INTO book_requests (book_name, author_name, source_link, description) "
 				+ "VALUES (?, ?, ?, ?)";
 		try (Connection connection = ConnectionUtil.getConnection();
@@ -40,7 +41,10 @@ public class BookRequestDAO {
 			preparedStatement.setString(4, bookRequestData.getDescription());
 
 			int rowsAffected = preparedStatement.executeUpdate();
-			return rowsAffected > 0;
+			if(rowsAffected > 0) {
+				hasCreated = true;
+			}
+			return hasCreated;
 
 		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);

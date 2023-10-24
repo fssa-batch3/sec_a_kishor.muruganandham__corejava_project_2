@@ -38,6 +38,7 @@ public class UserDAO {
 	 * @throws DAOException If an error occurs during database operation
 	 */
 	public boolean createUser(User user) throws DAOException {
+		boolean hasCreated = false;
 		String query = "INSERT INTO users (user_name, email_id, mobile_no, password, gender, dob, created_date, "
 				+ "isActive, isAdmin, profile_image) " + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		try (Connection connection = ConnectionUtil.getConnection();
@@ -55,7 +56,10 @@ public class UserDAO {
 			pst.setString(10, user.getProfileImage());
 
 			int rowsAffected = pst.executeUpdate();
-			return rowsAffected > 0;
+			if(rowsAffected > 0) {
+				hasCreated = true;
+			}
+			return hasCreated;
 
 		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
@@ -149,6 +153,7 @@ public class UserDAO {
 	 * @throws DAOException If an error occurs during database operation
 	 */
 	public boolean updatePassword(String email, String newPassword) throws DAOException {
+		boolean hasUpdated = false;
 		String updateQuery = "UPDATE users SET password = ? WHERE email_id = ?";
 
 		try (Connection connection = ConnectionUtil.getConnection();
@@ -159,38 +164,16 @@ public class UserDAO {
 			preparedStatement.setString(2, email);
 
 			int rowsUpdated = preparedStatement.executeUpdate();
-
-			return rowsUpdated > 0;
+			if(rowsUpdated > 0) {
+				hasUpdated = true;
+			}
+			return hasUpdated;
 		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
 		}
 	}
 
-	/**
-	 * Updates the profile image of a user with the given user Id.
-	 *
-	 * @param userId       The id of the user whose profile image needs to be
-	 *                     updated
-	 * @param profileImage The new profile image to set for the user
-	 * @return True if the profile image was successfully updated, false otherwise
-	 * @throws DAOException If an error occurs during database operation
-	 */
-	public boolean updateProfileImage(int userId, String profileImage) throws DAOException {
-		String updateQuery = "UPDATE users SET profile_image = ? WHERE user_id = ?";
-
-		try (Connection connection = ConnectionUtil.getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
-
-			preparedStatement.setString(1, profileImage);
-			preparedStatement.setInt(2, userId);
-
-			int rowsUpdated = preparedStatement.executeUpdate();
-
-			return rowsUpdated > 0;
-		} catch (SQLException | DatabaseConnectionException e) {
-			throw new DAOException(e);
-		}
-	}
+	
 
 	/**
 	 * Retrieves a list of all users.
@@ -224,7 +207,7 @@ public class UserDAO {
 	public boolean updateUser(User user) throws DAOException {
 		String query = "UPDATE users SET " + "user_name = ?, profile_image = ?, mobile_no = ?, gender = ?, dob = ? "
 				+ "WHERE email_id = ?";
-
+		boolean hasUpdated = false;
 		try (Connection connection = ConnectionUtil.getConnection();
 				PreparedStatement pst = connection.prepareStatement(query)) {
 
@@ -236,7 +219,10 @@ public class UserDAO {
 			pst.setString(6, user.getEmail());
 
 			int rowsAffected = pst.executeUpdate();
-			return rowsAffected > 0;
+			if(rowsAffected > 0) {
+				hasUpdated = true;
+			}
+			return hasUpdated;
 
 		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
@@ -251,6 +237,7 @@ public class UserDAO {
 	 * @throws DAOException If an error occurs during database operation
 	 */
 	public boolean deleteUser(String stringValue) throws DAOException {
+		boolean isDeleted = false;
 		String query = "UPDATE users SET isActive = false WHERE email_id = ?";
 		try (Connection connection = ConnectionUtil.getConnection();
 				PreparedStatement pst = connection.prepareStatement(query)) {
@@ -258,7 +245,10 @@ public class UserDAO {
 			pst.setString(1, stringValue);
 
 			int rowsAffected = pst.executeUpdate();
-			return rowsAffected > 0;
+			if(rowsAffected > 0) {
+				isDeleted = true;
+			}
+			return isDeleted;
 		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
 		}

@@ -24,6 +24,7 @@ public class RatingDAO {
 			+ "ON DUPLICATE KEY UPDATE rating = VALUES(rating)";
 
 	public boolean submitRating(Rating rating) throws DAOException {
+		boolean hasSubmitted = false;
 		try (Connection connection = ConnectionUtil.getConnection();
 				PreparedStatement pst = connection.prepareStatement(INSERT_OR_UPDATE_RATING_QUERY)) {
 
@@ -32,7 +33,10 @@ public class RatingDAO {
 			pst.setInt(3, rating.getRating());
 
 			int rowsAffected = pst.executeUpdate();
-			return rowsAffected > 0;
+			if(rowsAffected > 0) {
+				hasSubmitted = true;
+			}
+			return hasSubmitted;
 
 		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
@@ -68,6 +72,7 @@ public class RatingDAO {
 	private static final String GET_RATING_BY_BOOK_AND_USER_QUERY = "SELECT rating FROM ratings WHERE book_id = ? AND user_id = ?";
 
 	public int getRatingByBookAndUser(int bookId, int userId) throws DAOException {
+		int count = 0;
 		try (Connection connection = ConnectionUtil.getConnection();
 				PreparedStatement pst = connection.prepareStatement(GET_RATING_BY_BOOK_AND_USER_QUERY)) {
 
@@ -76,14 +81,14 @@ public class RatingDAO {
 			ResultSet resultSet = pst.executeQuery();
 
 			if (resultSet.next()) {
-				return resultSet.getInt("rating");
+				count = resultSet.getInt("rating");
 			}
 
 		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DAOException(e);
 		}
 
-		return 0;
+		return count;
 	}
 
 }

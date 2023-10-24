@@ -15,6 +15,34 @@ import com.fssa.librarymanagement.model.User;
  */
 public class ResultSetUtils {
 
+	/**
+	 * 
+	 */
+	private static final String PROFILE_IMAGE = "profile_image";
+	/**
+	 * 
+	 */
+	private static final String EMAIL_ID = "email_id";
+	/**
+	 * 
+	 */
+	private static final String USER_NAME = "user_name";
+	/**
+	 * 
+	 */
+	private static final String USER_ID = "user_id";
+	/**
+	 * 
+	 */
+	private static final String COVER_IMAGE = "cover_image";
+	/**
+	 * 
+	 */
+	private static final String TITLE = "title";
+	/**
+	 * 
+	 */
+	private static final String BOOK_ID = "book_id";
 	private static final String RETURN_DATE = "return_date";
 	private static final String BORROW_DATE = "borrow_date";
 	private static final String DUE_DATE = "due_date";
@@ -33,9 +61,9 @@ public class ResultSetUtils {
 	 */
 	public static User buildUserFromResultSet(ResultSet rs) throws SQLException {
 		User user = new User();
-		user.setUserId(rs.getInt("user_id"));
-		user.setName(rs.getString("user_name"));
-		user.setEmail(rs.getString("email_id"));
+		user.setUserId(rs.getInt(USER_ID));
+		user.setName(rs.getString(USER_NAME));
+		user.setEmail(rs.getString(EMAIL_ID));
 		user.setMobileNo(rs.getLong("mobile_no"));
 		user.setPassword(rs.getString("password"));
 		user.setGender(rs.getString("gender").charAt(0));
@@ -43,7 +71,7 @@ public class ResultSetUtils {
 		user.setCreatedDate(rs.getTimestamp("created_date"));
 		user.setActive(rs.getBoolean("isActive"));
 		user.setAdmin(rs.getBoolean("isAdmin"));
-		user.setProfileImage(rs.getString("profile_image"));
+		user.setProfileImage(rs.getString(PROFILE_IMAGE));
 		return user;
 	}
 
@@ -56,8 +84,8 @@ public class ResultSetUtils {
 	 */
 	public static Book buildBookFromResultSet(ResultSet rs) throws SQLException {
 		Book book = new Book();
-		book.setBookId(rs.getInt("book_id"));
-		book.setTitle(rs.getString("title"));
+		book.setBookId(rs.getInt(BOOK_ID));
+		book.setTitle(rs.getString(TITLE));
 		book.setAuthor(rs.getString("author"));
 		book.setPublisher(rs.getString("publisher"));
 		book.setGenre(rs.getString("genre"));
@@ -67,7 +95,7 @@ public class ResultSetUtils {
 		book.setAvailableCopies(rs.getInt("available_copies"));
 		book.setLoanedCopies(rs.getInt("loaned_copies"));
 		book.setPages(rs.getInt("pages"));
-		book.setCoverImage(rs.getString("cover_image"));
+		book.setCoverImage(rs.getString(COVER_IMAGE));
 		return book;
 	}
 
@@ -81,14 +109,14 @@ public class ResultSetUtils {
 	public static Borrow buildBorrowFromResultSet(ResultSet rs) throws SQLException {
 		Borrow borrow = new Borrow();
 		User user = new User();
-		user.setUserId(rs.getInt("user_id"));
-		user.setName(rs.getString("user_name"));
-		user.setEmail(rs.getString("email_id"));
-		user.setProfileImage(rs.getString("profile_image"));
+		user.setUserId(rs.getInt(USER_ID));
+		user.setName(rs.getString(USER_NAME));
+		user.setEmail(rs.getString(EMAIL_ID));
+		user.setProfileImage(rs.getString(PROFILE_IMAGE));
 		Book book = new Book();
-		book.setBookId(rs.getInt("book_id"));
-		book.setTitle(rs.getString("title"));
-		book.setCoverImage(rs.getString("cover_image"));
+		book.setBookId(rs.getInt(BOOK_ID));
+		book.setTitle(rs.getString(TITLE));
+		book.setCoverImage(rs.getString(COVER_IMAGE));
 		borrow.setBorrowId(rs.getInt("borrow_id"));
 		borrow.setReturned(rs.getBoolean("isReturned"));
 		borrow.setUser(user);
@@ -108,15 +136,15 @@ public class ResultSetUtils {
 		comment.setCommentId(rs.getInt("comment_id"));
 
 		User user = new User();
-		user.setUserId(rs.getInt("user_id"));
-		user.setName(rs.getString("user_name"));
-		user.setEmail(rs.getString("email_id"));
-		user.setProfileImage(rs.getString("profile_image"));
+		user.setUserId(rs.getInt(USER_ID));
+		user.setName(rs.getString(USER_NAME));
+		user.setEmail(rs.getString(EMAIL_ID));
+		user.setProfileImage(rs.getString(PROFILE_IMAGE));
 
 		Book book = new Book();
-		book.setBookId(rs.getInt("book_id"));
-		book.setTitle(rs.getString("title"));
-		book.setCoverImage(rs.getString("cover_image"));
+		book.setBookId(rs.getInt(BOOK_ID));
+		book.setTitle(rs.getString(TITLE));
+		book.setCoverImage(rs.getString(COVER_IMAGE));
 
 		comment.setUser(user);
 		comment.setBook(book);

@@ -3,6 +3,7 @@
  */
 package com.fssa.librarymanagement.service;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -18,6 +19,7 @@ import com.fssa.librarymanagement.exceptions.ServiceException;
 import com.fssa.librarymanagement.model.Book;
 import com.fssa.librarymanagement.model.Comment;
 import com.fssa.librarymanagement.model.User;
+import com.fssa.librarymanagement.utils.ConnectionUtil;
 
 /**
  * 
@@ -49,13 +51,40 @@ class TestCommentService {
 
 	@Test
 	@Order(2)
-	void testValidUpdateComment() {
-		comment.setDescription("Nice Book!");
-		assertDoesNotThrow(() -> commentService.updateComment(comment));
+	void testValidListAllCommentsByBook() {
+		assertDoesNotThrow(() -> commentService.listCommentsByBook(2));
 	}
 
 	@Test
 	@Order(3)
+	void testValidUpdateComment() {
+		try {
+			List<Comment> comments = commentService.listAllComments();
+			comment.setDescription("Nice Book!");
+			deleteCommentId = comments.get(comments.size() - 1).getCommentId();
+			comment.setCommentId(deleteCommentId);
+			assertTrue(commentService.updateComment(comment));
+		} catch (ServiceException e) {
+			e.printStackTrace();
+			fail("Should Not Throw Service Exception");
+		}
+	}
+	
+	@Test
+	@Order(4)
+	void testValidDeleteComment() {
+		try {
+			List<Comment> comments = commentService.listAllComments();
+			deleteCommentId = comments.get(comments.size() - 1).getCommentId();
+			assertTrue(commentService.deleteComment(deleteCommentId));
+		} catch (ServiceException e) {
+			e.printStackTrace();
+			fail("Should Not Throw Service Exception");
+		}
+	}
+	
+	@Test
+	@Order(5)
 	void testInValidCreateComment() {
 		comment.setDescription(null);
 		ServiceException result = assertThrows(ServiceException.class, () -> commentService.createComment(comment));
@@ -63,34 +92,37 @@ class TestCommentService {
 	}
 
 	@Test
-	@Order(4)
+	@Order(6)
 	void testInValidUpdateComment() {
 		comment.setDescription("");
 		ServiceException result = assertThrows(ServiceException.class, () -> commentService.updateComment(comment));
 		assertEquals("Description cannot be empty.", result.getMessage());
 	}
-
 	@Test
-	@Order(3)
-	void testValidListAllCommentsByBook() {
-		assertDoesNotThrow(() -> commentService.listCommentsByBook(5));
+	@Order(7)
+	void testDeleteComment_ServiceExpection() {
+		ConnectionUtil.setTestingMode(true);
+		
+		assertThrows(ServiceException.class, () -> commentService.deleteComment(0));
+		
+		ConnectionUtil.setTestingMode(false);
 	}
-
 	@Test
-	@Order(4)
-	void testValidListAllComments() {
-		try {
-			List<Comment> comments = commentService.listAllComments();
-			deleteCommentId = comments.size() - 1;
-		} catch (ServiceException e) {
-			e.printStackTrace();
-			fail("Should Not Throw Service Exception");
-		}
+	@Order(8)
+	void testListAllComment_ServiceExpection() {
+		ConnectionUtil.setTestingMode(true);
+
+		assertThrows(ServiceException.class, () -> commentService.listAllComments());
+		
+		ConnectionUtil.setTestingMode(false);
 	}
-
 	@Test
-	@Order(5)
-	void testValidDeleteComment() {
-		assertDoesNotThrow(() -> commentService.deleteComment(deleteCommentId));
+	@Order(9)
+	void testListCommentByBook_ServiceExpection() {
+		ConnectionUtil.setTestingMode(true);
+
+		assertThrows(ServiceException.class, () -> commentService.listCommentsByBook(0));
+		
+		ConnectionUtil.setTestingMode(false);
 	}
 }

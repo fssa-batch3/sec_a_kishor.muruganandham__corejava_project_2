@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import com.fssa.librarymanagement.exceptions.ServiceException;
 import com.fssa.librarymanagement.model.BookRequest;
+import com.fssa.librarymanagement.utils.ConnectionUtil;
 
 /**
  * 
@@ -59,5 +60,14 @@ class TestBookRequest {
 	void testInValidGetAllBookRequests() {
 
 		assertDoesNotThrow(() -> bookRequestService.getAllBookRequests());
+	}
+	
+	@Test
+	void testInValidGetAllBookRequests_Exception() {
+		ConnectionUtil.setTestingMode(true);
+		
+		assertThrows(ServiceException.class, () -> bookRequestService.getAllBookRequests());
+		
+		ConnectionUtil.setTestingMode(false);
 	}
 }

@@ -17,8 +17,9 @@ import org.junit.jupiter.api.Test;
 
 import com.fssa.librarymanagement.exceptions.ServiceException;
 import com.fssa.librarymanagement.model.Rating;
+import com.fssa.librarymanagement.utils.ConnectionUtil;
 
-public class TestRatingService {
+class TestRatingService {
 	private RatingService ratingService;
 	private Rating rating;
 
@@ -75,5 +76,24 @@ public class TestRatingService {
 			e.printStackTrace();
 			fail("Should Not throw Service Exception");
 		}
+	}
+	
+	@Test
+	@Order(7)
+	void testGetRatingByBook_ServiceException() {
+		ConnectionUtil.setTestingMode(true);
+		
+		assertThrows(ServiceException.class, () -> ratingService.getAverageRatingAndCountByBook(0));
+		
+		ConnectionUtil.setTestingMode(false);
+	}
+	@Test
+	@Order(8)
+	void testGetRatingByBookAndUser_ServiceException() {
+		ConnectionUtil.setTestingMode(true);
+		
+		assertThrows(ServiceException.class, () -> ratingService.getRatingByBookAndUser(0,0));
+		
+		ConnectionUtil.setTestingMode(false);
 	}
 }
