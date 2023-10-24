@@ -69,7 +69,7 @@ class TestCommentService {
 			fail("Should Not Throw Service Exception");
 		}
 	}
-	
+
 	@Test
 	@Order(4)
 	void testValidDeleteComment() {
@@ -82,7 +82,7 @@ class TestCommentService {
 			fail("Should Not Throw Service Exception");
 		}
 	}
-	
+
 	@Test
 	@Order(5)
 	void testInValidCreateComment() {
@@ -98,31 +98,34 @@ class TestCommentService {
 		ServiceException result = assertThrows(ServiceException.class, () -> commentService.updateComment(comment));
 		assertEquals("Description cannot be empty.", result.getMessage());
 	}
+
 	@Test
 	@Order(7)
 	void testDeleteComment_ServiceExpection() {
 		ConnectionUtil.setTestingMode(true);
-		
+
 		assertThrows(ServiceException.class, () -> commentService.deleteComment(0));
-		
+
 		ConnectionUtil.setTestingMode(false);
 	}
+
 	@Test
 	@Order(8)
 	void testListAllComment_ServiceExpection() {
 		ConnectionUtil.setTestingMode(true);
 
 		assertThrows(ServiceException.class, () -> commentService.listAllComments());
-		
+
 		ConnectionUtil.setTestingMode(false);
 	}
+
 	@Test
 	@Order(9)
 	void testListCommentByBook_ServiceExpection() {
 		ConnectionUtil.setTestingMode(true);
 
 		assertThrows(ServiceException.class, () -> commentService.listCommentsByBook(0));
-		
+
 		ConnectionUtil.setTestingMode(false);
 	}
 }

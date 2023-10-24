@@ -252,5 +252,4 @@ public class Book {
 		this.coverImage = coverImage;
 	}
 
-
 }

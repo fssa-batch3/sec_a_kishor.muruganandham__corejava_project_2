@@ -44,7 +44,7 @@ class TestBorrowService {
 	@Test
 	@Order(1)
 	void testValidBorrowBook() {
-		assertDoesNotThrow(()->borrowService.borrowBook(borrow));
+		assertDoesNotThrow(() -> borrowService.borrowBook(borrow));
 	}
 
 	@Test
@@ -52,18 +52,19 @@ class TestBorrowService {
 	void testInvalidBorrowBook() {
 		assertThrows(ServiceException.class, () -> borrowService.borrowBook(borrow));
 	}
-	
+
 	@Test
 	@Order(3)
 	void testInvalidBorrowBook_InvalidBorrowDate() {
-		borrow.setBorrowDate(null);;
+		borrow.setBorrowDate(null);
+		;
 		assertThrows(ServiceException.class, () -> borrowService.borrowBook(borrow));
 	}
 
 	@Test
 	@Order(4)
 	void testValidGetBorrowsByUser() {
-		assertDoesNotThrow(()->borrowService.getBorrowsByUser(borrow.getUser().getUserId()));
+		assertDoesNotThrow(() -> borrowService.getBorrowsByUser(borrow.getUser().getUserId()));
 	}
 
 	@Test
@@ -76,7 +77,7 @@ class TestBorrowService {
 	@Test
 	@Order(6)
 	void testValidGetBorrowsByBook() {
-		assertDoesNotThrow(()-> borrowService.getBorrowsByBook(borrow.getBook().getBookId()));
+		assertDoesNotThrow(() -> borrowService.getBorrowsByBook(borrow.getBook().getBookId()));
 	}
 
 	@Test
@@ -89,7 +90,7 @@ class TestBorrowService {
 	@Test
 	@Order(8)
 	void testGetAllBorrows() {
-		assertDoesNotThrow(()-> borrowService.getAllBorrows());
+		assertDoesNotThrow(() -> borrowService.getAllBorrows());
 	}
 
 	@Test
@@ -104,25 +105,29 @@ class TestBorrowService {
 		ServiceException result = assertThrows(ServiceException.class, () -> borrowService.getBorrowById(114));
 		assertEquals("Borrows not found.", result.getMessage());
 	}
+
 	@Test
 	@Order(11)
 	void testValidGetBorrowByUserAndBook() {
-		assertDoesNotThrow(() -> borrowService.getBorrowByUserAndBook(user.getUserId(),book.getBookId()));
+		assertDoesNotThrow(() -> borrowService.getBorrowByUserAndBook(user.getUserId(), book.getBookId()));
 	}
-	
+
 	@Test
 	@Order(12)
 	void testInvalidGetBorrowByUserAndBook() {
-		ServiceException result = assertThrows(ServiceException.class, () -> borrowService.getBorrowByUserAndBook(1,0));
+		ServiceException result = assertThrows(ServiceException.class,
+				() -> borrowService.getBorrowByUserAndBook(1, 0));
 		assertEquals("Borrows not found.", result.getMessage());
 	}
+
 	@Test
 	@Order(13)
 	void testInvalidBorrowBook_InvalidBorrowDuration() {
-		ValidationException result = assertThrows(ValidationException.class, () -> BorrowingDurationEnumMapper.mapToBorrowingDuration(7));
+		ValidationException result = assertThrows(ValidationException.class,
+				() -> BorrowingDurationEnumMapper.mapToBorrowingDuration(7));
 		assertEquals("No Borrowing Duration enum found for the given value", result.getMessage());
 	}
-	
+
 	@Test
 	@Order(14)
 	void testValidReturnBook() {
@@ -142,51 +147,54 @@ class TestBorrowService {
 		ServiceException result = assertThrows(ServiceException.class, () -> borrowService.returnBook(borrow));
 		assertEquals("Return date cannot be empty", result.getMessage());
 	}
-	
+
 	@Test
 	@Order(16)
 	void testGetBorrowsByUser_ServiceException() {
 		ConnectionUtil.setTestingMode(true);
-		
+
 		assertThrows(ServiceException.class, () -> borrowService.getBorrowsByUser(0));
-		
+
 		ConnectionUtil.setTestingMode(false);
 	}
+
 	@Test
 	@Order(17)
 	void testGetBorrowsByBook_ServiceException() {
 		ConnectionUtil.setTestingMode(true);
-		
+
 		assertThrows(ServiceException.class, () -> borrowService.getBorrowsByBook(0));
-		
+
 		ConnectionUtil.setTestingMode(false);
 	}
+
 	@Test
 	@Order(18)
 	void testGetBorrowByUserAndBook_ServiceException() {
 		ConnectionUtil.setTestingMode(true);
-		
-		assertThrows(ServiceException.class, () -> borrowService.getBorrowByUserAndBook(0,0));
-		
+
+		assertThrows(ServiceException.class, () -> borrowService.getBorrowByUserAndBook(0, 0));
+
 		ConnectionUtil.setTestingMode(false);
 	}
+
 	@Test
 	@Order(19)
 	void testGetBorrowById_ServiceException() {
 		ConnectionUtil.setTestingMode(true);
-		
+
 		assertThrows(ServiceException.class, () -> borrowService.getBorrowById(0));
-		
+
 		ConnectionUtil.setTestingMode(false);
 	}
-	
+
 	@Test
 	@Order(20)
 	void testGetAllBorrows_ServiceException() {
 		ConnectionUtil.setTestingMode(true);
-		
+
 		assertThrows(ServiceException.class, () -> borrowService.getAllBorrows());
-		
+
 		ConnectionUtil.setTestingMode(false);
 	}
 

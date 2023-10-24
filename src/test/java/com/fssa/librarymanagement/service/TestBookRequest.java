@@ -61,13 +61,13 @@ class TestBookRequest {
 
 		assertDoesNotThrow(() -> bookRequestService.getAllBookRequests());
 	}
-	
+
 	@Test
 	void testInValidGetAllBookRequests_Exception() {
 		ConnectionUtil.setTestingMode(true);
-		
+
 		assertThrows(ServiceException.class, () -> bookRequestService.getAllBookRequests());
-		
+
 		ConnectionUtil.setTestingMode(false);
 	}
 }

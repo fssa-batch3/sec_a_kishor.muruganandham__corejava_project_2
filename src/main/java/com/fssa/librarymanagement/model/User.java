@@ -67,7 +67,6 @@ public class User {
 		this.profileImage = profileImage;
 	}
 
-	
 	/**
 	 * Set the user's account activation status.
 	 *

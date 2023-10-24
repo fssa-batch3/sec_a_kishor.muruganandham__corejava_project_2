@@ -56,7 +56,7 @@ public class UserDAO {
 			pst.setString(10, user.getProfileImage());
 
 			int rowsAffected = pst.executeUpdate();
-			if(rowsAffected > 0) {
+			if (rowsAffected > 0) {
 				hasCreated = true;
 			}
 			return hasCreated;
@@ -164,7 +164,7 @@ public class UserDAO {
 			preparedStatement.setString(2, email);
 
 			int rowsUpdated = preparedStatement.executeUpdate();
-			if(rowsUpdated > 0) {
+			if (rowsUpdated > 0) {
 				hasUpdated = true;
 			}
 			return hasUpdated;
@@ -172,8 +172,6 @@ public class UserDAO {
 			throw new DAOException(e);
 		}
 	}
-
-	
 
 	/**
 	 * Retrieves a list of all users.
@@ -219,7 +217,7 @@ public class UserDAO {
 			pst.setString(6, user.getEmail());
 
 			int rowsAffected = pst.executeUpdate();
-			if(rowsAffected > 0) {
+			if (rowsAffected > 0) {
 				hasUpdated = true;
 			}
 			return hasUpdated;
@@ -245,7 +243,7 @@ public class UserDAO {
 			pst.setString(1, stringValue);
 
 			int rowsAffected = pst.executeUpdate();
-			if(rowsAffected > 0) {
+			if (rowsAffected > 0) {
 				isDeleted = true;
 			}
 			return isDeleted;

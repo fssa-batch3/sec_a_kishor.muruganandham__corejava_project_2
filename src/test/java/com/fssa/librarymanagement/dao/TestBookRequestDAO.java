@@ -15,28 +15,29 @@ import com.fssa.librarymanagement.utils.ConnectionUtil;
 /**
  * 
  */
- class TestBookRequestDAO {
-		private BookRequestDAO bookRequestDAO;
+class TestBookRequestDAO {
+	private BookRequestDAO bookRequestDAO;
 
-		@BeforeEach
-		public void setUp() {
-			bookRequestDAO = new BookRequestDAO();
-		}
+	@BeforeEach
+	public void setUp() {
+		bookRequestDAO = new BookRequestDAO();
+	}
 
-		@Test
-		void testCreateBookRequest() {
-			ConnectionUtil.setTestingMode(true);
-			BookRequest bookRequest = new BookRequest();
-			assertThrows(DAOException.class, () -> bookRequestDAO.createBookRequest(bookRequest));
+	@Test
+	void testCreateBookRequest() {
+		ConnectionUtil.setTestingMode(true);
+		BookRequest bookRequest = new BookRequest();
+		assertThrows(DAOException.class, () -> bookRequestDAO.createBookRequest(bookRequest));
 
-			ConnectionUtil.setTestingMode(false);
-		}
-		@Test
-		void testGetAllBookRequests() {
-			ConnectionUtil.setTestingMode(true);
-			
-			assertThrows(DAOException.class, () -> bookRequestDAO.getAllBookRequests());
-			
-			ConnectionUtil.setTestingMode(false);
-		}
+		ConnectionUtil.setTestingMode(false);
+	}
+
+	@Test
+	void testGetAllBookRequests() {
+		ConnectionUtil.setTestingMode(true);
+
+		assertThrows(DAOException.class, () -> bookRequestDAO.getAllBookRequests());
+
+		ConnectionUtil.setTestingMode(false);
+	}
 }

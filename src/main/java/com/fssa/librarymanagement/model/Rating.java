@@ -8,12 +8,9 @@ package com.fssa.librarymanagement.model;
  */
 public class Rating {
 
-	
 	private int userId;
 	private int bookId;
 	private int stars;
-
-	
 
 	/**
 	 * @return the userId
@@ -56,6 +53,5 @@ public class Rating {
 	public void setRating(int rating) {
 		this.stars = rating;
 	}
-
 
 }

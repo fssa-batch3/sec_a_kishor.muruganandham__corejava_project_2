@@ -120,8 +120,6 @@ public class UserService {
 		}
 	}
 
-
-
 	/**
 	 * Retrieve a user.
 	 *

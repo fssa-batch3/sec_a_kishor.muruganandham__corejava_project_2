@@ -21,7 +21,7 @@ class TestBookDAO {
 	@Test
 	void testSearchBooksByTitle() {
 		ConnectionUtil.setTestingMode(true);
-		
+
 		assertThrows(DAOException.class, () -> bookDAO.searchBooksByTitle("InvalidTitle"));
 
 		ConnectionUtil.setTestingMode(false);
@@ -82,11 +82,12 @@ class TestBookDAO {
 		assertThrows(DAOException.class, () -> bookDAO.getAllGenres());
 		ConnectionUtil.setTestingMode(false);
 	}
+
 	@Test
 	void testUpdateBookCopies() {
 		ConnectionUtil.setTestingMode(true);
-		
-		assertThrows(DAOException.class, () -> bookDAO.updateBookCopies(0,0,0));
+
+		assertThrows(DAOException.class, () -> bookDAO.updateBookCopies(0, 0, 0));
 		ConnectionUtil.setTestingMode(false);
 	}
 

@@ -32,9 +32,9 @@ public class ImageUploader {
 		options.put("public_id", "library/users/profile_picture/" + userId);
 		options.put("overwrite", true);
 		options.put("display_name", userName);
-		
+
 		return cloudinary.uploader().upload(imageBytes, options);
-		
+
 	}
 
 	private byte[] readInputStream(InputStream inputStream) throws IOException {

@@ -41,7 +41,7 @@ public class BookRequestDAO {
 			preparedStatement.setString(4, bookRequestData.getDescription());
 
 			int rowsAffected = preparedStatement.executeUpdate();
-			if(rowsAffected > 0) {
+			if (rowsAffected > 0) {
 				hasCreated = true;
 			}
 			return hasCreated;

@@ -123,7 +123,7 @@ class TestUserService {
 			user.setName("Kishore");
 			boolean result = userService.editUser(user);
 			User updatedUser = userService.getUserByEmail(user.getEmail());
-			
+
 			assertTrue(result);
 			assertNotEquals("Kishor", updatedUser.getName());
 		} catch (ServiceException e) {
@@ -197,7 +197,7 @@ class TestUserService {
 				() -> userService.deleteUser(nonExistentUser.getEmail()));
 		assertEquals("User does not exist with the given email", result.getMessage());
 	}
-	
+
 	@Test
 	@Order(19)
 	void testCreateUser_ServiceException() {
@@ -239,26 +239,29 @@ class TestUserService {
 	@Order(23)
 	void testGetUserByEmail_ServiceException() {
 		ConnectionUtil.setTestingMode(true);
-		
+
 		assertThrows(ServiceException.class, () -> userService.getUserByEmail(""));
 		ConnectionUtil.setTestingMode(false);
 	}
+
 	@Test
 	@Order(24)
 	void testGetUserById_ServiceException() {
 		ConnectionUtil.setTestingMode(true);
-		
+
 		assertThrows(ServiceException.class, () -> userService.getUserById(0));
 		ConnectionUtil.setTestingMode(false);
 	}
+
 	@Test
 	@Order(25)
 	void testUpdatePassword_ServiceException() {
 		ConnectionUtil.setTestingMode(true);
-		
-		assertThrows(ServiceException.class, () -> userService.updatePassword("","",""));
+
+		assertThrows(ServiceException.class, () -> userService.updatePassword("", "", ""));
 		ConnectionUtil.setTestingMode(false);
 	}
+
 	@Test
 	@Order(26)
 	void testLoginUser_ServiceException() {

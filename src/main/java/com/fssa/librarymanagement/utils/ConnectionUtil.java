@@ -12,7 +12,7 @@ import com.fssa.librarymanagement.exceptions.DatabaseConnectionException;
 public class ConnectionUtil {
 
 	private static boolean testingMode = false;
-	
+
 	// Private constructor to prevent instantiation
 	private ConnectionUtil() {
 		// Do nothing (empty constructor)
@@ -25,10 +25,10 @@ public class ConnectionUtil {
 	 * @throws RuntimeException If unable to connect to the database
 	 */
 	public static Connection getConnection() throws DatabaseConnectionException {
-		
+
 		if (testingMode) {
-            throw new DatabaseConnectionException("Connection error in testing mode");
-        }
+			throw new DatabaseConnectionException("Connection error in testing mode");
+		}
 
 		// Database URL and credentials
 		final String dbUrl;
@@ -52,8 +52,8 @@ public class ConnectionUtil {
 			throw new DatabaseConnectionException("Database driver class not found", e);
 		}
 	}
-	
+
 	public static void setTestingMode(boolean testing) {
-        testingMode = testing;
-    }
+		testingMode = testing;
+	}
 }

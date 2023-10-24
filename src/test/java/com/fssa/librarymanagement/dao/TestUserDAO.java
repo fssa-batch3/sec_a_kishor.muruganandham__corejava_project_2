@@ -68,22 +68,24 @@ class TestUserDAO {
 	@Test
 	void testGetUserByEmail() {
 		ConnectionUtil.setTestingMode(true);
-		
+
 		assertThrows(DAOException.class, () -> userDAO.getUserByEmail(""));
 		ConnectionUtil.setTestingMode(false);
 	}
+
 	@Test
 	void testGetUserById() {
 		ConnectionUtil.setTestingMode(true);
-		
+
 		assertThrows(DAOException.class, () -> userDAO.getUserById(0));
 		ConnectionUtil.setTestingMode(false);
 	}
+
 	@Test
 	void testUpdatePassword() {
 		ConnectionUtil.setTestingMode(true);
-		
-		assertThrows(DAOException.class, () -> userDAO.updatePassword("",""));
+
+		assertThrows(DAOException.class, () -> userDAO.updatePassword("", ""));
 		ConnectionUtil.setTestingMode(false);
 	}
 

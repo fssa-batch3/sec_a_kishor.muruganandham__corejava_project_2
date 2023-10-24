@@ -77,7 +77,7 @@ public class CommentDAO {
 			pst.setInt(3, comment.getCommentId());
 
 			int rowsAffected = pst.executeUpdate();
-			if(rowsAffected > 0) {
+			if (rowsAffected > 0) {
 				hasUpdated = true;
 			}
 			return hasUpdated;
@@ -95,7 +95,7 @@ public class CommentDAO {
 			pst.setInt(1, commentId);
 
 			int rowsAffected = pst.executeUpdate();
-			if(rowsAffected > 0) {
+			if (rowsAffected > 0) {
 				isDeleted = true;
 			}
 			return isDeleted;

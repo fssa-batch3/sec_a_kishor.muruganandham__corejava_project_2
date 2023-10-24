@@ -117,7 +117,7 @@ public class BookDAO {
 			preparedStatement.setString(11, book.getCoverImage());
 
 			int rowsAffected = preparedStatement.executeUpdate();
-			if(rowsAffected > 0) {
+			if (rowsAffected > 0) {
 				hasCreated = true;
 			}
 			return hasCreated;
@@ -204,7 +204,7 @@ public class BookDAO {
 			preparedStatement.setInt(9, book.getBookId());
 
 			int rowsAffected = preparedStatement.executeUpdate();
-			if(rowsAffected > 0) {
+			if (rowsAffected > 0) {
 				hasUpdated = true;
 			}
 			return hasUpdated;
@@ -237,7 +237,7 @@ public class BookDAO {
 			preparedStatement.setInt(3, bookId);
 
 			int rowsUpdated = preparedStatement.executeUpdate();
-			if(rowsUpdated > 0) {
+			if (rowsUpdated > 0) {
 				hasUpdated = true;
 			}
 			return hasUpdated;
@@ -262,7 +262,7 @@ public class BookDAO {
 			preparedStatement.setInt(1, bookId);
 
 			int rowsAffected = preparedStatement.executeUpdate();
-			if(rowsAffected > 0) {
+			if (rowsAffected > 0) {
 				isDeleted = true;
 			}
 			return isDeleted;

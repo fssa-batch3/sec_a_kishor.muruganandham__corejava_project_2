@@ -34,7 +34,7 @@ public class RatingService {
 	public Map<String, Object> getAverageRatingAndCountByBook(int bookId) throws ServiceException {
 		try {
 			Map<String, Object> result = ratingDAO.getRatingByBook(bookId);
-			if((Integer)result.get("rating_count") == 0) {
+			if ((Integer) result.get("rating_count") == 0) {
 				throw new ServiceException("No ratings found");
 			}
 			return result;

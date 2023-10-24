@@ -190,12 +190,12 @@ class TestBookService {
 		assertThrows(ServiceException.class, () -> bookService.listAllGenres());
 		ConnectionUtil.setTestingMode(false);
 	}
-	
+
 	@Test
 	@Order(17)
 	void testSearchBooksByTitle_ServiceException() {
 		ConnectionUtil.setTestingMode(true);
-		
+
 		assertThrows(ServiceException.class, () -> bookService.searchBooksByTitle("InvalidTitle"));
 
 		ConnectionUtil.setTestingMode(false);

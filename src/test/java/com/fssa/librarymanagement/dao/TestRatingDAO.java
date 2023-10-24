@@ -31,20 +31,22 @@ class TestRatingDAO {
 
 		ConnectionUtil.setTestingMode(false);
 	}
+
 	@Test
 	void testGetRatingByBook() {
 		ConnectionUtil.setTestingMode(true);
-		
+
 		assertThrows(DAOException.class, () -> ratingDAO.getRatingByBook(0));
-		
+
 		ConnectionUtil.setTestingMode(false);
 	}
+
 	@Test
 	void testGetRatingByBookAndUser() {
 		ConnectionUtil.setTestingMode(true);
-		
-		assertThrows(DAOException.class, () -> ratingDAO.getRatingByBookAndUser(0,0));
-		
+
+		assertThrows(DAOException.class, () -> ratingDAO.getRatingByBookAndUser(0, 0));
+
 		ConnectionUtil.setTestingMode(false);
 	}
 }

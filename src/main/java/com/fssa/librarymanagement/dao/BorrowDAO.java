@@ -52,7 +52,7 @@ public class BorrowDAO {
 			pst.setDate(4, Date.valueOf(borrow.getDueDate()));
 
 			int rowsAffected = pst.executeUpdate();
-			if(rowsAffected > 0) {
+			if (rowsAffected > 0) {
 				hasBorrowed = true;
 			}
 			return hasBorrowed;
@@ -81,7 +81,7 @@ public class BorrowDAO {
 			pst.setInt(4, borrow.getBook().getBookId());
 
 			int rowsAffected = pst.executeUpdate();
-			if(rowsAffected > 0) {
+			if (rowsAffected > 0) {
 				hasReturned = true;
 			}
 			return hasReturned;
@@ -199,7 +199,7 @@ public class BorrowDAO {
 					borrow.setBook(book);
 					borrow.setBorrowDate(rs.getTimestamp("borrow_date").toLocalDateTime());
 					borrow.setDueDate(rs.getDate("due_date").toLocalDate());
-					
+
 					return borrow;
 				}
 			}

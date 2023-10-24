@@ -33,7 +33,7 @@ public class RatingDAO {
 			pst.setInt(3, rating.getRating());
 
 			int rowsAffected = pst.executeUpdate();
-			if(rowsAffected > 0) {
+			if (rowsAffected > 0) {
 				hasSubmitted = true;
 			}
 			return hasSubmitted;
@@ -47,27 +47,26 @@ public class RatingDAO {
 			+ "FROM ratings WHERE book_id = ?";
 
 	public Map<String, Object> getRatingByBook(int bookId) throws DAOException {
-	    Map<String, Object> ratingInfo = null;
+		Map<String, Object> ratingInfo = null;
 
-	    try (Connection connection = ConnectionUtil.getConnection();
-	         PreparedStatement pst = connection.prepareStatement(GET_RATING_BY_BOOK_QUERY)) {
+		try (Connection connection = ConnectionUtil.getConnection();
+				PreparedStatement pst = connection.prepareStatement(GET_RATING_BY_BOOK_QUERY)) {
 
-	        pst.setInt(1, bookId);
-	        ResultSet resultSet = pst.executeQuery();
+			pst.setInt(1, bookId);
+			ResultSet resultSet = pst.executeQuery();
 
-	        if (resultSet.next()) {
-	            ratingInfo = new HashMap<>();
-	            ratingInfo.put("average_rating", resultSet.getDouble("average_rating"));
-	            ratingInfo.put("rating_count", resultSet.getInt("rating_count"));
-	        }
+			if (resultSet.next()) {
+				ratingInfo = new HashMap<>();
+				ratingInfo.put("average_rating", resultSet.getDouble("average_rating"));
+				ratingInfo.put("rating_count", resultSet.getInt("rating_count"));
+			}
 
-	    } catch (SQLException | DatabaseConnectionException e) {
-	        throw new DAOException(e);
-	    }
+		} catch (SQLException | DatabaseConnectionException e) {
+			throw new DAOException(e);
+		}
 
-	    return ratingInfo; 
+		return ratingInfo;
 	}
-
 
 	private static final String GET_RATING_BY_BOOK_AND_USER_QUERY = "SELECT rating FROM ratings WHERE book_id = ? AND user_id = ?";
 
