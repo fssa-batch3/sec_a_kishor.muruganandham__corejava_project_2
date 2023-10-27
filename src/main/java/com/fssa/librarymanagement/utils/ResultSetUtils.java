@@ -12,36 +12,20 @@ import com.fssa.librarymanagement.model.User;
 
 /**
  * Utility class for building model objects from ResultSet data.
+ * 
+ * @author KishorMuruganandham
+ * 
  */
+
 public class ResultSetUtils {
 
-	/**
-	 * 
-	 */
+
 	private static final String PROFILE_IMAGE = "profile_image";
-	/**
-	 * 
-	 */
 	private static final String EMAIL_ID = "email_id";
-	/**
-	 * 
-	 */
 	private static final String USER_NAME = "user_name";
-	/**
-	 * 
-	 */
 	private static final String USER_ID = "user_id";
-	/**
-	 * 
-	 */
 	private static final String COVER_IMAGE = "cover_image";
-	/**
-	 * 
-	 */
 	private static final String TITLE = "title";
-	/**
-	 * 
-	 */
 	private static final String BOOK_ID = "book_id";
 	private static final String RETURN_DATE = "return_date";
 	private static final String BORROW_DATE = "borrow_date";

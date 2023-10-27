@@ -177,17 +177,24 @@ public class BookService {
 		}
 	}
 
+	/**
+	 * Splits the input list of strings by spaces, extracts individual words, removes duplicates, and returns a list of unique words.
+	 *
+	 * @param genres A list of strings containing words separated by spaces.
+	 * @return A list of unique words extracted from the input list.
+	 */
 	private static List<String> separateWordsBySpace(List<String> genres) {
-		Set<String> uniqueWords = new HashSet<>();
-		for (String genre : genres) {
-			String[] words = genre.split("\\s+");
-			for (String word : words) {
-				if (!word.isEmpty()) {
-					uniqueWords.add(word);
-				}
-			}
-		}
-		return new ArrayList<>(uniqueWords);
+	    Set<String> uniqueWords = new HashSet<>();
+	    for (String genre : genres) {
+	        String[] words = genre.split("\\s+");
+	        for (String word : words) {
+	            if (!word.isEmpty()) {
+	                uniqueWords.add(word);
+	            }
+	        }
+	    }
+	    return new ArrayList<>(uniqueWords);
 	}
+
 
 }

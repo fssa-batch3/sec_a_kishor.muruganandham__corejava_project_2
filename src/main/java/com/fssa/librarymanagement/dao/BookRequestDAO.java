@@ -16,7 +16,7 @@ import com.fssa.librarymanagement.model.BookRequest;
 import com.fssa.librarymanagement.utils.ConnectionUtil;
 
 /**
- * 
+ * Data Access Object (DAO) class for handling book request-related database operations.
  */
 public class BookRequestDAO {
 
@@ -28,6 +28,14 @@ public class BookRequestDAO {
 		// Default constructor
 	}
 
+	/**
+	 * Create a new book request.
+	 *
+	 * @param bookRequestData The data for the book request to be created.
+	 * @return true if the book request is successfully created, false otherwise.
+	 * @throws DAOException If an error occurs during the database operation.
+	 */
+	
 	public boolean createBookRequest(BookRequest bookRequestData) throws DAOException {
 		boolean hasCreated = false;
 		String query = "INSERT INTO book_requests (book_name, author_name, source_link, description) "
@@ -51,6 +59,13 @@ public class BookRequestDAO {
 		}
 	}
 
+	/**
+	 * Retrieve a list of all book requests.
+	 *
+	 * @return A list of all book requests in the database.
+	 * @throws DAOException If an error occurs during the database operation.
+	 */
+	
 	public List<BookRequest> getAllBookRequests() throws DAOException {
 		List<BookRequest> bookRequestList = new ArrayList<>();
 		String query = "SELECT * FROM book_requests";

@@ -188,13 +188,7 @@ public class BorrowService {
 	 */
 	public Borrow getBorrowByUserAndBook(int userId, int bookId) throws ServiceException {
 		try {
-			// Retrieve a specific Borrow by ID
-			Borrow borrow = borrowDAO.getBorrowByUserAndBook(userId, bookId);
-			if (borrow == null) {
-				throw new ServiceException(BorrowConstants.BORROWS_NOT_FOUND);
-			}
-
-			return borrow;
+			return borrowDAO.getBorrowByUserAndBook(userId, bookId);
 		} catch (DAOException e) {
 			throw new ServiceException(e.getMessage());
 		}

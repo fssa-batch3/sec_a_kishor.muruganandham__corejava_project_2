@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
  *
  * @author KishorMuruganandham
  */
+
 public class User {
 
 	private String name;
@@ -22,6 +23,13 @@ public class User {
 	private boolean isAdmin;
 	private String profileImage;
 	private int userId;
+
+	/**
+	 * @return the isActive
+	 */
+	public boolean isActive() {
+		return isActive;
+	}
 
 	/**
 	 * Constructs a new User object with default values.
@@ -223,16 +231,5 @@ public class User {
 		this.userId = userId;
 	}
 
-	/**
-	 * Returns a string representation of the User object.
-	 *
-	 * @return A string representation of the User object.
-	 */
-	@Override
-	public String toString() {
-		return "User{" + "userId=" + userId + ", name='" + name + '\'' + ", email='" + email + '\'' + ", mobileNo="
-				+ mobileNo + ", password='" + password + '\'' + ", gender=" + gender + ", dob=" + dob + ", createdDate="
-				+ createdDate + ", isActive=" + isActive + ", isAdmin=" + isAdmin + ", profileImage='" + profileImage
-				+ '\'' + '}';
-	}
+	
 }

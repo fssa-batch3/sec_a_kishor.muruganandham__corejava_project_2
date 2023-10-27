@@ -63,8 +63,7 @@ public class BookDAO {
 	 * Checks if a book with the given id exists in the database.
 	 *
 	 * @param bookId The id of the book to check.
-	 * @return {@code true} if a book with the specified id exists and meets certain
-	 *         criteria, {@code false} otherwise.
+	 * @return true if a book with the specified id exists, false otherwise.
 	 * @throws DAOException If an error occurs during the database operation.
 	 */
 

@@ -1,5 +1,6 @@
 package com.fssa.librarymanagement.service;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -115,9 +116,13 @@ class TestBorrowService {
 	@Test
 	@Order(12)
 	void testInvalidGetBorrowByUserAndBook() {
-		ServiceException result = assertThrows(ServiceException.class,
-				() -> borrowService.getBorrowByUserAndBook(1, 0));
-		assertEquals("Borrows not found.", result.getMessage());
+		
+		try {
+			assertNull(borrowService.getBorrowByUserAndBook(1, 0));
+		} catch (ServiceException e) {
+			e.printStackTrace();
+			fail("Should not throw Service Exception");
+		}
 	}
 
 	@Test
@@ -137,7 +142,7 @@ class TestBorrowService {
 			assertTrue(result);
 		} catch (ServiceException e) {
 			e.printStackTrace();
-			fail("Should not throw ServiceException");
+			fail("Should not throw Service Exception");
 		}
 	}
 

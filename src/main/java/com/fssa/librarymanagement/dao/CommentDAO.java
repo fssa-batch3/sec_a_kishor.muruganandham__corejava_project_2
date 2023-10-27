@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.fssa.librarymanagement.dao;
 
 import static com.fssa.librarymanagement.utils.ResultSetUtils.buildCommentFromResultSet;
@@ -14,35 +11,35 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fssa.librarymanagement.constants.CommentConstants;
 import com.fssa.librarymanagement.exceptions.DAOException;
 import com.fssa.librarymanagement.exceptions.DatabaseConnectionException;
 import com.fssa.librarymanagement.model.Comment;
 import com.fssa.librarymanagement.utils.ConnectionUtil;
 
 /**
- * 
+ * Data Access Object (DAO) class for handling comments related database operations.
  */
 public class CommentDAO {
 
-	private static final String INSERT_COMMENT_QUERY = "INSERT INTO comments (user_id, book_id, description, created_at, is_trusted) "
-			+ "VALUES (?, ?, ?, ?, ?)";
-
-	private static final String UPDATE_COMMENT_QUERY = "UPDATE comments SET description = ?, edited_at = ?, is_edited = TRUE WHERE comment_id = ?";
-
-	private static final String DELETE_COMMENT_QUERY = "UPDATE comments SET is_active = false WHERE comment_id = ?";
-
-	private static final String BASE_COMMENT_QUERY = "SELECT c.comment_id, c.description, c.created_at, c.edited_at, c.is_active, c.is_edited,c.is_trusted, "
-			+ "u.user_id, u.user_name, u.email_id, u.profile_image, " + "b.book_id, b.title, b.cover_image "
-			+ "FROM comments c " + "JOIN users u ON c.user_id = u.user_id " + "JOIN books b ON c.book_id = b.book_id ";
-
-	private static final String LIST_COMMENTS_BY_BOOK_QUERY = BASE_COMMENT_QUERY
-			+ "WHERE c.book_id = ? AND c.is_active = true";
-
-	private static final String LIST_ALL_COMMENTS_QUERY = BASE_COMMENT_QUERY + "WHERE c.is_active = true";
+	/**
+	 * Constructs a new CommentDAO object for performing database operations related to comments.
+	 */
+	public CommentDAO(){
+		// Default constructor
+	}
+	
+	/**
+	 * Create a new comment.
+	 *
+	 * @param comment The comment object to be created.
+	 * @return The created comment.
+	 * @throws DAOException If an error occurs during the database operation.
+	 */
 
 	public Comment createComment(Comment comment) throws DAOException {
 		try (Connection connection = ConnectionUtil.getConnection();
-				PreparedStatement pst = connection.prepareStatement(INSERT_COMMENT_QUERY,
+				PreparedStatement pst = connection.prepareStatement(CommentConstants.INSERT_COMMENT_QUERY,
 						Statement.RETURN_GENERATED_KEYS)) {
 
 			pst.setInt(1, comment.getUser().getUserId());
@@ -67,10 +64,18 @@ public class CommentDAO {
 		}
 	}
 
+	/**
+	 * Update an existing comment.
+	 *
+	 * @param comment The comment object to be updated.
+	 * @return true if the comment is successfully updated, false otherwise.
+	 * @throws DAOException If an error occurs during the database operation.
+	 */
+	
 	public boolean updateComment(Comment comment) throws DAOException {
 		boolean hasUpdated = false;
 		try (Connection connection = ConnectionUtil.getConnection();
-				PreparedStatement pst = connection.prepareStatement(UPDATE_COMMENT_QUERY)) {
+				PreparedStatement pst = connection.prepareStatement(CommentConstants.UPDATE_COMMENT_QUERY)) {
 
 			pst.setString(1, comment.getDescription());
 			pst.setTimestamp(2, Timestamp.valueOf(comment.getEditedAt()));
@@ -87,10 +92,18 @@ public class CommentDAO {
 		}
 	}
 
+	/**
+	 * Delete a comment by its ID.
+	 *
+	 * @param commentId The ID of the comment to be deleted.
+	 * @return true if the comment is successfully deleted, false otherwise.
+	 * @throws DAOException If an error occurs during the database operation.
+	 */
+	
 	public boolean deleteComment(int commentId) throws DAOException {
 		boolean isDeleted = false;
 		try (Connection connection = ConnectionUtil.getConnection();
-				PreparedStatement pst = connection.prepareStatement(DELETE_COMMENT_QUERY)) {
+				PreparedStatement pst = connection.prepareStatement(CommentConstants.DELETE_COMMENT_QUERY)) {
 
 			pst.setInt(1, commentId);
 
@@ -105,10 +118,18 @@ public class CommentDAO {
 		}
 	}
 
+	/**
+	 * List comments associated with a specific book.
+	 *
+	 * @param bookId The ID of the book for which comments are to be listed.
+	 * @return A list of comments related to the specified book.
+	 * @throws DAOException If an error occurs during the database operation.
+	 */
+	
 	public List<Comment> listCommentByBook(int bookId) throws DAOException {
 		List<Comment> comments = new ArrayList<>();
 		try (Connection connection = ConnectionUtil.getConnection();
-				PreparedStatement pst = connection.prepareStatement(LIST_COMMENTS_BY_BOOK_QUERY)) {
+				PreparedStatement pst = connection.prepareStatement(CommentConstants.LIST_COMMENTS_BY_BOOK_QUERY)) {
 
 			pst.setInt(1, bookId);
 
@@ -125,10 +146,17 @@ public class CommentDAO {
 		return comments;
 	}
 
+	/**
+	 * List all comments in the database.
+	 *
+	 * @return A list of all comments available in the database.
+	 * @throws DAOException If an error occurs during the database operation.
+	 */
+	
 	public List<Comment> listAllComments() throws DAOException {
 		List<Comment> comments = new ArrayList<>();
 		try (Connection connection = ConnectionUtil.getConnection();
-				PreparedStatement pst = connection.prepareStatement(LIST_ALL_COMMENTS_QUERY)) {
+				PreparedStatement pst = connection.prepareStatement(CommentConstants.LIST_ALL_COMMENTS_QUERY)) {
 
 			try (ResultSet rs = pst.executeQuery()) {
 				while (rs.next()) {

@@ -8,6 +8,9 @@ import com.fssa.librarymanagement.exceptions.ValidationException;
 import com.fssa.librarymanagement.model.BookRequest;
 
 /**
+ * A utility class for validating book requests.
+ * 
+ * @author KishorMuruganandham
  * 
  */
 public class BookRequestValidator {

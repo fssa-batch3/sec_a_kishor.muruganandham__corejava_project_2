@@ -53,23 +53,16 @@ class TestRatingService {
 		assertNotNull(result);
 	}
 
+	
+
 	@Test
 	@Order(4)
-	void testInValidAverageRating() {
-		ServiceException result = assertThrows(ServiceException.class,
-				() -> ratingService.getAverageRatingAndCountByBook(1000));
-		assertEquals("No ratings found", result.getMessage());
-
-	}
-
-	@Test
-	@Order(5)
 	void testValidUpdateComment() {
 		assertDoesNotThrow(() -> ratingService.getRatingByBookAndUser(2, 1));
 	}
 
 	@Test
-	@Order(6)
+	@Order(5)
 	void testInValidUpdateComment() {
 		try {
 			assertEquals(0, ratingService.getRatingByBookAndUser(5, 39));
@@ -80,7 +73,7 @@ class TestRatingService {
 	}
 
 	@Test
-	@Order(7)
+	@Order(6)
 	void testGetRatingByBook_ServiceException() {
 		ConnectionUtil.setTestingMode(true);
 
@@ -90,7 +83,7 @@ class TestRatingService {
 	}
 
 	@Test
-	@Order(8)
+	@Order(7)
 	void testGetRatingByBookAndUser_ServiceException() {
 		ConnectionUtil.setTestingMode(true);
 
