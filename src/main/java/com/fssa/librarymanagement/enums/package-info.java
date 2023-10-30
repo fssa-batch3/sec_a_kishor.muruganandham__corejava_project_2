@@ -7,4 +7,5 @@
  * These enum classes simplify the code and make it more readable by providing
  * meaningful names for constant values.
  **/
+
 package com.fssa.librarymanagement.enums;
