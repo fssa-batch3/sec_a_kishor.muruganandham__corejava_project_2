@@ -1,16 +1,15 @@
 /**
- * 
+ *
  */
 package com.fssa.librarymanagement.exception;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import com.fssa.librarymanagement.exceptions.DAOException;
 import org.junit.jupiter.api.Test;
 
-import com.fssa.librarymanagement.exceptions.DAOException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * 
+ *
  */
 class TestDAOException {
 	@Test

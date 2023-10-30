@@ -1,24 +1,21 @@
 /**
- * 
+ *
  */
 package com.fssa.librarymanagement.validation;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
+import com.fssa.librarymanagement.exceptions.ValidationException;
+import com.fssa.librarymanagement.model.Comment;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.fssa.librarymanagement.exceptions.ValidationException;
-import com.fssa.librarymanagement.model.Comment;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * 
+ *
  */
 class TestCommentValidation {
 
-	private CommentValidator commentValidator = new CommentValidator();
+	private final CommentValidator commentValidator = new CommentValidator();
 	private Comment comment;
 
 	@BeforeEach
@@ -37,22 +34,25 @@ class TestCommentValidation {
 	void testInvalidDescription_Empty() {
 		String invalidDescription = "";
 		ValidationException result = assertThrows(ValidationException.class,
-				() -> commentValidator.validateDescription(invalidDescription));
+		                                          () -> commentValidator.validateDescription(invalidDescription));
 		assertEquals("Description cannot be empty.", result.getMessage());
 	}
 
 	@Test
 	void testInvalidDescription_Null() {
 		ValidationException result = assertThrows(ValidationException.class,
-				() -> commentValidator.validateDescription(null));
+		                                          () -> commentValidator.validateDescription(null));
 		assertEquals("Description cannot be empty.", result.getMessage());
 	}
 
 	@Test
 	void testInvalidDescription_ExceedLimit() {
-		String InvalidDescription = "James Clear's 'Atomic Habits' is a transformative masterpiece that dives deep into the science of habits, providing actionable strategies and illuminating stories. This book is a remarkable guide for anyone seeking personal growth and lasting change.";
+		String InvalidDescription = "James Clear's 'Atomic Habits' is a transformative masterpiece that dives deep " +
+				"into the science of habits, providing actionable strategies and illuminating stories. This book is a" +
+				" " +
+				"remarkable guide for anyone seeking personal growth and lasting change.";
 		ValidationException result = assertThrows(ValidationException.class,
-				() -> commentValidator.validateDescription(InvalidDescription));
+		                                          () -> commentValidator.validateDescription(InvalidDescription));
 		assertEquals("Description cannot exceed 230 characters.", result.getMessage());
 	}
 

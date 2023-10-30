@@ -1,8 +1,5 @@
 package com.fssa.librarymanagement.service;
 
-import java.time.temporal.ChronoUnit;
-import java.util.List;
-
 import com.fssa.librarymanagement.constants.BorrowConstants;
 import com.fssa.librarymanagement.dao.BookDAO;
 import com.fssa.librarymanagement.dao.BorrowDAO;
@@ -11,6 +8,9 @@ import com.fssa.librarymanagement.exceptions.ServiceException;
 import com.fssa.librarymanagement.exceptions.ValidationException;
 import com.fssa.librarymanagement.model.Borrow;
 import com.fssa.librarymanagement.validation.BorrowValidator;
+
+import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 /**
  * This class provides services related to borrowing and returning books.
@@ -35,7 +35,7 @@ public class BorrowService {
 	 *
 	 * @param borrow The borrow object containing user and book information.
 	 * @return A success message if the book is successfully borrowed, or an error
-	 *         message if not.
+	 * message if not.
 	 * @throws ServiceException If there's a problem with the service.
 	 */
 	public boolean borrowBook(Borrow borrow) throws ServiceException {
@@ -51,7 +51,7 @@ public class BorrowService {
 
 			// Check if the user has already borrowed the book
 			existingBorrow = borrowDAO.getBorrowByUserAndBook(borrow.getUser().getUserId(),
-					borrow.getBook().getBookId());
+			                                                  borrow.getBook().getBookId());
 			if (existingBorrow != null) {
 				throw new ServiceException(BorrowConstants.THIS_BOOK_HAS_ALREADY_BEEN_BORROWED_BY_YOU);
 			}
@@ -83,7 +83,7 @@ public class BorrowService {
 	 *
 	 * @param borrow The borrow object containing user and book information.
 	 * @return A success message if the book is successfully returned, or an error
-	 *         message if not.
+	 * message if not.
 	 * @throws ServiceException If there is a problem with the service.
 	 */
 	public boolean returnBook(Borrow borrow) throws ServiceException {
@@ -106,7 +106,7 @@ public class BorrowService {
 	 *
 	 * @param borrow The borrow object containing user and book information.
 	 * @return The calculated fine amount, which is 0 if the book is returned on
-	 *         time.
+	 * time.
 	 */
 	private int calculateFine(Borrow borrow) {
 		int fine = 0;

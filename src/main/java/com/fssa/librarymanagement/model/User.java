@@ -25,6 +25,13 @@ public class User {
 	private int userId;
 
 	/**
+	 * Constructs a new User object with default values.
+	 */
+	public User() {
+		// Default constructor
+	}
+
+	/**
 	 * @return the isActive
 	 */
 	public boolean isActive() {
@@ -32,10 +39,12 @@ public class User {
 	}
 
 	/**
-	 * Constructs a new User object with default values.
+	 * Set the user's account activation status.
+	 *
+	 * @param active true if the user's account should be active, false otherwise.
 	 */
-	public User() {
-		// Default constructor
+	public void setActive(boolean active) {
+		isActive = active;
 	}
 
 	/**
@@ -73,15 +82,6 @@ public class User {
 	public void setProfileImage(String profileImage) {
 
 		this.profileImage = profileImage;
-	}
-
-	/**
-	 * Set the user's account activation status.
-	 *
-	 * @param active true if the user's account should be active, false otherwise.
-	 */
-	public void setActive(boolean active) {
-		isActive = active;
 	}
 
 	/**
@@ -231,5 +231,5 @@ public class User {
 		this.userId = userId;
 	}
 
-	
+
 }

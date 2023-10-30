@@ -1,16 +1,15 @@
 /**
- * 
+ *
  */
 package com.fssa.librarymanagement.exception;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import com.fssa.librarymanagement.exceptions.DatabaseConnectionException;
 import org.junit.jupiter.api.Test;
 
-import com.fssa.librarymanagement.exceptions.DatabaseConnectionException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * 
+ *
  */
 class TestDatabaseConnectionException {
 

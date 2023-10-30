@@ -1,11 +1,11 @@
 package com.fssa.librarymanagement.validation;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import com.fssa.librarymanagement.constants.BookConstants;
 import com.fssa.librarymanagement.exceptions.ValidationException;
 import com.fssa.librarymanagement.model.Book;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * This class provides Validations for all Book data.

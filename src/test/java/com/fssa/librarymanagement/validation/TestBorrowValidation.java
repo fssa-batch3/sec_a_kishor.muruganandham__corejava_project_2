@@ -1,18 +1,15 @@
 package com.fssa.librarymanagement.validation;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import com.fssa.librarymanagement.exceptions.ValidationException;
+import com.fssa.librarymanagement.model.Borrow;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import com.fssa.librarymanagement.exceptions.ValidationException;
-import com.fssa.librarymanagement.model.Borrow;
+import static org.junit.jupiter.api.Assertions.*;
 
 class TestBorrowValidation {
 
@@ -34,7 +31,7 @@ class TestBorrowValidation {
 	@Test
 	void testInvalidBorrowDate() {
 		ValidationException result = assertThrows(ValidationException.class,
-				() -> borrowValidator.validateBorrowDate(null));
+		                                          () -> borrowValidator.validateBorrowDate(null));
 		assertEquals("Borrow date cannot be empty", result.getMessage());
 	}
 
@@ -53,7 +50,7 @@ class TestBorrowValidation {
 		borrow.setBorrowDate(borrowDate);
 
 		ValidationException result = assertThrows(ValidationException.class,
-				() -> borrowValidator.validateReturnDate(invalidReturnDate));
+		                                          () -> borrowValidator.validateReturnDate(invalidReturnDate));
 		assertEquals("Return date should be after the borrow date", result.getMessage());
 	}
 }

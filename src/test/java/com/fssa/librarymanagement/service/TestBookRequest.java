@@ -1,22 +1,19 @@
 /**
- * 
+ *
  */
 package com.fssa.librarymanagement.service;
-
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
 
 import com.fssa.librarymanagement.exceptions.ServiceException;
 import com.fssa.librarymanagement.model.BookRequest;
 import com.fssa.librarymanagement.utils.ConnectionUtil;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * 
+ *
  */
 class TestBookRequest {
 
@@ -45,7 +42,7 @@ class TestBookRequest {
 	void testInvalidCreateBookRequest() {
 		bookRequest = new BookRequest();
 		ServiceException result = assertThrows(ServiceException.class,
-				() -> bookRequestService.createBookRequest(bookRequest));
+		                                       () -> bookRequestService.createBookRequest(bookRequest));
 		assertEquals("Book title cannot be empty", result.getMessage());
 	}
 

@@ -1,6 +1,9 @@
 package com.fssa.librarymanagement.dao;
 
-import static com.fssa.librarymanagement.utils.ResultSetUtils.buildBookFromResultSet;
+import com.fssa.librarymanagement.exceptions.DAOException;
+import com.fssa.librarymanagement.exceptions.DatabaseConnectionException;
+import com.fssa.librarymanagement.model.Book;
+import com.fssa.librarymanagement.utils.ConnectionUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,15 +12,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fssa.librarymanagement.exceptions.DAOException;
-import com.fssa.librarymanagement.exceptions.DatabaseConnectionException;
-import com.fssa.librarymanagement.model.Book;
-import com.fssa.librarymanagement.utils.ConnectionUtil;
+import static com.fssa.librarymanagement.utils.ResultSetUtils.buildBookFromResultSet;
 
 /**
  * Data Access Object (DAO) class for handling Book-related database operations.
  */
 public class BookDAO {
+	private static final String SELECT_GENRES_QUERY = "SELECT DISTINCT genre FROM books WHERE isActive = TRUE ORDER " +
+			"BY" +
+			" genre";
+
 	/**
 	 * Constructs a new BookDAO object for performing database operations related to
 	 * books.
@@ -31,7 +35,7 @@ public class BookDAO {
 	 *
 	 * @param title The title of the book
 	 * @return A list of Book objects matching the title, an empty list if none
-	 *         found
+	 * found
 	 * @throws DAOException If an error occurs during database operation
 	 */
 	public List<Book> searchBooksByTitle(String title) throws DAOException {
@@ -39,7 +43,7 @@ public class BookDAO {
 		String query = "SELECT book_id,title,cover_image FROM books WHERE title LIKE ? AND isActive = true";
 
 		try (Connection connection = ConnectionUtil.getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+		     PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
 			preparedStatement.setString(1, "%" + title + "%");
 
@@ -72,7 +76,7 @@ public class BookDAO {
 		String query = "SELECT COUNT(*) FROM books WHERE book_id = ? AND isActive = true";
 
 		try (Connection connection = ConnectionUtil.getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+		     PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
 			preparedStatement.setInt(1, bookId);
 
@@ -101,7 +105,7 @@ public class BookDAO {
 		String query = "INSERT INTO books (title, author, publisher, genre, language, description, total_copies, "
 				+ "available_copies, loaned_copies, pages, cover_image) " + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		try (Connection connection = ConnectionUtil.getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+		     PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
 			preparedStatement.setString(1, book.getTitle());
 			preparedStatement.setString(2, book.getAuthor());
@@ -138,7 +142,7 @@ public class BookDAO {
 		String query = "SELECT * FROM books WHERE book_id = ? AND isActive = true";
 
 		try (Connection connection = ConnectionUtil.getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+		     PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
 			preparedStatement.setInt(1, bookId);
 
@@ -164,8 +168,8 @@ public class BookDAO {
 		List<Book> bookList = new ArrayList<>();
 		String query = "SELECT * FROM books WHERE isActive = true";
 		try (Connection connection = ConnectionUtil.getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(query);
-				ResultSet rs = preparedStatement.executeQuery()) {
+		     PreparedStatement preparedStatement = connection.prepareStatement(query);
+		     ResultSet rs = preparedStatement.executeQuery()) {
 
 			while (rs.next()) {
 				Book book = buildBookFromResultSet(rs);
@@ -190,7 +194,7 @@ public class BookDAO {
 				+ "cover_image = ?, genre = ?, language = ?, " + "author = ?, publisher = ? " + "WHERE book_id = ?";
 
 		try (Connection connection = ConnectionUtil.getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+		     PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
 			preparedStatement.setString(1, book.getTitle());
 			preparedStatement.setString(2, book.getDescription());
@@ -229,7 +233,7 @@ public class BookDAO {
 		String query = "UPDATE books SET loaned_copies = loaned_copies + ?, available_copies = available_copies + ? "
 				+ "WHERE book_id = ?";
 		try (Connection connection = ConnectionUtil.getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+		     PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
 			preparedStatement.setInt(1, loanedCopyChange);
 			preparedStatement.setInt(2, availableCopyChange);
@@ -256,7 +260,7 @@ public class BookDAO {
 		boolean isDeleted = false;
 		String query = "UPDATE books SET isActive = false WHERE book_id = ?";
 		try (Connection connection = ConnectionUtil.getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+		     PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
 			preparedStatement.setInt(1, bookId);
 
@@ -270,8 +274,6 @@ public class BookDAO {
 		}
 	}
 
-	private static final String SELECT_GENRES_QUERY = "SELECT DISTINCT genre FROM books WHERE isActive = TRUE ORDER BY genre";
-
 	/**
 	 * Retrieves a list of all distinct genres from the database.
 	 *
@@ -282,8 +284,8 @@ public class BookDAO {
 		List<String> genresList = new ArrayList<>();
 
 		try (Connection connection = ConnectionUtil.getConnection();
-				PreparedStatement pst = connection.prepareStatement(SELECT_GENRES_QUERY);
-				ResultSet rs = pst.executeQuery()) {
+		     PreparedStatement pst = connection.prepareStatement(SELECT_GENRES_QUERY);
+		     ResultSet rs = pst.executeQuery()) {
 
 			while (rs.next()) {
 				String genre = rs.getString("genre");

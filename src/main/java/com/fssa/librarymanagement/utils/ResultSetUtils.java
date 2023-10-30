@@ -1,20 +1,19 @@
 package com.fssa.librarymanagement.utils;
 
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDateTime;
-
 import com.fssa.librarymanagement.model.Book;
 import com.fssa.librarymanagement.model.Borrow;
 import com.fssa.librarymanagement.model.Comment;
 import com.fssa.librarymanagement.model.User;
 
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+
 /**
  * Utility class for building model objects from ResultSet data.
- * 
+ *
  * @author KishorMuruganandham
- * 
  */
 
 public class ResultSetUtils {

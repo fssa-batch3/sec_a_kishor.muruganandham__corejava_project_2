@@ -1,264 +1,264 @@
 package com.fssa.librarymanagement.model;
+
 /**
  * Represents a book in the library management system.
- * 
+ *
  * @author KishorMuruganandham
- * 
  */
 public class Book {
-	
-    private int bookId;
-    private String title;
-    private String author;
-    private String publisher;
-    private String genre;
-    private String language;
-    private String description;
-    private int totalCopies;
-    private int availableCopies;
-    private int loanedCopies;
-    private int pages;
-    private String coverImage = "https://dummyimage.com/600x800/000/ffffff.png&text=Failed+to+Load+Image";
 
-    /**
-     * Constructs a new Book object with default values.
-     */
-    public Book() {
-        // Default constructor
-    }
+	private int bookId;
+	private String title;
+	private String author;
+	private String publisher;
+	private String genre;
+	private String language;
+	private String description;
+	private int totalCopies;
+	private int availableCopies;
+	private int loanedCopies;
+	private int pages;
+	private String coverImage = "https://dummyimage.com/600x800/000/ffffff.png&text=Failed+to+Load+Image";
 
-    /**
-     * Get the book's ID.
-     *
-     * @return The ID of the book.
-     */
-    public int getBookId() {
-        return bookId;
-    }
+	/**
+	 * Constructs a new Book object with default values.
+	 */
+	public Book() {
+		// Default constructor
+	}
 
-    /**
-     * Set the book's ID.
-     *
-     * @param bookId The ID of the book.
-     */
+	/**
+	 * Get the book's ID.
+	 *
+	 * @return The ID of the book.
+	 */
+	public int getBookId() {
+		return bookId;
+	}
 
-    public void setBookId(int bookId) {
-        this.bookId = bookId;
-    }
+	/**
+	 * Set the book's ID.
+	 *
+	 * @param bookId The ID of the book.
+	 */
 
-    /**
-     * Get the book's title.
-     *
-     * @return The title of the book.
-     */
+	public void setBookId(int bookId) {
+		this.bookId = bookId;
+	}
 
-    public String getTitle() {
-        return title;
-    }
+	/**
+	 * Get the book's title.
+	 *
+	 * @return The title of the book.
+	 */
 
-    /**
-     * Set the book's title.
-     *
-     * @param title The title of the book.
-     */
+	public String getTitle() {
+		return title;
+	}
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+	/**
+	 * Set the book's title.
+	 *
+	 * @param title The title of the book.
+	 */
 
-    /**
-     * Get the book's author.
-     *
-     * @return The author of the book.
-     */
-    public String getAuthor() {
-        return author;
-    }
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-    /**
-     * Set the book's author.
-     *
-     * @param author The author of the book.
-     */
+	/**
+	 * Get the book's author.
+	 *
+	 * @return The author of the book.
+	 */
+	public String getAuthor() {
+		return author;
+	}
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
+	/**
+	 * Set the book's author.
+	 *
+	 * @param author The author of the book.
+	 */
 
-    /**
-     * Get the book's publisher.
-     *
-     * @return The publisher of the book.
-     */
+	public void setAuthor(String author) {
+		this.author = author;
+	}
 
-    public String getPublisher() {
-        return publisher;
-    }
+	/**
+	 * Get the book's publisher.
+	 *
+	 * @return The publisher of the book.
+	 */
 
-    /**
-     * Set the book's publisher.
-     *
-     * @param publisher The publisher of the book.
-     */
+	public String getPublisher() {
+		return publisher;
+	}
 
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
-    }
+	/**
+	 * Set the book's publisher.
+	 *
+	 * @param publisher The publisher of the book.
+	 */
 
-    /**
-     * Get the book's genre.
-     *
-     * @return The genre of the book.
-     */
+	public void setPublisher(String publisher) {
+		this.publisher = publisher;
+	}
 
-    public String getGenre() {
-        return genre;
-    }
+	/**
+	 * Get the book's genre.
+	 *
+	 * @return The genre of the book.
+	 */
 
-    /**
-     * Set the book's genre.
-     *
-     * @param genre The genre of the book.
-     */
+	public String getGenre() {
+		return genre;
+	}
 
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
+	/**
+	 * Set the book's genre.
+	 *
+	 * @param genre The genre of the book.
+	 */
 
-    /**
-     * Get the book's language.
-     *
-     * @return The language of the book.
-     */
+	public void setGenre(String genre) {
+		this.genre = genre;
+	}
 
-    public String getLanguage() {
-        return language;
-    }
+	/**
+	 * Get the book's language.
+	 *
+	 * @return The language of the book.
+	 */
 
-    /**
-     * Set the book's language.
-     *
-     * @param language The language of the book.
-     */
+	public String getLanguage() {
+		return language;
+	}
 
-    public void setLanguage(String language) {
-        this.language = language;
-    }
+	/**
+	 * Set the book's language.
+	 *
+	 * @param language The language of the book.
+	 */
 
-    /**
-     * Get the book's description.
-     *
-     * @return The description of the book.
-     */
+	public void setLanguage(String language) {
+		this.language = language;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	/**
+	 * Get the book's description.
+	 *
+	 * @return The description of the book.
+	 */
 
-    /**
-     * Set the book's description.
-     *
-     * @param description The description of the book.
-     */
+	public String getDescription() {
+		return description;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	/**
+	 * Set the book's description.
+	 *
+	 * @param description The description of the book.
+	 */
 
-    /**
-     * Get the total number of copies of the book.
-     *
-     * @return The total number of copies of the book.
-     */
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public int getTotalCopies() {
-        return totalCopies;
-    }
+	/**
+	 * Get the total number of copies of the book.
+	 *
+	 * @return The total number of copies of the book.
+	 */
 
-    /**
-     * Set the total number of copies of the book.
-     *
-     * @param totalCopies The total number of copies of the book.
-     */
+	public int getTotalCopies() {
+		return totalCopies;
+	}
 
-    public void setTotalCopies(int totalCopies) {
-        this.totalCopies = totalCopies;
-    }
+	/**
+	 * Set the total number of copies of the book.
+	 *
+	 * @param totalCopies The total number of copies of the book.
+	 */
 
-    /**
-     * Get the number of available copies of the book.
-     *
-     * @return The number of available copies of the book.
-     */
+	public void setTotalCopies(int totalCopies) {
+		this.totalCopies = totalCopies;
+	}
 
-    public int getAvailableCopies() {
-        return availableCopies;
-    }
+	/**
+	 * Get the number of available copies of the book.
+	 *
+	 * @return The number of available copies of the book.
+	 */
 
-    /**
-     * Set the number of available copies of the book.
-     *
-     * @param availableCopies The number of available copies of the book.
-     */
-    public void setAvailableCopies(int availableCopies) {
-        this.availableCopies = availableCopies;
-    }
+	public int getAvailableCopies() {
+		return availableCopies;
+	}
 
-    /**
-     * Get the number of loaned copies of the book.
-     *
-     * @return The number of loaned copies of the book.
-     */
+	/**
+	 * Set the number of available copies of the book.
+	 *
+	 * @param availableCopies The number of available copies of the book.
+	 */
+	public void setAvailableCopies(int availableCopies) {
+		this.availableCopies = availableCopies;
+	}
 
-    public int getLoanedCopies() {
-        return loanedCopies;
-    }
+	/**
+	 * Get the number of loaned copies of the book.
+	 *
+	 * @return The number of loaned copies of the book.
+	 */
 
-    /**
-     * Set the number of loaned copies of the book.
-     *
-     * @param loanedCopies The number of loaned copies of the book.
-     */
+	public int getLoanedCopies() {
+		return loanedCopies;
+	}
 
-    public void setLoanedCopies(int loanedCopies) {
-        this.loanedCopies = loanedCopies;
-    }
+	/**
+	 * Set the number of loaned copies of the book.
+	 *
+	 * @param loanedCopies The number of loaned copies of the book.
+	 */
 
-    /**
-     * Get the book's cover image.
-     *
-     * @return The cover image of the book.
-     */
+	public void setLoanedCopies(int loanedCopies) {
+		this.loanedCopies = loanedCopies;
+	}
 
-    public String getCoverImage() {
-        return coverImage;
-    }
+	/**
+	 * Get the book's cover image.
+	 *
+	 * @return The cover image of the book.
+	 */
 
-    /**
-     * Set the book's cover image.
-     *
-     * @param coverImage The cover image of the book.
-     */
+	public String getCoverImage() {
+		return coverImage;
+	}
 
-    public void setCoverImage(String coverImage) {
-        this.coverImage = coverImage;
-    }
-    
-    /**
-     * Get the number of pages in the book.
-     *
-     * @return The number of pages in the book.
-     */
-    public int getPages() {
-        return pages;
-    }
-    
-    /**
-     * Set the number of pages in the book.
-     *
-     * @param pages The number of pages in the book.
-     */
-    public void setPages(int pages) {
-        this.pages = pages;
-    }
+	/**
+	 * Set the book's cover image.
+	 *
+	 * @param coverImage The cover image of the book.
+	 */
+
+	public void setCoverImage(String coverImage) {
+		this.coverImage = coverImage;
+	}
+
+	/**
+	 * Get the number of pages in the book.
+	 *
+	 * @return The number of pages in the book.
+	 */
+	public int getPages() {
+		return pages;
+	}
+
+	/**
+	 * Set the number of pages in the book.
+	 *
+	 * @param pages The number of pages in the book.
+	 */
+	public void setPages(int pages) {
+		this.pages = pages;
+	}
 }

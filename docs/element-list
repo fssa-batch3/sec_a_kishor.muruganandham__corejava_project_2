@@ -1,6 +1,6 @@
-com.fssa.librarymanagement
 com.fssa.librarymanagement.constants
 com.fssa.librarymanagement.dao
+com.fssa.librarymanagement.enums
 com.fssa.librarymanagement.exceptions
 com.fssa.librarymanagement.model
 com.fssa.librarymanagement.service

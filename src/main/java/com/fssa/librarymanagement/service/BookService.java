@@ -1,10 +1,5 @@
 package com.fssa.librarymanagement.service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import com.fssa.librarymanagement.constants.BookConstants;
 import com.fssa.librarymanagement.dao.BookDAO;
 import com.fssa.librarymanagement.exceptions.DAOException;
@@ -12,6 +7,11 @@ import com.fssa.librarymanagement.exceptions.ServiceException;
 import com.fssa.librarymanagement.exceptions.ValidationException;
 import com.fssa.librarymanagement.model.Book;
 import com.fssa.librarymanagement.validation.BookValidator;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * This class provides services related to book management, such as adding,
@@ -32,11 +32,31 @@ public class BookService {
 	}
 
 	/**
+	 * Splits the input list of strings by spaces, extracts individual words, removes duplicates, and returns a list
+	 * of unique words.
+	 *
+	 * @param genres A list of strings containing words separated by spaces.
+	 * @return A list of unique words extracted from the input list.
+	 */
+	private static List<String> separateWordsBySpace(List<String> genres) {
+		Set<String> uniqueWords = new HashSet<>();
+		for (String genre : genres) {
+			String[] words = genre.split("\\s+");
+			for (String word : words) {
+				if (!word.isEmpty()) {
+					uniqueWords.add(word);
+				}
+			}
+		}
+		return new ArrayList<>(uniqueWords);
+	}
+
+	/**
 	 * Add a new book to the library.
 	 *
 	 * @param book The book object to be added.
 	 * @return A success message if the book is added successfully, or an error
-	 *         message if not.
+	 * message if not.
 	 * @throws ServiceException If there's a problem with the service.
 	 */
 	public boolean addBook(Book book) throws ServiceException {
@@ -55,7 +75,7 @@ public class BookService {
 	 *
 	 * @param title The title of the book.
 	 * @return A list of Book objects matching the title, an empty list if none
-	 *         found.
+	 * found.
 	 * @throws ServiceException If there's a problem with the service or database
 	 *                          operation.
 	 */
@@ -175,25 +195,6 @@ public class BookService {
 		} catch (DAOException e) {
 			throw new ServiceException(e.getMessage());
 		}
-	}
-
-	/**
-	 * Splits the input list of strings by spaces, extracts individual words, removes duplicates, and returns a list of unique words.
-	 *
-	 * @param genres A list of strings containing words separated by spaces.
-	 * @return A list of unique words extracted from the input list.
-	 */
-	private static List<String> separateWordsBySpace(List<String> genres) {
-	    Set<String> uniqueWords = new HashSet<>();
-	    for (String genre : genres) {
-	        String[] words = genre.split("\\s+");
-	        for (String word : words) {
-	            if (!word.isEmpty()) {
-	                uniqueWords.add(word);
-	            }
-	        }
-	    }
-	    return new ArrayList<>(uniqueWords);
 	}
 
 

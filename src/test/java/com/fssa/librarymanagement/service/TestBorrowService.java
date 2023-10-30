@@ -1,26 +1,17 @@
 package com.fssa.librarymanagement.service;
 
-import static org.junit.Assert.assertNull;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
-
-import java.time.LocalDateTime;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-
 import com.fssa.librarymanagement.exceptions.ServiceException;
 import com.fssa.librarymanagement.exceptions.ValidationException;
 import com.fssa.librarymanagement.model.Book;
 import com.fssa.librarymanagement.model.Borrow;
 import com.fssa.librarymanagement.model.User;
 import com.fssa.librarymanagement.utils.ConnectionUtil;
+import org.junit.jupiter.api.*;
+
+import java.time.LocalDateTime;
+
+import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TestBorrowService {
@@ -58,7 +49,6 @@ class TestBorrowService {
 	@Order(3)
 	void testInvalidBorrowBook_InvalidBorrowDate() {
 		borrow.setBorrowDate(null);
-		;
 		assertThrows(ServiceException.class, () -> borrowService.borrowBook(borrow));
 	}
 
@@ -116,7 +106,7 @@ class TestBorrowService {
 	@Test
 	@Order(12)
 	void testInvalidGetBorrowByUserAndBook() {
-		
+
 		try {
 			assertNull(borrowService.getBorrowByUserAndBook(1, 0));
 		} catch (ServiceException e) {
@@ -129,7 +119,7 @@ class TestBorrowService {
 	@Order(13)
 	void testInvalidBorrowBook_InvalidBorrowDuration() {
 		ValidationException result = assertThrows(ValidationException.class,
-				() -> BorrowingDurationEnumMapper.mapToBorrowingDuration(7));
+		                                          () -> BorrowingDurationEnumMapper.mapToBorrowingDuration(7));
 		assertEquals("No Borrowing Duration enum found for the given value", result.getMessage());
 	}
 

@@ -1,16 +1,5 @@
 package com.fssa.librarymanagement.dao;
 
-import static com.fssa.librarymanagement.utils.ResultSetUtils.buildBorrowFromResultSet;
-
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.fssa.librarymanagement.constants.BorrowConstants;
 import com.fssa.librarymanagement.exceptions.DAOException;
 import com.fssa.librarymanagement.exceptions.DatabaseConnectionException;
@@ -18,6 +7,12 @@ import com.fssa.librarymanagement.model.Book;
 import com.fssa.librarymanagement.model.Borrow;
 import com.fssa.librarymanagement.model.User;
 import com.fssa.librarymanagement.utils.ConnectionUtil;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.fssa.librarymanagement.utils.ResultSetUtils.buildBorrowFromResultSet;
 
 /**
  * Data Access Object (DAO) class for handling Borrow-related database
@@ -44,7 +39,7 @@ public class BorrowDAO {
 		boolean hasBorrowed = false;
 		String query = "INSERT INTO borrows (user_id, book_id, borrow_date, due_date) " + "VALUES (?, ?, ?, ?)";
 		try (Connection connection = ConnectionUtil.getConnection();
-				PreparedStatement pst = connection.prepareStatement(query)) {
+		     PreparedStatement pst = connection.prepareStatement(query)) {
 
 			pst.setInt(1, borrow.getUser().getUserId());
 			pst.setInt(2, borrow.getBook().getBookId());
@@ -74,7 +69,7 @@ public class BorrowDAO {
 		String query = "UPDATE borrows SET isReturned = true, return_date = ?, fine = ? WHERE user_id = ? AND "
 				+ "book_id = ? AND isReturned = false";
 		try (Connection connection = ConnectionUtil.getConnection();
-				PreparedStatement pst = connection.prepareStatement(query)) {
+		     PreparedStatement pst = connection.prepareStatement(query)) {
 			pst.setDate(1, Date.valueOf(borrow.getReturnDate()));
 			pst.setDouble(2, borrow.getFine());
 			pst.setInt(3, borrow.getUser().getUserId());
@@ -101,8 +96,8 @@ public class BorrowDAO {
 		List<Borrow> borrowList = new ArrayList<>();
 
 		try (Connection connection = ConnectionUtil.getConnection();
-				PreparedStatement pst = connection
-						.prepareStatement(BorrowConstants.JOIN_QUERY + "WHERE b.user_id = ?")) {
+		     PreparedStatement pst = connection
+				     .prepareStatement(BorrowConstants.JOIN_QUERY + "WHERE b.user_id = ?")) {
 
 			pst.setInt(1, userId);
 
@@ -129,8 +124,8 @@ public class BorrowDAO {
 		List<Borrow> borrowList = new ArrayList<>();
 
 		try (Connection connection = ConnectionUtil.getConnection();
-				PreparedStatement pst = connection
-						.prepareStatement(BorrowConstants.JOIN_QUERY + "WHERE b.book_id = ?")) {
+		     PreparedStatement pst = connection
+				     .prepareStatement(BorrowConstants.JOIN_QUERY + "WHERE b.book_id = ?")) {
 			pst.setInt(1, bookId);
 
 			try (ResultSet rs = pst.executeQuery()) {
@@ -155,8 +150,8 @@ public class BorrowDAO {
 	public Borrow getBorrowById(int borrowId) throws DAOException {
 		Borrow borrow = null;
 		try (Connection connection = ConnectionUtil.getConnection();
-				PreparedStatement pst = connection
-						.prepareStatement(BorrowConstants.JOIN_QUERY + "WHERE b.borrow_id = ?")) {
+		     PreparedStatement pst = connection
+				     .prepareStatement(BorrowConstants.JOIN_QUERY + "WHERE b.borrow_id = ?")) {
 			pst.setInt(1, borrowId);
 
 			try (ResultSet rs = pst.executeQuery()) {
@@ -183,7 +178,7 @@ public class BorrowDAO {
 				+ "FALSE";
 
 		try (Connection connection = ConnectionUtil.getConnection();
-				PreparedStatement pst = connection.prepareStatement(query)) {
+		     PreparedStatement pst = connection.prepareStatement(query)) {
 
 			pst.setInt(1, userId);
 			pst.setInt(2, bookId);
@@ -219,9 +214,9 @@ public class BorrowDAO {
 		List<Borrow> borrowList = new ArrayList<>();
 
 		try (Connection connection = ConnectionUtil.getConnection();
-				PreparedStatement pst = connection
-						.prepareStatement(BorrowConstants.JOIN_QUERY + " ORDER BY b.borrow_date DESC");
-				ResultSet rs = pst.executeQuery()) {
+		     PreparedStatement pst = connection
+				     .prepareStatement(BorrowConstants.JOIN_QUERY + " ORDER BY b.borrow_date DESC");
+		     ResultSet rs = pst.executeQuery()) {
 
 			while (rs.next()) {
 				Borrow borrow = buildBorrowFromResultSet(rs);
@@ -244,7 +239,7 @@ public class BorrowDAO {
 		int count = 0;
 		String query = "SELECT available_copies FROM books WHERE book_id = ?";
 		try (Connection connection = ConnectionUtil.getConnection();
-				PreparedStatement pst = connection.prepareStatement(query)) {
+		     PreparedStatement pst = connection.prepareStatement(query)) {
 			pst.setInt(1, bookId);
 
 			try (ResultSet rs = pst.executeQuery()) {
@@ -269,7 +264,7 @@ public class BorrowDAO {
 		int count = 0;
 		String query = "SELECT COUNT(*) FROM borrows WHERE user_id = ? AND isReturned = false";
 		try (Connection connection = ConnectionUtil.getConnection();
-				PreparedStatement pst = connection.prepareStatement(query)) {
+		     PreparedStatement pst = connection.prepareStatement(query)) {
 			pst.setInt(1, userId);
 
 			try (ResultSet rs = pst.executeQuery()) {

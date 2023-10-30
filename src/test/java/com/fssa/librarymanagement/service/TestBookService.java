@@ -1,23 +1,14 @@
 package com.fssa.librarymanagement.service;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
-
-import java.util.List;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-
 import com.fssa.librarymanagement.exceptions.ServiceException;
 import com.fssa.librarymanagement.model.Book;
 import com.fssa.librarymanagement.utils.ConnectionUtil;
+import org.junit.jupiter.api.*;
+
+import java.util.List;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TestBookService {
@@ -37,7 +28,7 @@ class TestBookService {
 		book.setLanguage("English");
 		book.setGenre("Mystery");
 		book.setCoverImage("https://books.google.co.in/books/content?id=LOmrO03ioesC&pg=PP1&img=1&zoom=3&hl=en&bul=1"
-				+ "&sig=ACfU3U3aZTlrPszR_20legpDQ24tf3ThiQ&w=1280");
+				                   + "&sig=ACfU3U3aZTlrPszR_20legpDQ24tf3ThiQ&w=1280");
 		book.setTotalCopies(13);
 		book.setAvailableCopies(10);
 		book.setLoanedCopies(3);

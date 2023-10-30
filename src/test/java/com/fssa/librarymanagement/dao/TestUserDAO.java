@@ -1,19 +1,18 @@
 /**
- * 
+ *
  */
 package com.fssa.librarymanagement.dao;
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 import com.fssa.librarymanagement.exceptions.DAOException;
 import com.fssa.librarymanagement.model.User;
 import com.fssa.librarymanagement.utils.ConnectionUtil;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
- * 
+ *
  */
 class TestUserDAO {
 

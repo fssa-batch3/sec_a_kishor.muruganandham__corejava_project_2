@@ -1,18 +1,15 @@
 /**
- * 
+ *
  */
 package com.fssa.librarymanagement.validation;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
+import com.fssa.librarymanagement.exceptions.ValidationException;
 import org.junit.jupiter.api.Test;
 
-import com.fssa.librarymanagement.exceptions.ValidationException;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * 
+ *
  */
 class TestBookRequestValidation {
 	private final BookRequestValidator bookRequestValidator = new BookRequestValidator();
@@ -27,14 +24,14 @@ class TestBookRequestValidation {
 	void testInvalidTitle() {
 		String invalidTitle = "";
 		ValidationException result = assertThrows(ValidationException.class,
-				() -> bookRequestValidator.validateTitle(invalidTitle));
+		                                          () -> bookRequestValidator.validateTitle(invalidTitle));
 		assertEquals("Book title cannot be empty", result.getMessage());
 	}
 
 	@Test
 	void testInvalidTitle_Null() {
 		ValidationException result = assertThrows(ValidationException.class,
-				() -> bookRequestValidator.validateTitle(null));
+		                                          () -> bookRequestValidator.validateTitle(null));
 		assertEquals("Book title cannot be empty", result.getMessage());
 	}
 
@@ -42,7 +39,7 @@ class TestBookRequestValidation {
 	void testInvalidTitle_Format() {
 		String invalidTitle = "Core Java 1";
 		ValidationException result = assertThrows(ValidationException.class,
-				() -> bookRequestValidator.validateTitle(invalidTitle));
+		                                          () -> bookRequestValidator.validateTitle(invalidTitle));
 		assertEquals("Book title cannot contain Numbers", result.getMessage());
 	}
 
@@ -56,14 +53,14 @@ class TestBookRequestValidation {
 	void testInvalidAuthor_Empty() {
 		String invalidAuthor = "";
 		ValidationException result = assertThrows(ValidationException.class,
-				() -> bookRequestValidator.validateAuthor(invalidAuthor));
+		                                          () -> bookRequestValidator.validateAuthor(invalidAuthor));
 		assertEquals("Book author cannot be empty", result.getMessage());
 	}
 
 	@Test
 	void testInvalidAuthor_Null() {
 		ValidationException result = assertThrows(ValidationException.class,
-				() -> bookRequestValidator.validateAuthor(null));
+		                                          () -> bookRequestValidator.validateAuthor(null));
 		assertEquals("Book author cannot be empty", result.getMessage());
 	}
 
@@ -71,7 +68,7 @@ class TestBookRequestValidation {
 	void testInvalidAuthor_Format() {
 		String invalidAuthor = "Kishor123";
 		ValidationException result = assertThrows(ValidationException.class,
-				() -> bookRequestValidator.validateAuthor(invalidAuthor));
+		                                          () -> bookRequestValidator.validateAuthor(invalidAuthor));
 		assertEquals("Book author cannot contain Numbers", result.getMessage());
 	}
 
@@ -85,14 +82,14 @@ class TestBookRequestValidation {
 	void testInvalidDescription_Empty() {
 		String invalidDescription = "";
 		ValidationException result = assertThrows(ValidationException.class,
-				() -> bookRequestValidator.validateDescription(invalidDescription));
+		                                          () -> bookRequestValidator.validateDescription(invalidDescription));
 		assertEquals("Book description cannot be empty", result.getMessage());
 	}
 
 	@Test
 	void testInvalidDescription_Null() {
 		ValidationException result = assertThrows(ValidationException.class,
-				() -> bookRequestValidator.validateDescription(null));
+		                                          () -> bookRequestValidator.validateDescription(null));
 		assertEquals("Book description cannot be empty", result.getMessage());
 	}
 

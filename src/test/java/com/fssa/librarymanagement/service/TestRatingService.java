@@ -1,23 +1,19 @@
 /**
- * 
+ *
  */
 package com.fssa.librarymanagement.service;
-
-import static org.junit.Assert.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.fail;
-
-import java.util.Map;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
 
 import com.fssa.librarymanagement.exceptions.ServiceException;
 import com.fssa.librarymanagement.model.Rating;
 import com.fssa.librarymanagement.utils.ConnectionUtil;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+
+import java.util.Map;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class TestRatingService {
 	private RatingService ratingService;
@@ -53,7 +49,6 @@ class TestRatingService {
 		assertNotNull(result);
 	}
 
-	
 
 	@Test
 	@Order(4)
